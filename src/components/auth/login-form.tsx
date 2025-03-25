@@ -11,15 +11,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { handleLogin } from "@/services/auth/handle-login"
 import { useRouter } from "next/navigation"
+import { Label } from "../ui/label"
 
 const loginScheme = z.object({
-  email: z.string().trim().nonempty({ message: "Email tidak boleh kosong" }).email({ message: "Format email salah" }),
+  email: z.string().trim().nonempty({ message: "Email tidak boleh kosong" }).email({ message: "Format email tidak valid" }),
   password: z.string().trim().nonempty({ message: "Password tidak boleh kosong" }),
 })
 
 type FormScheme = z.infer<typeof loginScheme>;
-
-
 export function LoginForm({
   className,
   ...props
@@ -38,13 +37,13 @@ export function LoginForm({
     const formData = new FormData();
     formData.append("email", data.email);
     formData.append("password", data.password);
-  
+
     const result = await handleLogin(formData);
 
-    if(result.message === "Berhasil login") {
+    if (result.message === "Berhasil login") {
       router.replace('/dashboard');
     }
-  
+
     if (result.errors) {
       Object.entries(result.errors).forEach(([field, message]) => {
         if (message) {
@@ -56,7 +55,7 @@ export function LoginForm({
       });
     }
   };
-  
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
@@ -100,14 +99,22 @@ export function LoginForm({
                     )}
                   >
                   </FormField>
+                  <div className="flex items-center">
+                    <Link
+                      href="#"
+                      className="ml-auto text-sm underline-offset-2 hover:underline text-primary"
+                    >
+                      Lupa Password
+                    </Link>
+                  </div>
                 </div>
-                <Button type="submit" className="w-full" variant={"default"} disabled={loginForm.formState.isSubmitting}>
-                  {loginForm.formState.isSubmitting ? "Memproses.." : "Masuk"}
+                <Button type="submit" className="w-full" variant={"default"} disabled={loginForm.formState.isSubmitting || loginForm.formState.isSubmitSuccessful}>
+                  {loginForm.formState.isSubmitting || loginForm.formState.isSubmitSuccessful? "Memproses.." : "Masuk"}
                 </Button>
                 <div className="text-center text-sm">
                   Belum memiliki akun?{" "}
                   <Link href="/register">
-                    <span className="text-primary underline-offset-2 hover:underline">
+                    <span className="underline underline-offset-4 text-primary">
                       Daftar
                     </span>
                   </Link>

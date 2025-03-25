@@ -1,19 +1,14 @@
 "use server";
-import axiosClient from "@/lib/axios-instance";
+import axiosInstance from "@/services/axios-instance";
+import { ApiResponse } from "../utils";
 
-type LoginResp = {
-  message: string;
-  data?: any;
-  errors?: Record<string, string>;
-};
-
-export async function handleLogin(formData: FormData): Promise<LoginResp> {
+export async function handleLogin(formData: FormData): Promise<ApiResponse> {
   try {
-    const res = await axiosClient.post("/login", {
+    const res = await axiosInstance.post("/login", {
       email: formData.get("email"),
       password: formData.get("password"),
     });
-    return { message: res.data.message, data: res.data };
+    return { message: res.data.message, data: res.data.data };
   } catch (err: any) {
     if (err.response?.data?.errors) {
       return {
