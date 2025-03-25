@@ -4,85 +4,117 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
-import AxiosInstance from "@/lib/axios-instance"
+import { handleLogin } from "@/services/auth/handle-login"
+import { useRouter } from "next/navigation"
+
+const loginScheme = z.object({
+  email: z.string().trim().nonempty({ message: "Email tidak boleh kosong" }).email({ message: "Format email salah" }),
+  password: z.string().trim().nonempty({ message: "Password tidak boleh kosong" }),
+})
+
+type FormScheme = z.infer<typeof loginScheme>;
+
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const loginForm = useForm<FormScheme>({
+    resolver: zodResolver(loginScheme),
+    defaultValues: {
+      email: "",
+      password: "",
+    }
+  });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const router = useRouter();
 
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+  const onSubmit = async (data: FormScheme) => {
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+  
+    const result = await handleLogin(formData);
 
-    try {
-      const response = await AxiosInstance.post('/login', {
-        email,
-        password
+    if(result.message === "Berhasil login") {
+      router.replace('/dashboard');
+    }
+  
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        if (message) {
+          loginForm.setError(field as keyof FormScheme, {
+            type: "server",
+            message: message as string
+          });
+        }
       });
-      console.log(response.data);
-    } catch (err: any) {
-      if (err.response?.status === 422 || err.response?.status === 401) {
-        const errors = err.response.data.errors;
-        console.log('Validation error:', errors);
-      } else {
-        console.error('Unexpected error:', err);
-      }
     }
   };
-
-
+  
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8" onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Selamat datang</h1>
-                <p className="text-muted-foreground text-balance">
-                  Masuk ke akun Anda
-                </p>
-              </div>
-              <div className="grid gap-3">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@gmail.com"
-                  required
-                />
-              </div>
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto text-sm underline-offset-2 hover:underline text-primary"
-                  >
-                    Lupa Password
-                  </a>
+          <Form {...loginForm}>
+            <form className="p-6 md:p-8" onSubmit={loginForm.handleSubmit(onSubmit)}>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col items-center text-center">
+                  <h1 className="text-2xl font-bold">Selamat datang</h1>
+                  <p className="text-muted-foreground text-balance">
+                    Masuk ke akun Anda
+                  </p>
                 </div>
-                <Input id="password" type="password" required placeholder="••••••••" />
+                <div className="grid gap-3">
+                  <FormField
+                    control={loginForm.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="cth@gmail.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <FormField
+                    control={loginForm.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input placeholder="*******" {...field}></Input>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  >
+                  </FormField>
+                </div>
+                <Button type="submit" className="w-full" variant={"default"} disabled={loginForm.formState.isSubmitting}>
+                  {loginForm.formState.isSubmitting ? "Memproses.." : "Masuk"}
+                </Button>
+                <div className="text-center text-sm">
+                  Belum memiliki akun?{" "}
+                  <Link href="/register">
+                    <span className="text-primary underline-offset-2 hover:underline">
+                      Daftar
+                    </span>
+                  </Link>
+                </div>
               </div>
-              <Button type="submit" className="w-full" variant={"default"}>
-                Masuk
-              </Button>
-              <div className="text-center text-sm">
-                Belum memiliki akun?{" "}
-                <Link href="/register">
-                  <span className="text-primary underline-offset-2 hover:underline">
-                    Daftar
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </form>
+            </form>
+          </Form>
           <div className="bg-muted relative hidden md:block">
             <img
               src="/reuse-mart.png"
@@ -95,3 +127,4 @@ export function LoginForm({
     </div>
   )
 }
+
