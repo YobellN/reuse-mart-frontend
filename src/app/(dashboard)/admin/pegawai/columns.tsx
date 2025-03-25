@@ -47,17 +47,7 @@ export const columns: ColumnDef<Pegawai>[] = [
     {
         id: "nama",
         accessorKey: "user.nama",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Nama
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
+        header: "Nama",
         cell: ({ row }) => <span>{row.original.user.nama}</span>,
     },
     {

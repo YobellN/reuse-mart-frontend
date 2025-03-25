@@ -68,13 +68,17 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4 md:py-6">
+      <div className="flex items-center py-4 md:py-6 justify-between">
         <Input
           placeholder="Cari pegawai..."
           onChange={e => table.setGlobalFilter(String(e.target.value))}
 
           className="max-w-sm"
         />
+
+        <Button>
+          + Tambah pegawai
+        </Button>
       </div>
       <div className="rounded-md border">
         <Table>
