@@ -22,7 +22,6 @@ export default async function PegawaiPage() {
   return (
     <>
       <SiteHeader title="Data Master Pegawai" />
-      <br />
       <DataTable columns={columns} data={data} />
     </>
   )
