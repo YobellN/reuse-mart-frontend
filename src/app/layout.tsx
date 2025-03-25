@@ -3,6 +3,13 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
+export const metadata: Metadata = {
+  title: {
+    template: "%s | ReUse Mart",
+    default: "ReUse Mart"
+  },
+  description: "Reuse Mart E-Commerce"
+}
 
 export default function RootLayout({
   children,
