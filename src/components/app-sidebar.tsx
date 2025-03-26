@@ -9,7 +9,7 @@ import {
   User2,
 } from "lucide-react"
 
-import { NavMain } from "@/components/nav-main"
+
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -24,7 +24,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { TeamSwitcher } from "./team-switcher"
-import { NavProjects } from "./nav-projects"
+import Link from "next/link"
 
 // This is sample data.
 const data = {
@@ -45,48 +45,68 @@ const data = {
       title: "Data Master Pegawai",
       url: "/admin/pegawai",
       icon: User2,
+      role: "Admin"
     },
     {
       title: "Models",
       url: "#",
       icon: Bot,
+      role: "Admin"
     },
     {
       title: "Documentation",
       url: "#",
       icon: BookOpen,
+      role: "CS"
     },
     {
       title: "Settings",
       url: "#",
       icon: Settings2,
-
+      role: "CS"
     },
   ],
 }
 
+type User = {
+  nama: string;
+  email: string;
+  no_telp: string;
+  role: string;
+}
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user, setUser] = React.useState<User | null>(null);
+
+
+  React.useEffect(() => {
+    console.log(localStorage.getItem("user"));
+    setUser(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null);
+  }, []);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-          <SidebarGroupLabel>Data Master Admin</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {data.navMain.map((item) => (
+        <SidebarGroupLabel>Data Master Admin</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {data.navMain
+              .filter((item) => !item.role || item.role === user?.role)
+              .map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          </SidebarMenu>
+        </SidebarGroupContent>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

@@ -2,11 +2,12 @@
 import axiosInstance from "@/services/axios-instance";
 import { ApiResponse } from "../utils";
 
-export async function handleLogin(formData: FormData): Promise<ApiResponse> {
+export async function handleLogin(token : string): Promise<ApiResponse> {
   try {
-    const res = await axiosInstance.post("/login", {
-      email: formData.get("email"),
-      password: formData.get("password"),
+    const res = await axiosInstance.get("/user", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
     });
 
     return { message: res.data.message, data: res.data.data };

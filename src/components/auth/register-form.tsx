@@ -11,6 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import handleRegister from "@/services/auth/handle-register"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
 
 const registerScheme = z.object({
   nama: z.string().trim().nonempty({ message: "Nama tidak boleh kosong" }).min(4, { message: "nama minimal 3 karakter" }),
@@ -46,6 +48,10 @@ export function RegisterForm({
     }
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+
   const onSubmit = async (data: FormScheme) => {
     const formData = new FormData();
     formData.append("email", data.email);
@@ -56,7 +62,7 @@ export function RegisterForm({
     const result = await handleRegister(formData);
 
     if (result.message === "Berhasil daftar") {
-      router.replace('/dashboard');
+      router.replace('/admin');
     }
 
     if (result.errors) {
@@ -136,9 +142,23 @@ export function RegisterForm({
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input placeholder="*******" {...field}></Input>
-                        </FormControl>
+                        <div className="relative">
+                          <FormControl>
+                            <Input placeholder="*******" type={showPassword ? "text" : "password"} {...field}></Input>
+                          </FormControl>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                            onClick={() => setShowPassword((prev) => !prev)}>
+                            {showPassword ? (
+                              <EyeIcon className="h-4 w-4" aria-hidden="true" />
+                            ) : (
+                              <EyeOffIcon className="h-4 w-4" aria-hidden="true" />
+                            )}
+                          </Button>
+                        </div>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -152,9 +172,23 @@ export function RegisterForm({
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Konfirmasi Password</FormLabel>
-                        <FormControl>
-                          <Input placeholder="*******" {...field}></Input>
-                        </FormControl>
+                        <div className="relative">
+                          <FormControl>
+                            <Input placeholder="*******" type={showConfirmPassword ? "text" : "password"} {...field}></Input>
+                          </FormControl>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}>
+                            {showConfirmPassword ? (
+                              <EyeIcon className="h-4 w-4" aria-hidden="true" />
+                            ) : (
+                              <EyeOffIcon className="h-4 w-4" aria-hidden="true" />
+                            )}
+                          </Button>
+                        </div>
                         <FormMessage />
                       </FormItem>
                     )}
