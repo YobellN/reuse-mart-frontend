@@ -2,15 +2,30 @@
 import axiosInstance from "@/services/axios-instance";
 import { ApiResponse } from "../utils";
 
-export async function handleLogin(token : string): Promise<ApiResponse> {
+export type User = {
+  nama: string;
+  email: string;
+  no_telp: string;
+  role: string;
+  pegawai: object | null;
+  organisasi: object | null;
+  penitip: object | null;
+  pembeli: object | null;
+};
+
+
+export async function getUser(token: string): Promise<ApiResponse<User>> {
   try {
-    const res = await axiosInstance.get("/user", {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
+    const res = await axiosInstance.get("/getUser", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
-    return { message: res.data.message, data: res.data.data };
+    return {
+      message: res.data.message,
+      data: res.data.data, 
+    };
   } catch (err: any) {
     if (err.response?.data?.errors) {
       return {

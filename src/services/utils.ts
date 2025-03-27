@@ -1,5 +1,5 @@
-export type ApiResponse = {
+export type ApiResponse<T> = {
     message: string;
-    data?: any;
+    data?: T;
     errors?: Record<string, string>;
   };

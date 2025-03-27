@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import {
+  AlertCircle,
   BookOpen,
   Bot,
   GalleryVerticalEnd,
@@ -25,6 +26,10 @@ import {
 } from "@/components/ui/sidebar"
 import { TeamSwitcher } from "./team-switcher"
 import Link from "next/link"
+import { getUser, User } from "@/services/auth/get-user"
+import { notFound, redirect } from "next/navigation"
+import { ApiResponse } from "@/services/utils"
+import { Alert, AlertTitle, AlertDescription } from "./ui/alert"
 
 // This is sample data.
 const data = {
@@ -68,21 +73,11 @@ const data = {
   ],
 }
 
-type User = {
-  nama: string;
-  email: string;
-  no_telp: string;
-  role: string;
-}
+type AppSidebarProps = {
+  user?: ApiResponse<User>; 
+} & React.ComponentProps<typeof Sidebar>
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [user, setUser] = React.useState<User | null>(null);
-
-
-  React.useEffect(() => {
-    console.log(localStorage.getItem("user"));
-    setUser(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null);
-  }, []);
+export function AppSidebar({ user, ...props }: AppSidebarProps) {
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -94,7 +89,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroupContent>
           <SidebarMenu>
             {data.navMain
-              .filter((item) => !item.role || item.role === user?.role)
+              .filter((item) => !item.role || item.role === user?.data?.role)
               .map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
