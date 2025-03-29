@@ -13,6 +13,7 @@ import handleRegister from "@/services/auth/handle-register"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
+import Image from "next/image"
 
 const registerScheme = z.object({
   nama: z.string().trim().nonempty({ message: "Nama tidak boleh kosong" }).min(4, { message: "nama minimal 3 karakter" }),
@@ -208,7 +209,8 @@ export function RegisterForm({
             </form>
           </Form>
           <div className="bg-muted relative hidden md:block">
-            <img
+            <Image
+              fill
               src="/reuse-mart.png"
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"

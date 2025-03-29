@@ -2,10 +2,11 @@
 
 import axiosInstance from "../axios-instance";
 import { ApiResponse } from "../utils";
+import { User } from "./get-user";
 
 export default async function handleRegister(
   formData: FormData
-): Promise<ApiResponse> {
+): Promise<ApiResponse<User>> {
   try {
     const nama = formData.get("nama");
     const email = formData.get("email");

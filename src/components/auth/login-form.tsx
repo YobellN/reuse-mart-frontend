@@ -14,6 +14,7 @@ import { redirect, useRouter } from "next/navigation"
 import { Label } from "../ui/label"
 import { useState } from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
+import Image from "next/image"
 
 const loginScheme = z.object({
   email: z.string().trim().nonempty({ message: "Email tidak boleh kosong" }).email({ message: "Format email tidak valid" }),
@@ -147,7 +148,8 @@ export function LoginForm({
             </form>
           </Form>
           <div className="bg-muted relative hidden md:block">
-            <img
+            <Image
+            fill
               src="/reuse-mart.png"
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
