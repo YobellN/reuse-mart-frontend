@@ -33,11 +33,6 @@ import { Alert, AlertTitle, AlertDescription } from "./ui/alert"
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "ReUse Mart",
@@ -53,8 +48,8 @@ const data = {
       role: "Admin"
     },
     {
-      title: "Models",
-      url: "#",
+      title: "Data Master Jabatan",
+      url: "/admin/jabatan",
       icon: Bot,
       role: "Admin"
     },
@@ -74,11 +69,20 @@ const data = {
 }
 
 type AppSidebarProps = {
-  user?: IResponse<User>; 
+  user: IResponse<User>; 
 } & React.ComponentProps<typeof Sidebar>
 
+type UserProfile = {
+  name: string | undefined
+  email: string | undefined
+  avatar: string  
+}
 export function AppSidebar({user, ...props} : AppSidebarProps) {
-
+  const userProfile: UserProfile = {
+    email: user.data?.email,
+    name: user.data?.nama,
+    avatar: "/avatars/shadcn.jpg",
+}
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -89,7 +93,7 @@ export function AppSidebar({user, ...props} : AppSidebarProps) {
         <SidebarGroupContent>
           <SidebarMenu>
             {data.navMain
-              .filter((item) => !item.role || item.role === user?.data?.role)
+              .filter((value) => value.role === user?.data?.role)
               .map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
@@ -104,7 +108,7 @@ export function AppSidebar({user, ...props} : AppSidebarProps) {
         </SidebarGroupContent>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userProfile} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

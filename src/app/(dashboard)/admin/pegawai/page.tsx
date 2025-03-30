@@ -2,9 +2,17 @@ import axiosInstance from "@/services/axios-instance"
 import { Pegawai, columns } from "./columns"
 import { DataTable } from "./data-table"
 import { SiteHeader } from "@/components/site-header";
+import { cookies } from "next/headers"
+
 
 async function getData(): Promise<Pegawai[]> {
-  const res = await axiosInstance.get('/pegawai');
+  const token = (await cookies()).get("token")?.value;
+  const res = await axiosInstance.get('/pegawai', {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  });
 
   if (!res.data) {
     throw new Error('Failed to fetch pegawai');
