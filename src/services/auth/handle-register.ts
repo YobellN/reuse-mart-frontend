@@ -1,12 +1,12 @@
 "use server";
 
 import axiosInstance from "../axios-instance";
-import { ApiResponse } from "../utils";
+import { IResponse } from "../utils";
 import { User } from "./get-user";
 
 export default async function handleRegister(
   formData: FormData
-): Promise<ApiResponse<User>> {
+): Promise<IResponse<User>> {
   try {
     const nama = formData.get("nama");
     const email = formData.get("email");

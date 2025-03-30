@@ -1,7 +1,7 @@
 import { AppSidebar } from "@/components/app-sidebar"
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
-import { getUser } from "@/services/auth/get-user"
+import { getUser, User } from "@/services/auth/get-user"
 import { AlertCircle } from "lucide-react"
 import { Metadata } from "next"
 import { cookies } from "next/headers"
@@ -13,24 +13,27 @@ export const metadata: Metadata = {
 }
 
 type DashboardLayoutProps = {
-    children: React.ReactNode
+    children: React.ReactNode,
 }
 
-export default async function DashboardLayout({ children, }: DashboardLayoutProps) {
+export default async function DashboardLayout({ children }: DashboardLayoutProps) {
     const token = (await cookies()).get("token")?.value || "";
     if (!token) {
         return (
-            <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>
-                    Your session has expired. Please log in again.
-                </AlertDescription>
-            </Alert>
+            <div className="p-4 md:p-10 flex justify-center min-h-svh">
+                <div className="w-full max-w-md">
+                    <Alert variant="destructive">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertTitle>Error</AlertTitle>
+                        <AlertDescription>
+                            Sesi anda telah habis, silahkan login kembali
+                        </AlertDescription>
+                    </Alert>
+                </div>
+            </div>
         )
     } else {
         const user = await getUser(token);
-        console.log(user);
         return (
             <SidebarProvider
                 style={
@@ -40,7 +43,7 @@ export default async function DashboardLayout({ children, }: DashboardLayoutProp
                     } as React.CSSProperties
                 }
             >
-                <AppSidebar user={user}  variant="inset" />
+                <AppSidebar user={user} variant="inset" />
                 <SidebarInset>
                     <div className="p-4">
                         {children}

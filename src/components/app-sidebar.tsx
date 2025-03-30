@@ -28,7 +28,7 @@ import { TeamSwitcher } from "./team-switcher"
 import Link from "next/link"
 import { getUser, User } from "@/services/auth/get-user"
 import { notFound, redirect } from "next/navigation"
-import { ApiResponse } from "@/services/utils"
+import { IResponse } from "@/services/utils"
 import { Alert, AlertTitle, AlertDescription } from "./ui/alert"
 
 // This is sample data.
@@ -74,10 +74,10 @@ const data = {
 }
 
 type AppSidebarProps = {
-  user?: ApiResponse<User>; 
+  user?: IResponse<User>; 
 } & React.ComponentProps<typeof Sidebar>
 
-export function AppSidebar({ user, ...props }: AppSidebarProps) {
+export function AppSidebar({user, ...props} : AppSidebarProps) {
 
   return (
     <Sidebar collapsible="icon" {...props}>

@@ -1,6 +1,6 @@
 "use server";
 import axiosInstance from "@/services/axios-instance";
-import { ApiResponse } from "../utils";
+import { IResponse } from "../utils";
 
 export type User = {
   nama: string;
@@ -14,7 +14,7 @@ export type User = {
 };
 
 
-export async function getUser(token: string): Promise<ApiResponse<User>> {
+export async function getUser(token: string): Promise<IResponse<User>> {
   try {
     const res = await axiosInstance.get("/getUser", {
       headers: {

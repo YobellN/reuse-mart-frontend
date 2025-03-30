@@ -1,10 +1,10 @@
 "use server";
 
 import axiosInstance from "@/services/axios-instance";
-import { ApiResponse } from "../utils";
+import { IResponse } from "../utils";
 import { cookies } from "next/headers";
 
-export async function handleLogin(formData: FormData): Promise<ApiResponse<any>> {
+export async function handleLogin(formData: FormData): Promise<IResponse<any>> {
   try {
     const res = await axiosInstance.post("/login", {
       email: formData.get("email"),
