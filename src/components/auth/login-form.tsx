@@ -46,8 +46,6 @@ export function LoginForm({
     const result = await handleLogin(formData);
 
     if (result.message === "Berhasil login") {
-      localStorage.setItem("token", result.data.access_token);
-      localStorage.setItem("user",JSON.stringify(result.data.user));
       router.replace('/admin');
     }
 
