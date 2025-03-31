@@ -1,5 +1,6 @@
-export type ApiResponse = {
-    message: string;
-    data?: any;
-    errors?: Record<string, string>;
-  };
+export type IResponse<T> = {
+  message: string;
+  data?: T;
+  errors?: Record<string, string>;
+};
+

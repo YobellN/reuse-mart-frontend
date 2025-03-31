@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import {
+  AlertCircle,
   BookOpen,
   Bot,
   GalleryVerticalEnd,
@@ -9,7 +10,7 @@ import {
   User2,
 } from "lucide-react"
 
-import { NavMain } from "@/components/nav-main"
+
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -24,15 +25,14 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { TeamSwitcher } from "./team-switcher"
-import { NavProjects } from "./nav-projects"
+import Link from "next/link"
+import { getUser, User } from "@/services/auth/get-user"
+import { notFound, redirect } from "next/navigation"
+import { IResponse } from "@/services/utils"
+import { Alert, AlertTitle, AlertDescription } from "./ui/alert"
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "ReUse Mart",
@@ -45,51 +45,70 @@ const data = {
       title: "Data Master Pegawai",
       url: "/admin/pegawai",
       icon: User2,
+      role: "Admin"
     },
     {
-      title: "Models",
-      url: "#",
+      title: "Data Master Jabatan",
+      url: "/admin/jabatan",
       icon: Bot,
+      role: "Admin"
     },
     {
       title: "Documentation",
       url: "#",
       icon: BookOpen,
+      role: "CS"
     },
     {
       title: "Settings",
       url: "#",
       icon: Settings2,
-
+      role: "CS"
     },
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = {
+  user: IResponse<User>; 
+} & React.ComponentProps<typeof Sidebar>
+
+type UserProfile = {
+  name: string | undefined
+  email: string | undefined
+  avatar: string  
+}
+export function AppSidebar({user, ...props} : AppSidebarProps) {
+  const userProfile: UserProfile = {
+    email: user.data?.email,
+    name: user.data?.nama,
+    avatar: "/avatars/shadcn.jpg",
+}
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-          <SidebarGroupLabel>Data Master Admin</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {data.navMain.map((item) => (
+        <SidebarGroupLabel>Data Master Admin</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {data.navMain
+              .filter((value) => value.role === user?.data?.role)
+              .map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          </SidebarMenu>
+        </SidebarGroupContent>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userProfile} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

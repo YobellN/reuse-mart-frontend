@@ -1,7 +1,6 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge";
-import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,72 +9,49 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ColumnDef } from "@tanstack/react-table"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
-export type Pegawai = {
-    id_pegawai: string,
-    nip: string,
-    tanggal_lahir: string
-    user: {
-        nama: string;
-        email: string;
-        no_telp: string;
-        fcm_token: string | null;
-    };
-    jabatan: {
-        id_jabatan: number;
-        nama_jabatan: string;
-    };
-};
+// This type is used to define the shape of our data.
+// You can use a Zod schema here if you want.
+export type Jabatan = {
+    id_jabatan: string
+    nama_jabatan: string
+    status_jabatan: boolean
+}
 
-export const columns: ColumnDef<Pegawai>[] = [
+export const columns: ColumnDef<Jabatan>[] = [
     {
-        accessorKey: "id_pegawai",
+        accessorKey: "id_jabatan",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Id Pegawai
+                    ID Jabatan
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
         },
     },
     {
-        id: "nama",
-        accessorKey: "user.nama",
-        header: "Nama",
-        cell: ({ row }) => <span>{row.original.user.nama}</span>,
-    },
-    {
-        accessorKey: "nip",
-        header: "NIP",
-    },
-    {
-        accessorKey: "tanggal_lahir",
-        header: "Tanggal Lahir",
-    },
-    {
-        accessorKey: "jabatan.nama_jabatan",
-        header: "Jabatan",
-        cell: ({ row }) => {
-            const jabatan = row.original.jabatan.nama_jabatan;
-
-            const colorMap: Record<string, string> = {
-                Admin: "bg-red-500 text-white",
-                Hunter: "bg-green-500 text-white",
-                CS: "bg-blue-500 text-white",
-                Kurir: "bg-yellow-500 text-black",
-                QC: "bg-pink-500 text-white",
-            }
-
-            const colorClass = colorMap[jabatan] ?? "bg-gray-200 text-black";
-
-            return <Badge className={colorClass}>{jabatan}</Badge>;
+        accessorKey: "nama_jabatan",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Nama Jabatan
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
         },
+    },
+    {
+        accessorKey: "status_jabatan",
+        header: "Status Jabatan",
     },
     {
         id: "actions",
@@ -105,5 +81,5 @@ export const columns: ColumnDef<Pegawai>[] = [
                 </DropdownMenu>
             )
         },
-    },
-];
+    }
+]

@@ -10,19 +10,23 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { handleLogin } from "@/services/auth/handle-login"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import { Label } from "../ui/label"
+import { useState } from "react"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
+import Image from "next/image"
 
 const loginScheme = z.object({
   email: z.string().trim().nonempty({ message: "Email tidak boleh kosong" }).email({ message: "Format email tidak valid" }),
   password: z.string().trim().nonempty({ message: "Password tidak boleh kosong" }),
-})
+});
 
 type FormScheme = z.infer<typeof loginScheme>;
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  
   const loginForm = useForm<FormScheme>({
     resolver: zodResolver(loginScheme),
     defaultValues: {
@@ -30,6 +34,8 @@ export function LoginForm({
       password: "",
     }
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
 
@@ -41,7 +47,11 @@ export function LoginForm({
     const result = await handleLogin(formData);
 
     if (result.message === "Berhasil login") {
-      router.replace('/dashboard');
+      router.replace('/admin');
+    }
+
+    if(result.message === "Terjadi kesalahan"){
+      redirect("/login");
     }
 
     if (result.errors) {
@@ -91,9 +101,23 @@ export function LoginForm({
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input placeholder="*******" {...field}></Input>
-                        </FormControl>
+                        <div className="relative">
+                          <FormControl>
+                            <Input type={showPassword ? "text" : "password"} placeholder="*******" {...field} />
+                          </FormControl>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                            onClick={() => setShowPassword((prev) => !prev)}>
+                            {showPassword ? (
+                              <EyeIcon className="h-4 w-4" aria-hidden="true" />
+                            ) : (
+                              <EyeOffIcon className="h-4 w-4" aria-hidden="true" />
+                            )}
+                          </Button>
+                        </div>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -109,7 +133,7 @@ export function LoginForm({
                   </div>
                 </div>
                 <Button type="submit" className="w-full" variant={"default"} disabled={loginForm.formState.isSubmitting || loginForm.formState.isSubmitSuccessful}>
-                  {loginForm.formState.isSubmitting || loginForm.formState.isSubmitSuccessful? "Memproses.." : "Masuk"}
+                  {loginForm.formState.isSubmitting || loginForm.formState.isSubmitSuccessful ? "Memproses.." : "Masuk"}
                 </Button>
                 <div className="text-center text-sm">
                   Belum memiliki akun?{" "}
@@ -123,7 +147,8 @@ export function LoginForm({
             </form>
           </Form>
           <div className="bg-muted relative hidden md:block">
-            <img
+            <Image
+            fill
               src="/reuse-mart.png"
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
