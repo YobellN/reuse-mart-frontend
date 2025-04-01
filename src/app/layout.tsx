@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { object } from "zod";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: {
     template: "%s | ReUse Mart",
-    default: "ReUse Mart"
+    default: "ReUse Mart",
   },
-  description: "Reuse Mart E-Commerce"
-}
+  description: "Reuse Mart E-Commerce",
+  icons: { icon: "/reuse-mart-icon.png" },
+};
 
 export default function RootLayout({
   children,
@@ -26,6 +29,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
