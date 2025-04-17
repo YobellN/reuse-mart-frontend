@@ -28,6 +28,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import logout from "@/services/auth/handle-logout"
 
 export function NavUser({
   user,
@@ -38,7 +41,17 @@ export function NavUser({
     avatar: string | undefined
   }
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
+  const router = useRouter();
+
+  async function handleLogout() {
+    await logout().then(() => {
+      toast.success("Berhasil logout");
+      router.replace("/login");
+    }).catch((err) => {
+      toast.error("Terjadi kesalahan");
+    })
+  }
 
   return (
     <SidebarMenu>
@@ -98,9 +111,9 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
-              Log out
+              Logout
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

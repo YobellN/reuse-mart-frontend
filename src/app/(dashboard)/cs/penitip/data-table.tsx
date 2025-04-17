@@ -2,6 +2,7 @@
 
 import {
     ColumnDef,
+    ColumnFiltersState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
@@ -20,8 +21,9 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import React from "react"
 import { Input } from "@/components/ui/input"
+
+import React, { useState } from "react"
 import { DataTablePagination } from "@/components/data-table-pagination"
 
 interface DataTableProps<TData, TValue> {
@@ -29,44 +31,53 @@ interface DataTableProps<TData, TValue> {
     data: TData[]
 }
 
-
 export function DataTable<TData, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [globalFilter, setGlobalFilter] = React.useState<any>([])
+    const [sorting, setSorting] = React.useState<SortingState>([
+        {
+            id: "id_penitip",
+            desc: false,
+        },
+    ]);
+    const [globalFilter, setGlobalFilter] = useState<any>([])
+
+
 
     const table = useReactTable({
         data,
         columns,
-        initialState: {
-            pagination: {
-                pageSize: 10
-            }
-        },
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        initialState: {
+            pagination: {
+                pageSize: 10,
+            }
+        },
+        getFilteredRowModel: getFilteredRowModel(),
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
         state: {
             sorting,
-            globalFilter
+            globalFilter,
         },
         onGlobalFilterChange: setGlobalFilter
     })
+
 
     return (
         <div>
             <div className="flex items-center py-4 md:py-6 justify-between">
                 <Input
-                    placeholder="Cari jabatan..."
+                    placeholder="Cari penitip..."
                     onChange={e => table.setGlobalFilter(String(e.target.value))}
+
                     className="max-w-sm"
                 />
+
                 <Button>
-                    + Tambah jabatan
+                    + Tambah penitip
                 </Button>
             </div>
             <div className="rounded-md border">
@@ -106,7 +117,7 @@ export function DataTable<TData, TValue>({
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    No results.
+                                    Tidak ada data penitip
                                 </TableCell>
                             </TableRow>
                         )}

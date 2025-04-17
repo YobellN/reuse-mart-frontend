@@ -86,7 +86,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroupLabel>Data Master Admin</SidebarGroupLabel>
+        <SidebarGroupLabel>Data Master {user?.data?.role}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             {data.navMain

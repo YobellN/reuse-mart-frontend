@@ -1,4 +1,3 @@
-import { cookies } from "next/headers"
 import { Jabatan, columns } from "./columns"
 import { DataTable } from "./data-table"
 import axiosInstance from "@/services/axios-instance";
