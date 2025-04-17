@@ -49,7 +49,7 @@ export function LoginForm({
 
     if (result.message === "Berhasil login") {
       toast.success("Berhasil login");
-      router.replace('/admin');
+      router.replace('/dashboard');
     }
 
     if(result.message === "Terjadi kesalahan"){

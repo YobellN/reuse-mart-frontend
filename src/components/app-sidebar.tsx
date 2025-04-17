@@ -26,12 +26,9 @@ import {
 } from "@/components/ui/sidebar"
 import { TeamSwitcher } from "./team-switcher"
 import Link from "next/link"
-import { getUser, User } from "@/services/auth/get-user"
-import { notFound, redirect } from "next/navigation"
+import { User } from "@/services/auth/get-user"
 import { IResponse } from "@/services/utils"
-import { Alert, AlertTitle, AlertDescription } from "./ui/alert"
 
-// This is sample data.
 const data = {
   teams: [
     {
@@ -54,9 +51,9 @@ const data = {
       role: "Admin"
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
+      title: "Data Master Penitip",
+      url: "/cs/penitip",
+      icon: User2,
       role: "CS"
     },
     {
@@ -69,20 +66,20 @@ const data = {
 }
 
 type AppSidebarProps = {
-  user: IResponse<User>; 
+  user: IResponse<User>;
 } & React.ComponentProps<typeof Sidebar>
 
 type UserProfile = {
   name: string | undefined
   email: string | undefined
-  avatar: string  
+  avatar: string
 }
-export function AppSidebar({user, ...props} : AppSidebarProps) {
+export function AppSidebar({ user, ...props }: AppSidebarProps) {
   const userProfile: UserProfile = {
     email: user.data?.email,
     name: user.data?.nama,
     avatar: "/avatars/shadcn.jpg",
-}
+  }
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
