@@ -15,6 +15,7 @@ import { Label } from "../ui/label"
 import { useState } from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import Image from "next/image"
+import { toast } from "sonner"
 
 const loginScheme = z.object({
   email: z.string().trim().nonempty({ message: "Email tidak boleh kosong" }).email({ message: "Format email tidak valid" }),
@@ -47,6 +48,7 @@ export function LoginForm({
     const result = await handleLogin(formData);
 
     if (result.message === "Berhasil login") {
+      toast.success("Berhasil login");
       router.replace('/admin');
     }
 

@@ -5,14 +5,7 @@ import axiosInstance from "@/services/axios-instance";
 import { SiteHeader } from "@/components/site-header";
 
 async function getData(): Promise<Jabatan[]> {
-    const token = (await cookies()).get("token")?.value;
-
-    const res = await axiosInstance("/jabatan", {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-    });
+    const res = await axiosInstance("/jabatan");
 
     if (!res.data) {
         throw new Error('Failed to fetch jabatan');
