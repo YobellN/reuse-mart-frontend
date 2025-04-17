@@ -1,3 +1,4 @@
+import AlertBox from "@/components/alert-box";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
@@ -18,19 +19,12 @@ type DashboardLayoutProps = {
 export default async function DashboardLayout({
     children,
 }: DashboardLayoutProps) {
-    let page: React.ReactNode = null
     const token = (await cookies()).get("token")?.value || "";
     if (!token) {
         return (
             <div className="p-4 md:p-10 flex justify-center min-h-svh">
                 <div className="w-full max-w-md">
-                    <Alert variant="destructive">
-                        <AlertCircle className="h-4 w-4" />
-                        <AlertTitle>Error</AlertTitle>
-                        <AlertDescription>
-                            Sesi anda telah habis, silahkan login kembali
-                        </AlertDescription>
-                    </Alert>
+                    <AlertBox variant="destructive" title="Error 401" description="Sesi anda telah habis, silahkan login kembali" />
                 </div>
             </div>
         );

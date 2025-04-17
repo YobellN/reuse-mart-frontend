@@ -1,0 +1,42 @@
+import axiosInstance from "@/services/axios-instance";
+import { Penitip } from "../columns"
+import AlertBox from "@/components/alert-box";
+import { SiteHeader } from "@/components/site-header";
+import { AccountForm } from "./form";
+
+async function getPenitip(id_penitip: string): Promise<Penitip | null> {
+    try {
+        const res = await axiosInstance.get(`/penitip/${id_penitip}`);
+        return res.data.data
+    } catch (error) {
+        return null;
+    }
+}
+
+export default async function Page({ params }: {
+    params: Promise<{ id_penitip: string }>
+}) {
+    const { id_penitip } = await params;
+    const penitip = await getPenitip(id_penitip).catch(() => null);
+
+    if (!penitip) {
+        return (
+            <>
+                <SiteHeader title="Penitip" />
+                <div className="flex justify-center w-full mt-4">
+                    <AlertBox variant="destructive" title="Error 404" description="Penitip tidak ditemukan" />
+                </div>
+            </>
+        )
+    }
+    return (
+        <>
+            <SiteHeader title="Penitip" />
+            <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+                <h1>{penitip.id_penitip + " - " + penitip.user.nama}</h1>
+                {/* <AccountForm></AccountForm> */}
+            </div>
+        </>
+
+    )
+}

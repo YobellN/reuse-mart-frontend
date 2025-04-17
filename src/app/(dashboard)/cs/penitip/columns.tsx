@@ -1,6 +1,5 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 import {
     DropdownMenu,
