@@ -6,11 +6,15 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import handleDeletePenitip from "@/services/penitip/handle-delete-penitip";
+import { AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AlertDialog } from "@radix-ui/react-alert-dialog";
+import { toast } from "sonner";
+import React from "react";
 
 export type Penitip = {
     id_penitip: string,
@@ -25,6 +29,20 @@ export type Penitip = {
         no_telp: string;
         fcm_token: string | null;
     };
+};
+
+async function hapusPenitip(id_penitip: string) {
+    try {
+        const res = await handleDeletePenitip(id_penitip);
+        if (res.message === "Penitip berhasil dihapus") {
+            window.location.reload();
+            toast.success(res.message);
+        } else {
+            toast.error(res.message || "Gagal menghapus penitip");
+        }
+    } catch (error) {
+        toast.error("Terjadi kesalahan saat menghapus");
+    }
 };
 
 export const columns: ColumnDef<Penitip>[] = [
@@ -76,6 +94,7 @@ export const columns: ColumnDef<Penitip>[] = [
         enableHiding: false,
         header: "Aksi",
         cell: ({ row }) => {
+            const [disabled, setDisabled] = React.useState(false);
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -85,15 +104,34 @@ export const columns: ColumnDef<Penitip>[] = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                        //   onClick={() => navigator.clipboard.writeText(payment.id)}
-                        >
-                            Copy payment ID
+                        <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                        <DropdownMenuItem>
+                            Edit penitip
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button variant="destructive">Hapus penitip</Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Konfirmasi Hapus</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Apakah anda yakin ingin menghapus penitip ini ({row.original.user.nama})?
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>Batal</AlertDialogCancel>
+                                        <Button
+                                            disabled={disabled}
+                                            variant="destructive"
+                                            onClick={async () => { setDisabled(true); await hapusPenitip(row.original.id_penitip).catch(() => setDisabled(false)) }}>
+                                            Hapus
+                                        </Button>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )

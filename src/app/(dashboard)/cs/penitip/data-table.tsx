@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input"
 
 import React, { useState } from "react"
 import { DataTablePagination } from "@/components/data-table-pagination"
+import Link from "next/link"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -42,8 +43,6 @@ export function DataTable<TData, TValue>({
         },
     ]);
     const [globalFilter, setGlobalFilter] = useState<any>([])
-
-
 
     const table = useReactTable({
         data,
@@ -75,10 +74,11 @@ export function DataTable<TData, TValue>({
 
                     className="max-w-sm"
                 />
-
-                <Button>
-                    + Tambah penitip
-                </Button>
+                <Link href={'/cs/penitip/new'}>
+                    <Button>
+                        + Tambah penitip
+                    </Button>
+                </Link>
             </div>
             <div className="rounded-md border">
                 <Table>

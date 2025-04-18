@@ -2,7 +2,6 @@ import axiosInstance from "@/services/axios-instance";
 import { Penitip } from "../columns"
 import AlertBox from "@/components/alert-box";
 import { SiteHeader } from "@/components/site-header";
-import { AccountForm } from "./form";
 
 async function getPenitip(id_penitip: string): Promise<Penitip | null> {
     try {

@@ -1,7 +1,11 @@
-'use client' // Error boundaries must be Client Components
- 
+'use client'
+
 import { useEffect } from 'react'
- 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
+import { AlertCircle } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+
 export default function Error({
   error,
   reset,
@@ -10,21 +14,30 @@ export default function Error({
   reset: () => void
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error)
   }, [error])
- 
+
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
+    <div className="min-h-screen flex items-center justify-center bg-muted">
+      <Card className="w-full max-w-md shadow-xl">
+        <CardHeader>
+          <CardTitle className="text-center text-destructive">Terjadi Kesalahan</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-5 w-5" />
+            <AlertTitle>Oops!</AlertTitle>
+            <AlertDescription>
+              Ada sesuatu yang tidak berjalan dengan semestinya. Silakan coba lagi.
+            </AlertDescription>
+          </Alert>
+          <div className="flex justify-center">
+            <Button variant="outline" onClick={() => reset()}>
+              Coba Lagi
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

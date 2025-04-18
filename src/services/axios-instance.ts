@@ -1,10 +1,12 @@
+'use server'
+
 import axios from "axios";
 import { cookies } from "next/headers";
 
 const axiosInstance = axios.create({
   baseURL: process.env.API_URL,
   headers: {
-    "Content-Type": "application/json",
+    "Accept": "application/json",
   },
   timeout: 10000,
 });

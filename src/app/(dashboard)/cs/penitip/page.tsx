@@ -18,8 +18,7 @@ async function getData(): Promise<Penitip[]> {
 }
 
 export default async function PenitipPage() {
-    const data = await getData()
-
+    const data = await getData();
     return (
         <>
             <SiteHeader title="Data Master Penitip" />
