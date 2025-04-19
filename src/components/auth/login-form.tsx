@@ -50,6 +50,10 @@ export function LoginForm({
     if (result.message === "Berhasil login") {
       toast.success("Berhasil login");
       const menu = await redirectMenu();
+      if (menu === "error") {
+        toast.error("Terjadi kesalahan, silahkan coba lagi");
+        return;
+      }
       router.replace(menu);
     }
 
