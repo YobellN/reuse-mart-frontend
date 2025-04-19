@@ -29,7 +29,7 @@ export default async function DashboardLayout({
             </div>
         );
     } else {
-        const user = await getUser(token);
+        const user = await getUser();
         return (
             <SidebarProvider
                 style={

@@ -15,6 +15,7 @@ import { useState } from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import Image from "next/image"
 import { toast } from "sonner"
+import redirectMenu from "@/services/auth/redirect"
 
 const loginScheme = z.object({
   email: z.string().trim().nonempty({ message: "Email tidak boleh kosong" }).email({ message: "Format email tidak valid" }),
@@ -26,7 +27,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  
+
   const loginForm = useForm<FormScheme>({
     resolver: zodResolver(loginScheme),
     defaultValues: {
@@ -48,10 +49,11 @@ export function LoginForm({
 
     if (result.message === "Berhasil login") {
       toast.success("Berhasil login");
-      router.replace('/dashboard');
+      const menu = await redirectMenu();
+      router.replace(menu);
     }
 
-    if(result.message === "Terjadi kesalahan"){
+    if (result.message === "Terjadi kesalahan") {
       redirect("/login");
     }
 
@@ -149,7 +151,7 @@ export function LoginForm({
           </Form>
           <div className="bg-muted relative hidden md:block">
             <Image
-            fill
+              fill
               src="/reuse-mart.png"
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"

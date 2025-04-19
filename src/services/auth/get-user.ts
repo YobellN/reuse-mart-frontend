@@ -1,6 +1,7 @@
 "use server";
 import axiosInstance from "@/services/axios-instance";
 import { IResponse } from "../utils";
+import { cookies } from "next/headers";
 
 export type User = {
   nama: string;
@@ -14,8 +15,9 @@ export type User = {
 };
 
 
-export async function getUser(token: string): Promise<IResponse<User>> {
+export async function getUser(): Promise<IResponse<User>> {
   try {
+    const token = (await cookies()).get("token")?.value || "";
     const res = await axiosInstance.get("/getUser", {
       headers: {
         Authorization: `Bearer ${token}`,
