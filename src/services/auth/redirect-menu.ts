@@ -3,7 +3,6 @@ import { getUser } from "./get-user";
 export default async function redirectMenu(): Promise<string> {
   try {
     const user = await getUser();
-
     switch (user.data?.role) {
       case "Admin":
         return "/admin";
@@ -17,6 +16,8 @@ export default async function redirectMenu(): Promise<string> {
         return "/organisasi";
       case "Owner":
         return "/owner";
+      case "Pembeli":
+        return "/home";
       default:
         return "/login";
     }

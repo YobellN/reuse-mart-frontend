@@ -248,7 +248,7 @@ export default function NewPenitipForm() {
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                        <AlertDialogCancel onClick={() => setOpen(false)}>Batal</AlertDialogCancel>
+                                        <AlertDialogCancel onClick={() => setOpen(false)} disabled={submit}>Batal</AlertDialogCancel>
                                         <Button
                                             type="button"
                                             onClick={() => handleSubmit(finalFormData.current)}

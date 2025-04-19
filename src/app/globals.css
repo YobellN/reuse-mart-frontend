@@ -41,6 +41,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
 }
 
 @layer base {
@@ -81,6 +86,12 @@
     --chart-3: oklch(0.5 0.15 227); /* biru tua */
     --chart-4: oklch(0.82 0.21 84); /* kuning hijau cerah */
     --chart-5: oklch(0.79 0.22 70); /* orange kekuningan */
+
+    --warning: oklch(0.85 0.21 80); /* kuning-oranye terang */
+    --warning-foreground: oklch(0.2 0.01 80); /* teks gelap untuk kontras */
+
+    --info: oklch(0.82 0.22 230); /* biru terang */
+    --info-foreground: oklch(0.2 0.01 230); /* teks gelap */
   }
 
   .dark {
@@ -108,6 +119,12 @@
     --chart-3: oklch(0.76 0.21 70); /* orange cerah */
     --chart-4: oklch(0.62 0.24 300); /* pink ungu cerah */
     --chart-5: oklch(0.62 0.22 20);  /* merah ke orange */
+
+    --warning: oklch(0.6 0.18 80); /* kuning-oranye gelap */
+    --warning-foreground: oklch(0.97 0.01 80); /* teks terang */
+
+    --info: oklch(0.55 0.2 230); /* biru gelap */
+    --info-foreground: oklch(0.97 0.01 230); /* teks terang */
   }
 }
 

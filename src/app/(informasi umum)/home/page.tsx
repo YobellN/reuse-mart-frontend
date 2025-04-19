@@ -13,7 +13,7 @@ export default async function homePage() {
       </div>
     );
   } else {
-    const userData = await getUser(token);
+    const userData = await getUser();
     return (
       <div>
         <HomeNavbar user={userData} />

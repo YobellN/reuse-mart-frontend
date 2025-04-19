@@ -5,7 +5,6 @@ import { IResponse } from "../utils";
 
 export default async function handleDeletePenitip(id: string) : Promise<IResponse<any>>{
     try {
-        console.log(id)
         const res = await axiosInstance.delete(`/penitip/${id}`);
         return {
             message: res.data.message,

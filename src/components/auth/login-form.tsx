@@ -15,7 +15,7 @@ import { useState } from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import Image from "next/image"
 import { toast } from "sonner"
-import redirectMenu from "@/services/auth/redirect"
+import redirectMenu from "@/services/auth/redirect-menu"
 
 const loginScheme = z.object({
   email: z.string().trim().nonempty({ message: "Email tidak boleh kosong" }).email({ message: "Format email tidak valid" }),
@@ -48,13 +48,14 @@ export function LoginForm({
     const result = await handleLogin(formData);
 
     if (result.message === "Berhasil login") {
-      toast.success("Berhasil login");
       const menu = await redirectMenu();
       if (menu === "error") {
         toast.error("Terjadi kesalahan, silahkan coba lagi");
         return;
+      } else {
+        toast.success("Berhasil login");
+        router.replace(menu);
       }
-      router.replace(menu);
     }
 
     if (result.message === "Terjadi kesalahan") {
