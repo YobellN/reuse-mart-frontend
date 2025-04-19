@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import handleDeletePenitip from "@/services/penitip/handle-delete-penitip";
 import React from "react";
 import HapusDialog from "@/components/hapus-dialog";
+import Link from "next/link";
 
 export type Penitip = {
     id_penitip: string,
@@ -87,11 +88,11 @@ export const columns: ColumnDef<Penitip>[] = [
                             <MoreHorizontal />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        <DropdownMenuItem >
-                            Edit penitip
-                        </DropdownMenuItem>
+                        <Link href={`/cs/penitip/${row.original.id_penitip}`} className="hover:bg-accent hover:text-accent-foreground">
+                            <Button variant="warningText">Edit penitip</Button>
+                        </Link>
                         <HapusDialog id={row.original.id_penitip} onHapus={() => handleDeletePenitip(row.original.id_penitip)} label="penitip" detail={row.original.user.nama} />
                     </DropdownMenuContent>
                 </DropdownMenu>
