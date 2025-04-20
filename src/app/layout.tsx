@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { object } from "zod";
@@ -14,6 +14,11 @@ export const metadata: Metadata = {
   icons: { icon: "/reuse-mart-icon.png" },
 };
 
+const fontPlusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta-sans",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -21,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" suppressHydrationWarning>
-      <body>
+      <body className={fontPlusJakartaSans.variable}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

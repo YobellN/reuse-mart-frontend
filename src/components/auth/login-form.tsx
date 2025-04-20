@@ -79,7 +79,10 @@ export function LoginForm({
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
           <Form {...loginForm}>
-            <form className="p-6 md:p-8" onSubmit={loginForm.handleSubmit(onSubmit)}>
+            <form
+              className="p-6 md:p-8"
+              onSubmit={loginForm.handleSubmit(onSubmit)}
+            >
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">Selamat datang</h1>
@@ -111,37 +114,55 @@ export function LoginForm({
                         <FormLabel>Password</FormLabel>
                         <div className="relative">
                           <FormControl>
-                            <Input type={showPassword ? "text" : "password"} placeholder="*******" {...field} />
+                            <Input
+                              type={showPassword ? "text" : "password"}
+                              placeholder="*******"
+                              {...field}
+                            />
                           </FormControl>
                           <Button
                             type="button"
                             variant="ghost"
                             size="sm"
                             className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                            onClick={() => setShowPassword((prev) => !prev)}>
+                            onClick={() => setShowPassword((prev) => !prev)}
+                          >
                             {showPassword ? (
                               <EyeIcon className="h-4 w-4" aria-hidden="true" />
                             ) : (
-                              <EyeOffIcon className="h-4 w-4" aria-hidden="true" />
+                              <EyeOffIcon
+                                className="h-4 w-4"
+                                aria-hidden="true"
+                              />
                             )}
                           </Button>
                         </div>
                         <FormMessage />
                       </FormItem>
                     )}
-                  >
-                  </FormField>
+                  ></FormField>
                   <div className="flex items-center">
                     <Link
-                      href="#"
+                      href="/forgot-password"
                       className="ml-auto text-sm underline-offset-2 hover:underline text-primary"
                     >
                       Lupa Password
                     </Link>
                   </div>
                 </div>
-                <Button type="submit" className="w-full" variant={"default"} disabled={loginForm.formState.isSubmitting || loginForm.formState.isSubmitSuccessful}>
-                  {loginForm.formState.isSubmitting || loginForm.formState.isSubmitSuccessful ? "Memproses.." : "Masuk"}
+                <Button
+                  type="submit"
+                  className="w-full"
+                  variant={"default"}
+                  disabled={
+                    loginForm.formState.isSubmitting ||
+                    loginForm.formState.isSubmitSuccessful
+                  }
+                >
+                  {loginForm.formState.isSubmitting ||
+                  loginForm.formState.isSubmitSuccessful
+                    ? "Memproses.."
+                    : "Masuk"}
                 </Button>
                 <div className="text-center text-sm">
                   Belum memiliki akun?{" "}
@@ -165,6 +186,6 @@ export function LoginForm({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
