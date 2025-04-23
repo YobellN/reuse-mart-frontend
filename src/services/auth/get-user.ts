@@ -1,18 +1,6 @@
 "use server";
 import axiosInstance from "@/services/axios-instance";
-import { IResponse } from "../utils";
-
-export type User = {
-  nama: string;
-  email: string;
-  no_telp: string;
-  role: string;
-  pegawai: object | null;
-  organisasi: object | null;
-  penitip: object | null;
-  pembeli: object | null;
-};
-
+import { IResponse, User } from "../utils";
 
 export async function getUser(): Promise<IResponse<User>> {
   try {

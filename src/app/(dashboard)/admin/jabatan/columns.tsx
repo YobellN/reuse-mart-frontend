@@ -9,16 +9,13 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Jabatan } from "@/services/utils"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Jabatan = {
-    id_jabatan: string
-    nama_jabatan: string
-    status_jabatan: boolean
-}
+
 
 export const columns: ColumnDef<Jabatan>[] = [
     {

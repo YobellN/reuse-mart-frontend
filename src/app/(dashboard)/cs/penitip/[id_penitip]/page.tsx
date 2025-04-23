@@ -1,7 +1,8 @@
 import axiosInstance from "@/services/axios-instance";
-import { Penitip } from "../columns"
 import AlertBox from "@/components/alert-box";
 import { SiteHeader } from "@/components/site-header";
+import UpdatePenitipForm from "@/components/penitip/update-penitip-form";
+import { Penitip } from "@/services/penitip/schema";
 
 async function getPenitip(id_penitip: string): Promise<Penitip | null> {
     try {
@@ -30,11 +31,8 @@ export default async function Page({ params }: {
     }
     return (
         <>
-            <SiteHeader title="Penitip" />
-            <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
-                <h1>{penitip.id_penitip + " - " + penitip.user.nama}</h1>
-                {/* <AccountForm></AccountForm> */}
-            </div>
+            <SiteHeader title={"Update Penitip " + penitip.id_penitip + " (" + penitip.user.nama + ")" }  />
+            <UpdatePenitipForm penitip={penitip} />
         </>
 
     )

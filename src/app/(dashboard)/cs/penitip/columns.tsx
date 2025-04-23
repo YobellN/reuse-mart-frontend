@@ -4,7 +4,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -14,22 +13,7 @@ import handleDeletePenitip from "@/services/penitip/handle-delete-penitip";
 import React from "react";
 import HapusDialog from "@/components/hapus-dialog";
 import Link from "next/link";
-
-export type Penitip = {
-    id_penitip: string,
-    id_user: string,
-    nik: string,
-    foto_ktp: string,
-    saldo: number,
-    poin: number,
-    user: {
-        nama: string;
-        email: string;
-        no_telp: string;
-        fcm_token: string | null;
-    };
-};
-
+import { Penitip } from "@/services/penitip/schema";
 
 export const columns: ColumnDef<Penitip>[] = [
     {

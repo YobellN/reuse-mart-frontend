@@ -12,22 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Pegawai } from "@/services/utils";
 
-export type Pegawai = {
-    id_pegawai: string,
-    nip: string,
-    tanggal_lahir: string
-    user: {
-        nama: string;
-        email: string;
-        no_telp: string;
-        fcm_token: string | null;
-    };
-    jabatan: {
-        id_jabatan: number;
-        nama_jabatan: string;
-    };
-};
 
 export const columns: ColumnDef<Pegawai>[] = [
     {
