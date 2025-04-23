@@ -31,7 +31,7 @@ export default async function Page({ params }: {
     }
     return (
         <>
-            <SiteHeader title={"Update Penitip " + penitip.id_penitip + " (" + penitip.user.nama + ")" }  />
+            <SiteHeader title={"Edit Penitip " + penitip.id_penitip + " (" + penitip.user.nama + ")" }  />
             <UpdatePenitipForm penitip={penitip} />
         </>
 

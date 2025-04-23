@@ -98,7 +98,7 @@ export default function UpdatePenitipForm({ penitip }: { penitip: Penitip }) {
     return (
         <Card className="max-w-2xl mx-auto mt-10 shadow-md">
             <CardHeader>
-                <CardTitle className="text-2xl text-center">Formulir Update Data Penitip</CardTitle>
+                <CardTitle className="text-2xl text-center">Formulir Edit Data Penitip</CardTitle>
             </CardHeader>
             <CardContent>
                 <Form {...form}>
