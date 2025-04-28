@@ -91,7 +91,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
             {data.navMain
               .filter((value) => value.role === user?.data?.role)
               .map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.title} className="hover:bg-accent hover:text-accent-foreground rounded-md">
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>
                       <item.icon />

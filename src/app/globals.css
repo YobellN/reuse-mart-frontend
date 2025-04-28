@@ -8,6 +8,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-sidebar: var(--sidebar);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -59,72 +60,102 @@
 
 @layer base {
   :root {
-    --background: oklch(1 0 0); /* putih */
-    --foreground: oklch(0.145 0.019 270); /* mendekati navy abu tua */
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0.019 270);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0.019 270);
-    --primary: oklch(0.69 0.24 142); /* hijau terang */
-    --primary-foreground: oklch(0.975 0.02 10); /* hampir putih, agak pink */
-    --secondary: oklch(0.965 0.01 240); /* abu pucat kebiruan */
-    --secondary-foreground: oklch(0.145 0.02 240); /* gelap kebiruan */
-    --muted: oklch(0.965 0.01 240);
-    --muted-foreground: oklch(0.5 0.015 240); /* abu gelap */
-    --accent: oklch(0.965 0.01 240);
-    --accent-foreground: oklch(0.145 0.02 240);
-    --destructive: oklch(0.68 0.25 29); /* merah terang */
-    --destructive-foreground: oklch(0.98 0.01 0);
-    --border: oklch(0.89 0.01 240);
-    --input: oklch(0.89 0.01 240);
-    --ring: oklch(0.69 0.24 142);
+    /* Background warna krem / hangat */
+    --background: oklch(0.97 0.01 90); /* krem terang */
+    --foreground: oklch(0.25 0.01 50); /* teks coklat gelap */
+
+    --card: oklch(
+      0.985 0.005 90
+    ); /* kartu sedikit lebih putih dari background */
+    --card-foreground: oklch(0.25 0.01 50);
+
+    --popover: oklch(0.985 0.005 90);
+    --popover-foreground: oklch(0.25 0.01 50);
+
+    --primary: oklch(0.55 0.22 140); /* hijau lebih gelap */
+    --primary-foreground: oklch(0.99 0 0); /* tetap putih */
+
+    --secondary: oklch(0.92 0.015 90); /* krem pucat */
+    --secondary-foreground: oklch(0.3 0.01 50); /* coklat medium */
+
+    --muted: oklch(0.95 0.005 90);
+    --muted-foreground: oklch(0.4 0.005 50);
+
+    --accent: oklch(0.9 0.08 140); /* hijau mint pastel */
+    --accent-foreground: oklch(0.25 0.02 140); /* teks hijau gelap untuk kontras */
+
+    --destructive: oklch(0.75 0.17 30); /* merah soft terang */
+    --destructive-foreground: oklch(0.18 0.01 40); /* teks di atas merah */
+
+    --border: oklch(0.9 0.005 90);
+    --input: oklch(0.9 0.005 90);
+    --ring: oklch(0.65 0.2 140);
+
     --radius: 0.5rem;
 
-    /* chart */
-    --chart-1: oklch(0.72 0.23 35); /* oranye terang */
-    --chart-2: oklch(0.65 0.19 184); /* hijau toska */
-    --chart-3: oklch(0.5 0.15 227); /* biru tua */
-    --chart-4: oklch(0.82 0.21 84); /* kuning hijau cerah */
-    --chart-5: oklch(0.79 0.22 70); /* orange kekuningan */
+    /* Sidebar */
+    --sidebar: oklch(0.92 0.015 90); /* krem agak gelap */
+    --sidebar-foreground: oklch(0.25 0.01 50); /* coklat gelap */
 
-    --warning: oklch(0.85 0.21 80); /* kuning-oranye terang */
-    --warning-foreground: oklch(0.2 0.01 80); /* teks gelap untuk kontras */
+    /* Chart warna */
+    --chart-1: oklch(0.7 0.2 140); /* hijau medium */
+    --chart-2: oklch(0.6 0.18 70); /* oranye kekuningan */
+    --chart-3: oklch(0.5 0.15 240); /* biru soft */
+    --chart-4: oklch(0.7 0.22 40); /* oranye kemerahan */
+    --chart-5: oklch(0.65 0.2 80); /* kuning soft */
 
-    --info: oklch(0.82 0.22 230); /* biru terang */
-    --info-foreground: oklch(0.2 0.01 230); /* teks gelap */
+    /* Warna peringatan */
+    --warning: oklch(0.8 0.2 80); /* kuning terang */
+    --warning-foreground: oklch(0.2 0.01 80);
+
+    --info: oklch(0.7 0.2 240); /* biru soft */
+    --info-foreground: oklch(0.2 0.01 240);
   }
 
   .dark {
-    --background: oklch(0.145 0.01 20); /* hitam ke coklat tua */
-    --foreground: oklch(0.98 0 0); /* putih */
-    --card: oklch(0.16 0.015 25);
-    --card-foreground: oklch(0.98 0 0);
-    --popover: oklch(0.14 0.01 0);
-    --popover-foreground: oklch(0.98 0 0);
-    --primary: oklch(0.72 0.23 142); /* hijau terang */
-    --primary-foreground: oklch(0.22 0.015 145); /* hijau gelap */
-    --secondary: oklch(0.22 0.01 240); /* navy tua */
-    --secondary-foreground: oklch(0.98 0 0);
-    --muted: oklch(0.22 0.01 0);
-    --muted-foreground: oklch(0.65 0.01 240);
-    --accent: oklch(0.22 0.01 12);
-    --accent-foreground: oklch(0.98 0 0);
-    --destructive: oklch(0.45 0.22 29); /* merah gelap */
-    --destructive-foreground: oklch(0.97 0.02 0); /* putih dengan sedikit rona */
-    --border: oklch(0.22 0.01 240);
-    --input: oklch(0.22 0.01 240);
-    --ring: oklch(0.68 0.22 142);
-    --chart-1: oklch(0.55 0.25 220); /* biru ungu */
-    --chart-2: oklch(0.65 0.18 160); /* hijau terang */
-    --chart-3: oklch(0.76 0.21 70); /* orange cerah */
-    --chart-4: oklch(0.62 0.24 300); /* pink ungu cerah */
-    --chart-5: oklch(0.62 0.22 20);  /* merah ke orange */
+    /* Versi dark mode */
+    --background: oklch(0.18 0.01 40);
+    --foreground: oklch(0.97 0 0);
 
-    --warning: oklch(0.6 0.18 80); /* kuning-oranye gelap */
-    --warning-foreground: oklch(0.97 0.01 80); /* teks terang */
+    --card: oklch(0.2 0.01 40);
+    --card-foreground: oklch(0.97 0 0);
 
-    --info: oklch(0.55 0.2 230); /* biru gelap */
-    --info-foreground: oklch(0.97 0.01 230); /* teks terang */
+    --popover: oklch(0.2 0.01 40);
+    --popover-foreground: oklch(0.97 0 0);
+
+    --primary: oklch(0.55 0.22 140);
+    --primary-foreground: oklch(0.97 0 0);
+    
+    --secondary: oklch(0.3 0.01 40);
+    --secondary-foreground: oklch(0.97 0 0);
+
+    --muted: oklch(0.3 0.01 40);
+    --muted-foreground: oklch(0.6 0.01 240);
+
+    --accent: oklch(0.35 0.08 140); /* hijau pastel gelap */
+    --accent-foreground: oklch(0.98 0 0); /* putih terang */
+
+    --destructive: oklch(0.65 0.18 30);
+    --destructive-foreground: oklch(0.98 0 0);
+
+    --border: oklch(0.3 0.01 40);
+    --input: oklch(0.3 0.01 40);
+    --ring: oklch(0.7 0.2 140);
+
+    --sidebar: oklch(0.2 0.01 40);
+    --sidebar-foreground: oklch(0.97 0 0);
+
+    /* Chart dark */
+    --chart-1: oklch(0.6 0.2 140);
+    --chart-2: oklch(0.5 0.18 70);
+    --chart-3: oklch(0.4 0.15 240);
+    --chart-4: oklch(0.6 0.2 40);
+    --chart-5: oklch(0.55 0.2 80);
+
+    --warning: oklch(0.7 0.2 80);
+    --warning-foreground: oklch(0.95 0 0);
+
+    --info: oklch(0.6 0.2 240);
+    --info-foreground: oklch(0.95 0 0);
   }
 }
-

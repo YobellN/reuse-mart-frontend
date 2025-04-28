@@ -54,7 +54,7 @@ export default function HomeNavbar({ user, ...props }: HomeNavbarProps) {
               </Link>
             </div>
             <div className="h-10 m-1 w-10 items-center bg-white hover:bg-slate-100 rounded-full py-1 shadow-sm flex items-center justify-center">
-              <Link href="#">
+              <Link href="/profile">
                 <Avatar className=" rounded-lg grayscale ">
                   <AvatarImage
                     src={userProfile.avatar}
