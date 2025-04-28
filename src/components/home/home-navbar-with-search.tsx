@@ -27,7 +27,7 @@ export default function HomeNavbar({ user, ...props }: HomeNavbarProps) {
 
   return (
     <>
-      <div className="h-30 w-full bg-lime-500 dark:bg-lime-600 flex-col content-center">
+      <div className="h-30 w-full bg-primary flex-col content-center">
         <div className="flex p-2 place-content-between md:w-5/6 m-auto">
           <div className="relative w-40 h-16 shrink hidden sm:block">
             <Link href="/home">
