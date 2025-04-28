@@ -21,7 +21,7 @@ import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescript
 import { toast } from "sonner"
 import { Penitip, PenitipFormSchema, PenitipSchema } from "@/services/penitip/schema"
 import { z } from "zod"
-import handleUpdatePenitip from "@/services/penitip/handle-update-penitip"
+import handleUpdatePenitip from "@/services/penitip/penitip-services"
 
 const UpdatePenitipSchema = PenitipSchema.partial({
     password: true,

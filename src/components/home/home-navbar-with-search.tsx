@@ -5,8 +5,7 @@ import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import SearchForm from "@/components/home/search-bar";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { IResponse } from "@/services/utils";
-import { User } from "@/services/auth/get-user";
+import { IResponse, User } from "@/services/utils";
 
 type HomeNavbarProps = {
   user?: IResponse<User>;

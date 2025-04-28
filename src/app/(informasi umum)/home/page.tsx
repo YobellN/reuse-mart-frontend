@@ -1,5 +1,5 @@
 import HomeNavbar from "@/components/home/home-navbar-with-search";
-import { getUser } from "@/services/auth/get-user";
+import { getUser } from "@/services/auth/user-services";
 import { cookies } from "next/dist/server/request/cookies";
 
 export default async function homePage() {

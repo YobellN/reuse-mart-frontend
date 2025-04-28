@@ -1,7 +1,8 @@
-import { Jabatan, columns } from "./columns"
 import { DataTable } from "./data-table"
-import axiosInstance from "@/services/axios-instance";
+import axiosInstance from "@/services/api";
 import { SiteHeader } from "@/components/site-header";
+import { Jabatan } from "@/services/utils";
+import { columns } from "./columns";
 
 async function getData(): Promise<Jabatan[]> {
     const res = await axiosInstance("/jabatan");

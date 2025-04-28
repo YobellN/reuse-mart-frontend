@@ -9,13 +9,12 @@ import { z } from "zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
-import { handleLogin } from "@/services/auth/handle-login"
 import { redirect, useRouter } from "next/navigation"
 import { useState } from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import Image from "next/image"
 import { toast } from "sonner"
-import redirectMenu from "@/services/auth/redirect-menu"
+import { handleLogin, redirectMenu } from "@/services/auth/user-services"
 
 const loginScheme = z.object({
   email: z.string().trim().nonempty({ message: "Email tidak boleh kosong" }).email({ message: "Format email tidak valid" }),
@@ -48,7 +47,7 @@ export function LoginForm({
     const result = await handleLogin(formData);
 
     if (result.message === "Berhasil login") {
-      const menu = await redirectMenu();
+      const menu = await redirectMenu(result.data.user.role);
       if (menu === "error") {
         toast.error("Terjadi kesalahan, silahkan coba lagi");
         return;

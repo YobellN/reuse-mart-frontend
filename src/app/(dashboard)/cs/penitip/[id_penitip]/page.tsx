@@ -1,23 +1,14 @@
-import axiosInstance from "@/services/axios-instance";
 import AlertBox from "@/components/alert-box";
 import { SiteHeader } from "@/components/site-header";
 import UpdatePenitipForm from "@/components/penitip/update-penitip-form";
-import { Penitip } from "@/services/penitip/schema";
+import { getPenitipById } from "@/services/penitip/penitip-services";
 
-async function getPenitip(id_penitip: string): Promise<Penitip | null> {
-    try {
-        const res = await axiosInstance.get(`/penitip/${id_penitip}`);
-        return res.data.data
-    } catch (error) {
-        return null;
-    }
-}
 
 export default async function Page({ params }: {
     params: Promise<{ id_penitip: string }>
 }) {
     const { id_penitip } = await params;
-    const penitip = await getPenitip(id_penitip).catch(() => null);
+    const penitip = await getPenitipById(id_penitip).catch(() => null);
 
     if (!penitip) {
         return (

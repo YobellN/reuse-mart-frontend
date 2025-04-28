@@ -9,11 +9,11 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import handleRegister from "@/services/auth/handle-register"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import Image from "next/image"
+import { handleRegister } from "@/services/auth/user-services"
 
 const registerScheme = z.object({
   nama: z.string().trim().nonempty({ message: "Nama tidak boleh kosong" }).min(4, { message: "nama minimal 3 karakter" }),

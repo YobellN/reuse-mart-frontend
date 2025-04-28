@@ -26,8 +26,7 @@ import {
 } from "@/components/ui/sidebar"
 import { TeamSwitcher } from "./team-switcher"
 import Link from "next/link"
-import { User } from "@/services/auth/get-user"
-import { IResponse } from "@/services/utils"
+import { IResponse, User } from "@/services/utils"
 
 const data = {
   teams: [

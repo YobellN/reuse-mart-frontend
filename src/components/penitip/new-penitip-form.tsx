@@ -19,10 +19,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import React from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
-import handleNewPenitip from "@/services/penitip/handle-new-penitip"
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, } from "../ui/alert-dialog"
 import { toast } from "sonner"
 import { PenitipFormSchema, PenitipSchema } from "@/services/penitip/schema"
+import { handleNewPenitip } from "@/services/penitip/penitip-services"
 
 
 export default function NewPenitipForm() {
@@ -82,7 +82,7 @@ export default function NewPenitipForm() {
                     });
                 }
                 setSubmit(false);
-                toast.error("Gagal menambahkan penitip");
+                toast.error("Gagal menambahkan penitip" );
             }
         } catch (err) {
             setSubmit(false);
