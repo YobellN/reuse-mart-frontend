@@ -1,8 +1,8 @@
-import {  redirect } from "next/navigation";
-
 
 export default async function Page() {
-  return(
-    redirect("/profile/edit")
+  return (
+    <div>
+      Edit Profile
+    </div>
   )
 }

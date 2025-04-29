@@ -1,4 +1,5 @@
 'use server'
+
 import HomeNavbar from "@/components/home/home-navbar-with-search";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -6,20 +7,12 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getUser } from "@/services/auth/user-services";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { LogOut, MapPin, UserCog, Clock, Star } from "lucide-react";
-import { cn } from "@/lib/utils";
+import SidebarNavProfile from "@/components/profile-/side-nav-profile";
 
-const navItems = [
-    { label: "Edit Profil", href: "/profile/edit", icon: <UserCog className="mr-2 h-4 w-4" /> },
-    { label: "Alamat Pengiriman", href: "/profile/alamat", icon: <MapPin className="mr-2 h-4 w-4" /> },
-    { label: "Riwayat Transaksi", href: "/profile/transaksi", icon: <Clock className="mr-2 h-4 w-4" /> },
-    { label: "Poin & Reward", href: "/profile/reward", icon: <Star className="mr-2 h-4 w-4" /> },
-];
 
 export default async function ProfileLayout({ children }: { children: React.ReactNode }) {
     const user = await getUser();
-
     if (!user?.data || user.data.role !== "Pembeli") {
         notFound();
     }
@@ -44,15 +37,7 @@ export default async function ProfileLayout({ children }: { children: React.Reac
                                 </div>
                             </div>
                             <Separator className="my-4" />
-                            <nav className="flex flex-col gap-2">
-                                {navItems.map((item) => (
-                                    <Link key={item.href} href={item.href}>
-                                        <Button variant="ghost" className={cn("w-full justify-start")}>
-                                            {item.icon}{item.label}
-                                        </Button>
-                                    </Link>
-                                ))}
-                            </nav>
+                            <SidebarNavProfile />
                             <Separator className="my-4" />
                             <Button variant="destructive" className="w-full justify-start">
                                 <LogOut className="mr-2 h-4 w-4" />
@@ -68,3 +53,4 @@ export default async function ProfileLayout({ children }: { children: React.Reac
         </>
     );
 }
+
