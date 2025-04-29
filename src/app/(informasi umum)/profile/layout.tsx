@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getUser } from "@/services/auth/user-services";
 import { notFound } from "next/navigation";
-import { LogOut, MapPin, UserCog, Clock, Star } from "lucide-react";
+import { LogOut } from "lucide-react";
 import SidebarNavProfile from "@/components/profile-/side-nav-profile";
 
 
