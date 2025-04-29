@@ -1,23 +1,17 @@
-import HomeNavbar from "@/components/home/home-navbar-with-search";
+import { notFound } from "next/navigation";
 import { getUser } from "@/services/auth/user-services";
-import { cookies } from "next/dist/server/request/cookies";
+import HomeNavbar from "@/components/home/home-navbar-with-search";
 
-export default async function homePage() {
-  const token = (await cookies()).get("token")?.value || "";
+export default async function HomePage() {
+  const user = await getUser();
 
-  if (!token) {
-    //navbar tanpa profil
-    return (
-      <div>
-        <HomeNavbar />
-      </div>
-    );
-  } else {
-    const userData = await getUser();
-    return (
-      <div>
-        <HomeNavbar user={userData} />
-      </div>
-    );
+  if (!user?.data || user.data.role !== "Pembeli") {
+    notFound();
   }
+
+  return (
+    <div>
+      <HomeNavbar user={user} />
+    </div>
+  );
 }
