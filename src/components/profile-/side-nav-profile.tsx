@@ -22,15 +22,7 @@ export default function SidebarNavProfile() {
                 const isActive = pathname === item.href;
                 return (
                     <Link key={item.href} href={item.href}>
-                        <Button
-                            variant={isActive ? "default" : "ghost"}
-                            className={cn(
-                                "w-full justify-start",
-                                isActive
-                                    ? "bg-green-600 text-white hover:bg-green-700"
-                                    : "hover:bg-muted"
-                            )}
-                        >
+                        <Button variant={isActive ? "default" : "ghost"} className="w-full justify-start">
                             {item.icon}
                             {item.label}
                         </Button>

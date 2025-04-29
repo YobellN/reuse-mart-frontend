@@ -33,12 +33,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <li key={tab.href}>
               <Button
                 variant={pathname === tab.href ? "default" : "ghost"}
-                className={cn(
-                  "text-sm",
-                  pathname === tab.href
-                    ? "bg-green-600 text-white hover:bg-green-700"
-                    : "text-gray-500 hover:text-green-700"
-                )}
                 onClick={() => router.push(tab.href)}
               >
                 {tab.label}
