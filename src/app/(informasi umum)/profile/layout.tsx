@@ -1,6 +1,5 @@
 'use server'
 
-import HomeNavbar from "@/components/home/home-navbar-with-search";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -16,9 +15,7 @@ export default async function ProfileLayout({ children }: { children: React.Reac
     if (!user?.data || user.data.role !== "Pembeli") {
         notFound();
     }
-
     const userData = user.data;
-
     return (
         <>
             <main className="bg-muted min-h-screen p-4 md:p-10">
