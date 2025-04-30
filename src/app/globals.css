@@ -176,3 +176,22 @@
   /* background-color: #19c82d; */
   background-color: #00be16;
 }
+
+::-webkit-scrollbar {
+  width: 6px; 
+  height: 6px; 
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00be16; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary); 
+  filter: brightness(1.2);
+}

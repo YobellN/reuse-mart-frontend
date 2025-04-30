@@ -25,9 +25,9 @@ export default async function InformasiUmumLayout({
   const token = (await cookies()).get("token")?.value || "";
   if (!token) {
     return (
-      <div className="font-[family-name:var(--font-plus-jakarta-sans)]">
+      <div className="w-full font-[family-name:var(--font-plus-jakarta-sans)]">
         <HomeNavbar />
-        <section>{children}</section>
+        <section className="p-2 md:p-0 md:w-5/6 m-auto">{children}</section>
       </div>
     );
   } else {
@@ -36,9 +36,9 @@ export default async function InformasiUmumLayout({
       notFound();
     }
     return (
-      <div className="font-[family-name:var(--font-plus-jakarta-sans)]">
+      <div className="w-full font-[family-name:var(--font-plus-jakarta-sans)]">
         <HomeNavbar user={user} />
-        <section>{children}</section>
+        <section className="p-2 md:p-0 md:w-5/6 m-auto">{children}</section>
       </div>
     );
   }
