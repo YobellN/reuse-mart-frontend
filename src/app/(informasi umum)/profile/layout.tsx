@@ -21,7 +21,6 @@ export default async function ProfileLayout({ children }: { children: React.Reac
 
     return (
         <>
-            <HomeNavbar user={user} />
             <main className="bg-muted min-h-screen p-4 md:p-10">
                 <div className="container mx-auto flex flex-col md:flex-row gap-6">
                     <aside className="w-full md:w-1/4">

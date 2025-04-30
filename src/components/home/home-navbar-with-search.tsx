@@ -12,19 +12,7 @@ type HomeNavbarProps = {
 };
 //& React.ComponentProps<typeof Sidebar>
 
-type UserProfile = {
-  name: string | undefined;
-  email: string | undefined;
-  avatar: string;
-};
-
-export default function HomeNavbar({ user, ...props }: HomeNavbarProps) {
-  const userProfile: UserProfile = {
-    name: user?.data?.nama,
-    email: user?.data?.email,
-    avatar: "/avatars/shadcn.jpg",
-  };
-
+export default function HomeNavbar({ user, ...props }: {user?: IResponse<User>}) {
   return (
     <>
       <div className="h-30 w-full bg-bright-green flex-col content-center">
@@ -48,25 +36,30 @@ export default function HomeNavbar({ user, ...props }: HomeNavbarProps) {
           </div>
 
           <div className="flex h-16 w-25 items-center place-content-between">
-            <div className="h-10 m-1 w-10 items-center bg-white hover:bg-slate-100 rounded-full py-1 shadow-sm flex items-center justify-center ">
+            <div className="h-10 m-1 w-10 bg-white hover:bg-slate-100 rounded-full py-1 shadow-sm flex items-center justify-center ">
               <Link href="#">
                 <ShoppingCart className="text-lime-600 stroke-2" />
               </Link>
             </div>
-            <div className="h-10 m-1 w-10 items-center bg-white hover:bg-slate-100 rounded-full py-1 shadow-sm flex items-center justify-center">
-              <Link href="/profile">
-                <Avatar className=" rounded-lg grayscale ">
-                  <AvatarImage
-                    src={userProfile.avatar}
-                    alt={userProfile.name}
-                  />
-                  <AvatarFallback className="rounded-lg font-medium text-black">
-                    {/* {userProfile.name?.charAt(0)} */}
-                    {userProfile ? userProfile.name?.charAt(0) : "G"}
-                  </AvatarFallback>
-                </Avatar>
-              </Link>
-            </div>
+            {user === undefined ? (
+                <Link href="/login">
+                  Login
+                </Link>
+            ) : (
+              <div className="h-10 m-1 w-10  bg-white hover:bg-slate-100 rounded-full py-1 shadow-sm flex items-center justify-center">
+                <Link href="/profile">
+                  <Avatar className=" rounded-lg grayscale ">
+                    <AvatarImage
+                      src={user.data?.nama}
+                      alt={user.data?.nama}
+                    />
+                    <AvatarFallback className="rounded-lg font-medium text-black">
+                      {user? user.data?.nama.charAt(0) : "G"}
+                    </AvatarFallback>
+                  </Avatar>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

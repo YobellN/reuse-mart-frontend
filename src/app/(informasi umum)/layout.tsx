@@ -22,40 +22,24 @@ export default async function InformasiUmumLayout({
 }: {
   children: React.ReactNode;
 }) {
-  //NOTE: Ini di comment karna halaman bisa diakses oleh guest. Kalo ada pengecekan kondisi, taru di halaman anak
-  // const token = (await cookies()).get("token")?.value || "";
-
-  // if (!token) {
-  //   return (
-  //     <div className="p-4 md:p-10 flex justify-center min-h-svh">
-  //       <div className="w-full max-w-md">
-  //         <AlertBox
-  //           variant="destructive"
-  //           title="Error 401"
-  //           description="Sesi anda telah habis, silahkan login kembali"
-  //         />
-  //         <div className="flex justify-center mt-4">
-  //           <Link href="/login">
-  //             <Button variant="outline" className="w-full max-w-sm">
-  //               Kembali ke Halaman Login
-  //             </Button>
-  //           </Link>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  const user = await getUser();
-
-  if (user?.data && user.data.role !== "Pembeli") {
-    notFound();
+  const token = (await cookies()).get("token")?.value || "";
+  if (!token) {
+    return (
+      <div className="font-[family-name:var(--font-plus-jakarta-sans)]">
+        <HomeNavbar />
+        <section>{children}</section>
+      </div>
+    );
+  } else {
+    const user = await getUser();
+    if (user?.data && user.data.role !== "Pembeli") {
+      notFound();
+    }
+    return (
+      <div className="font-[family-name:var(--font-plus-jakarta-sans)]">
+        <HomeNavbar user={user} />
+        <section>{children}</section>
+      </div>
+    );
   }
-
-  return (
-    <div className="font-[family-name:var(--font-plus-jakarta-sans)]">
-      <HomeNavbar user={user} />
-      <section>{children}</section>
-    </div>
-  );
 }
