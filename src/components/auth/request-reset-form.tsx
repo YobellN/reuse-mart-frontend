@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,15 +9,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import Image from "next/image";
 import { z } from "zod";
-import Form from "next/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-const RequestScheme = z.object({
-  email: z.string().email({ message: "Format email tidak valid" }),
+const requestScheme = z.object({
+  email: z
+    .string()
+    .trim()
+    .nonempty({ message: "Email tidak boleh kosong" })
+    .email({ message: "Format email tidak valid" }),
 });
 
 export function submitEmailRequest(data: FormData) {
@@ -23,10 +37,23 @@ export function submitEmailRequest(data: FormData) {
   console.log(email);
 }
 
+type FormScheme = z.infer<typeof requestScheme>;
+
 export function RequestResetPasswordForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const requestForm = useForm<FormScheme>({
+    resolver: zodResolver(requestScheme),
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  function onSubmit(values: FormScheme) {
+    console.log(values);
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -52,24 +79,28 @@ export function RequestResetPasswordForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Form action={submitEmailRequest}>
-            <div className="grid gap-6">
-              <div className="grid gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="email@example.com"
-                    required
-                  />
-                </div>
-
-                <Button type="submit" className="w-full">
-                  Login
-                </Button>
-              </div>
-            </div>
+          <Form {...requestForm}>
+            <form
+              onSubmit={requestForm.handleSubmit(onSubmit)}
+              className="space-y-8"
+            >
+              <FormField
+                control={requestForm.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="">
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="email@example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full">
+                Kirim Permintaan
+              </Button>
+            </form>
           </Form>
         </CardContent>
       </Card>
