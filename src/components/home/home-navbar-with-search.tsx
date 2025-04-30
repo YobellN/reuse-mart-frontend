@@ -15,7 +15,7 @@ type HomeNavbarProps = {
 export default function HomeNavbar({ user, ...props }: {user?: IResponse<User>}) {
   return (
     <>
-      <div className="h-30 w-full bg-bright-green flex-col content-center">
+      <div className="h-30 w-full bg-bright-green flex-col content-center shadow-sm sticky top-0 z-50">
         <div className="flex p-2 place-content-between md:w-5/6 m-auto">
           <div className="relative w-40 h-16 shrink hidden sm:block">
             <Link href="/home">

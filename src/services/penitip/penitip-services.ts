@@ -2,7 +2,7 @@
 
 import api from "../api";
 import { IResponse } from "../utils";
-import { Penitip } from "./schema";
+import { Penitip } from "./schema-penitip";
 
 export async function getAllPenitip(): Promise<Penitip[]> {
   const res = await api.get("/penitip");

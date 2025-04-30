@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation"
 import React from "react"
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../ui/alert-dialog"
 import { toast } from "sonner"
-import { Penitip, PenitipFormSchema, PenitipSchema } from "@/services/penitip/schema"
+import { Penitip, PenitipFormSchema, PenitipSchema } from "@/services/penitip/schema-penitip"
 import { z } from "zod"
 import handleUpdatePenitip from "@/services/penitip/penitip-services"
 

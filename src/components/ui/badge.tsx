@@ -17,6 +17,8 @@ const badgeVariants = cva(
         warning: "border border-warning text-warning [a&]:hover:bg-warning/10", // yellow/orange outline
         processing: "border border-info text-info [a&]:hover:bg-info/10", // blue outline
         failed: "border border-destructive text-destructive [a&]:hover:bg-destructive/10", // red outline
+        pink: "border border-pink text-pink [a&]:hover:bg-pink/10", // pink outline
+        purple: "border border-purple text-purple [a&]:hover:bg-purple/10", // purple outline
       },
     },
     defaultVariants: {

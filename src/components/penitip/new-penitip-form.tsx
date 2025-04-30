@@ -21,7 +21,7 @@ import React from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, } from "../ui/alert-dialog"
 import { toast } from "sonner"
-import { PenitipFormSchema, PenitipSchema } from "@/services/penitip/schema"
+import { PenitipFormSchema, PenitipSchema } from "@/services/penitip/schema-penitip"
 import { handleNewPenitip } from "@/services/penitip/penitip-services"
 
 

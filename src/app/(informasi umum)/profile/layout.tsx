@@ -7,7 +7,8 @@ import { Separator } from "@/components/ui/separator";
 import { getUser } from "@/services/auth/user-services";
 import { notFound } from "next/navigation";
 import { LogOut } from "lucide-react";
-import SidebarNavProfile from "@/components/profile-/side-nav-profile";
+import SidebarNavProfile from "@/components/profile/side-nav-profile";
+import UserContextWrapper from "@/components/user-context-wrapper";
 
 
 export default async function ProfileLayout({ children }: { children: React.ReactNode }) {
@@ -17,19 +18,20 @@ export default async function ProfileLayout({ children }: { children: React.Reac
     }
     const userData = user.data;
     return (
-        <>
-            <main className="bg-muted min-h-screen p-4 md:p-10">
+
+        <UserContextWrapper user={userData}>
+            <main className="bg-muted min-h-screen px-4 py-6 md:px-10 md:py-10">
                 <div className="container mx-auto flex flex-col md:flex-row gap-6">
                     <aside className="w-full md:w-1/4">
-                        <Card className="p-6 sticky top-20">
+                        <Card className="p-6 sticky top-[128px] z-10">
                             <div className="flex flex-col items-center text-center gap-2">
                                 <Avatar className="w-20 h-20">
-                                    <AvatarImage src="/placeholder-avatar.jpg" alt={userData.nama} />
-                                    <AvatarFallback>{userData.nama?.[0]}</AvatarFallback>
+                                    <AvatarImage src="/placeholder-avatar.jpg" alt={user.data.nama} />
+                                    <AvatarFallback>{user.data.nama?.[0]}</AvatarFallback>
                                 </Avatar>
                                 <div>
-                                    <p className="font-bold text-lg">{userData.nama}</p>
-                                    <p className="text-sm text-muted-foreground">{userData.email}</p>
+                                    <p className="font-bold text-lg">{user.data.nama}</p>
+                                    <p className="text-sm text-muted-foreground">{user.data.email}</p>
                                 </div>
                             </div>
                             <Separator className="my-4" />
@@ -42,11 +44,11 @@ export default async function ProfileLayout({ children }: { children: React.Reac
                         </Card>
                     </aside>
                     <section className="w-full md:w-3/4">
-                        <Card className="p-6">{children}</Card>
+                    <Card className="p-4">{children}</Card>
                     </section>
                 </div>
             </main>
-        </>
+        </UserContextWrapper>
     );
 }
 

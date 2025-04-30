@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import HapusDialog from "@/components/hapus-dialog";
 import Link from "next/link";
-import { Penitip } from "@/services/penitip/schema";
+import { Penitip } from "@/services/penitip/schema-penitip";
 import { handleDeletePenitip } from "@/services/penitip/penitip-services";
 
 export const columns: ColumnDef<Penitip>[] = [
