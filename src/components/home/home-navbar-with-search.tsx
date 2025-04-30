@@ -16,8 +16,13 @@ export default function HomeNavbar({ user, ...props }: {user?: IResponse<User>})
   return (
     <>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <div className="h-30 w-full bg-bright-green flex-col content-center shadow-sm sticky top-0 z-50">
         <div className="flex p-2 place-content-between md:w-5/6 m-auto">
+=======
+      <div className="h-30 w-full bg-bright-green flex-col content-center">
+        <div className="flex p-2 md:p-0 place-content-between md:w-5/6 m-auto">
+>>>>>>> Stashed changes
 =======
       <div className="h-30 w-full bg-bright-green flex-col content-center">
         <div className="flex p-2 md:p-0 place-content-between md:w-5/6 m-auto">
