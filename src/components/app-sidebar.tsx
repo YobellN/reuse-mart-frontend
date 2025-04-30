@@ -26,8 +26,7 @@ import {
 } from "@/components/ui/sidebar"
 import { TeamSwitcher } from "./team-switcher"
 import Link from "next/link"
-import { User } from "@/services/auth/get-user"
-import { IResponse } from "@/services/utils"
+import { IResponse, User } from "@/services/utils"
 
 const data = {
   teams: [
@@ -92,7 +91,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
             {data.navMain
               .filter((value) => value.role === user?.data?.role)
               .map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.title} className="hover:bg-accent hover:text-accent-foreground rounded-md">
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>
                       <item.icon />

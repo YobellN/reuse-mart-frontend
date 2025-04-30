@@ -3,7 +3,7 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 
-const axiosInstance = axios.create({
+const api = axios.create({
   baseURL: process.env.API_URL,
   headers: {
     "Accept": "application/json",
@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
-axiosInstance.interceptors.request.use(async (config) => {
+api.interceptors.request.use(async (config) => {
   const token = (await cookies()).get("token")?.value;
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
@@ -19,4 +19,4 @@ axiosInstance.interceptors.request.use(async (config) => {
   return config;
 });
 
-export default axiosInstance;
+export default api;

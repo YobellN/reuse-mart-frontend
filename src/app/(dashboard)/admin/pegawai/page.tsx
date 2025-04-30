@@ -1,7 +1,8 @@
-import axiosInstance from "@/services/axios-instance"
-import { Pegawai, columns } from "./columns"
+import axiosInstance from "@/services/api"
 import { DataTable } from "./data-table"
 import { SiteHeader } from "@/components/site-header";
+import { Pegawai } from "@/services/utils";
+import { columns } from "./columns";
 
 
 async function getData(): Promise<Pegawai[]> {

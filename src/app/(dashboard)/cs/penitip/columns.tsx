@@ -4,31 +4,16 @@ import { ColumnDef } from "@tanstack/react-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import handleDeletePenitip from "@/services/penitip/handle-delete-penitip";
 import React from "react";
 import HapusDialog from "@/components/hapus-dialog";
-
-export type Penitip = {
-    id_penitip: string,
-    id_user: string,
-    nik: string,
-    foto_ktp: string,
-    saldo: number,
-    poin: number,
-    user: {
-        nama: string;
-        email: string;
-        no_telp: string;
-        fcm_token: string | null;
-    };
-};
-
+import Link from "next/link";
+import { Penitip } from "@/services/penitip/schema";
+import { handleDeletePenitip } from "@/services/penitip/penitip-services";
 
 export const columns: ColumnDef<Penitip>[] = [
     {
@@ -87,11 +72,11 @@ export const columns: ColumnDef<Penitip>[] = [
                             <MoreHorizontal />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        <DropdownMenuItem >
-                            Edit penitip
-                        </DropdownMenuItem>
+                        <Link href={`/cs/penitip/${row.original.id_penitip}`} className="hover:bg-accent hover:text-accent-foreground">
+                            <Button variant="warningText">Edit penitip</Button>
+                        </Link>
                         <HapusDialog id={row.original.id_penitip} onHapus={() => handleDeletePenitip(row.original.id_penitip)} label="penitip" detail={row.original.user.nama} />
                     </DropdownMenuContent>
                 </DropdownMenu>

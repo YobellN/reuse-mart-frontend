@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import logout from "@/services/auth/handle-logout"
+import logout from "@/services/auth/user-services"
 
 export function NavUser({
   user,
@@ -49,7 +49,7 @@ export function NavUser({
       toast.success("Berhasil logout");
       router.replace("/login");
     }).catch((err) => {
-      toast.error("Terjadi kesalahan");
+      toast.error("Terjadi kesalahan" + err.message);
     })
   }
 

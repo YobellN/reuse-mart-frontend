@@ -1,22 +1,14 @@
-import axiosInstance from "@/services/axios-instance";
-import { Penitip } from "../columns"
 import AlertBox from "@/components/alert-box";
 import { SiteHeader } from "@/components/site-header";
+import UpdatePenitipForm from "@/components/penitip/update-penitip-form";
+import { getPenitipById } from "@/services/penitip/penitip-services";
 
-async function getPenitip(id_penitip: string): Promise<Penitip | null> {
-    try {
-        const res = await axiosInstance.get(`/penitip/${id_penitip}`);
-        return res.data.data
-    } catch (error) {
-        return null;
-    }
-}
 
 export default async function Page({ params }: {
     params: Promise<{ id_penitip: string }>
 }) {
     const { id_penitip } = await params;
-    const penitip = await getPenitip(id_penitip).catch(() => null);
+    const penitip = await getPenitipById(id_penitip).catch(() => null);
 
     if (!penitip) {
         return (
@@ -30,11 +22,8 @@ export default async function Page({ params }: {
     }
     return (
         <>
-            <SiteHeader title="Penitip" />
-            <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
-                <h1>{penitip.id_penitip + " - " + penitip.user.nama}</h1>
-                {/* <AccountForm></AccountForm> */}
-            </div>
+            <SiteHeader title={"Edit Penitip " + penitip.id_penitip + " (" + penitip.user.nama + ")" }  />
+            <UpdatePenitipForm penitip={penitip} />
         </>
 
     )

@@ -12,22 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Pegawai } from "@/services/utils";
 
-export type Pegawai = {
-    id_pegawai: string,
-    nip: string,
-    tanggal_lahir: string
-    user: {
-        nama: string;
-        email: string;
-        no_telp: string;
-        fcm_token: string | null;
-    };
-    jabatan: {
-        id_jabatan: number;
-        nama_jabatan: string;
-    };
-};
 
 export const columns: ColumnDef<Pegawai>[] = [
     {
@@ -65,16 +51,16 @@ export const columns: ColumnDef<Pegawai>[] = [
             const jabatan = row.original.jabatan.nama_jabatan;
 
             const colorMap: Record<string, string> = {
-                Admin: "bg-red-500 text-white",
-                Hunter: "bg-green-500 text-white",
-                CS: "bg-blue-500 text-white",
-                Kurir: "bg-yellow-500 text-black",
-                QC: "bg-pink-500 text-white",
-            }
+                Admin: "border-destructive text-destructive",
+                Hunter: "border-primary text-primary",
+                CS: "border-info text-info",
+                Kurir: "border-warning text-warning",
+                QC: "border-secondary text-muted-foreground",
+            };
 
-            const colorClass = colorMap[jabatan] ?? "bg-gray-200 text-black";
+            const colorClass = colorMap[jabatan] ?? "border-muted text-muted-foreground";
 
-            return <Badge className={colorClass}>{jabatan}</Badge>;
+            return <Badge variant="outline" className={colorClass}>{jabatan}</Badge>;
         },
     },
     {

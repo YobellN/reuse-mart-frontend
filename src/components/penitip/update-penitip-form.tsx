@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import {
@@ -18,31 +17,35 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import React from "react"
-import { EyeIcon, EyeOffIcon } from "lucide-react"
-import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, } from "../ui/alert-dialog"
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../ui/alert-dialog"
 import { toast } from "sonner"
-import { PenitipFormSchema, PenitipSchema } from "@/services/penitip/schema"
-import { handleNewPenitip } from "@/services/penitip/penitip-services"
+import { Penitip, PenitipFormSchema, PenitipSchema } from "@/services/penitip/schema"
+import { z } from "zod"
+import handleUpdatePenitip from "@/services/penitip/penitip-services"
 
+const UpdatePenitipSchema = PenitipSchema.partial({
+    password: true,
+    foto_ktp: true
+});
 
-export default function NewPenitipForm() {
+type UpdatePenitipFormSchema = z.infer<typeof UpdatePenitipSchema>;
+
+export default function UpdatePenitipForm({ penitip }: { penitip: Penitip }) {
     const router = useRouter();
-    const [showPassword, setShowPassword] = React.useState(false);
     const [submit, setSubmit] = useState(false);
     const [open, setOpen] = React.useState(false);
-    const form = useForm<PenitipFormSchema>({
-        resolver: zodResolver(PenitipSchema),
+    const form = useForm<UpdatePenitipFormSchema>({
+        resolver: zodResolver(UpdatePenitipSchema),
         defaultValues: {
-            nama: "",
-            email: "",
-            no_telp: "",
-            password: "",
-            nik: "",
+            nama: penitip.user.nama,
+            email: penitip.user.email,
+            no_telp: penitip.user.no_telp,
+            nik: penitip.nik,
         },
     });
     const finalFormData = React.useRef(new FormData());
 
-    async function onSubmit(values: PenitipFormSchema) {
+    async function onSubmit(values: UpdatePenitipFormSchema) {
         const isValid = await form.trigger();
 
         if (isValid) {
@@ -50,9 +53,10 @@ export default function NewPenitipForm() {
             formData.append("nama", values.nama);
             formData.append("email", values.email);
             formData.append("no_telp", values.no_telp);
-            formData.append("password", values.password);
             formData.append("nik", values.nik);
-            formData.append("foto_ktp", values.foto_ktp);
+            if (values.foto_ktp) {
+                formData.append("foto_ktp", values.foto_ktp);
+            }
 
             finalFormData.current = formData;
             setOpen(true);
@@ -65,12 +69,11 @@ export default function NewPenitipForm() {
         setSubmit(true);
 
         try {
-            const res = await handleNewPenitip(data);
+            const res = await handleUpdatePenitip(data, penitip.id_penitip);
 
-            if (res.message === "Penitip berhasil ditambahkan") {
+            if (res.message === "Penitip berhasil diperbarui") {
                 router.push("/cs/penitip");
-                toast.success("Penitip berhasil ditambahkan");
-                form.reset();
+                toast.success("Penitip berhasil diperbarui");
                 setOpen(false);
             } else {
                 if (res.errors) {
@@ -82,7 +85,7 @@ export default function NewPenitipForm() {
                     });
                 }
                 setSubmit(false);
-                toast.error("Gagal menambahkan penitip" );
+                toast.error("Gagal memperbarui penitip");
             }
         } catch (err) {
             setSubmit(false);
@@ -95,7 +98,7 @@ export default function NewPenitipForm() {
     return (
         <Card className="max-w-2xl mx-auto mt-10 shadow-md">
             <CardHeader>
-                <CardTitle className="text-2xl text-center">Formulir Pendaftaran Penitip</CardTitle>
+                <CardTitle className="text-2xl text-center">Formulir Edit Data Penitip</CardTitle>
             </CardHeader>
             <CardContent>
                 <Form {...form}>
@@ -144,34 +147,6 @@ export default function NewPenitipForm() {
 
                         <FormField
                             control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <div className="relative">
-                                            <Input type={showPassword ? "text" : "password"} placeholder="********" {...field} />
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="sm"
-                                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                                                onClick={() => setShowPassword((prev) => !prev)}>
-                                                {showPassword ? (
-                                                    <EyeIcon className="h-4 w-4" aria-hidden="true" />
-                                                ) : (
-                                                    <EyeOffIcon className="h-4 w-4" aria-hidden="true" />
-                                                )}
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
                             name="nik"
                             render={({ field }) => (
                                 <FormItem>
@@ -206,10 +181,10 @@ export default function NewPenitipForm() {
 
                         <div className="pt-4">
                             <AlertDialog open={open} onOpenChange={setOpen}>
-                                <Button type="submit" className="w-full" disabled={submit}>Daftar</Button>
+                                <Button type="submit" className="w-full" disabled={submit}>Perbarui</Button>
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
-                                        <AlertDialogTitle>Konfirmasi Pendaftaran</AlertDialogTitle>
+                                        <AlertDialogTitle>Konfirmasi Perubahan</AlertDialogTitle>
                                         <AlertDialogDescription>
                                             Apakah data Anda sudah benar?
                                         </AlertDialogDescription>
@@ -221,7 +196,7 @@ export default function NewPenitipForm() {
                                             onClick={() => handleSubmit(finalFormData.current)}
                                             disabled={submit}
                                         >
-                                            {submit ? "Memproses..." : "Ya, Daftarkan"}
+                                            {submit ? "Memproses..." : "Ya, Perbarui"}
                                         </Button>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
