@@ -27,7 +27,7 @@ export default function HomeNavbar({ user, ...props }: HomeNavbarProps) {
 
   return (
     <>
-      <div className="h-30 w-full bg-primary flex-col content-center">
+      <div className="h-30 w-full bg-bright-green flex-col content-center">
         <div className="flex p-2 place-content-between md:w-5/6 m-auto">
           <div className="relative w-40 h-16 shrink hidden sm:block">
             <Link href="/home">
@@ -60,9 +60,9 @@ export default function HomeNavbar({ user, ...props }: HomeNavbarProps) {
                     src={userProfile.avatar}
                     alt={userProfile.name}
                   />
-                  <AvatarFallback className="rounded-lg font-medium text-green-600">
+                  <AvatarFallback className="rounded-lg font-medium text-black">
                     {/* {userProfile.name?.charAt(0)} */}
-                    {userProfile ? userProfile.name?.charAt(0) : "U"}
+                    {userProfile ? userProfile.name?.charAt(0) : "G"}
                   </AvatarFallback>
                 </Avatar>
               </Link>

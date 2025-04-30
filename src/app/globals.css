@@ -75,6 +75,8 @@
     --primary: oklch(0.55 0.22 140); /* hijau lebih gelap */
     --primary-foreground: oklch(0.99 0 0); /* tetap putih */
 
+    --bright-green: oklch(0.77 0.18 143.97), #66cc66;
+
     --secondary: oklch(0.92 0.015 90); /* krem pucat */
     --secondary-foreground: oklch(0.3 0.01 50); /* coklat medium */
 
@@ -125,6 +127,8 @@
 
     --primary: oklch(0.55 0.22 140);
     --primary-foreground: oklch(0.97 0 0);
+
+    --bright-green: oklch(0.77 0.18 143.97), #66cc66;
     
     --secondary: oklch(0.3 0.01 40);
     --secondary-foreground: oklch(0.97 0 0);
@@ -158,4 +162,9 @@
     --info: oklch(0.6 0.2 240);
     --info-foreground: oklch(0.95 0 0);
   }
+}
+
+.bg-bright-green {
+  /* background-color: #19c82d; */
+  background-color: #00be16;
 }

@@ -8,17 +8,15 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  productName: z.string().min(1, {
+    message: "Masukkan nama produk",
   }),
 });
 
@@ -26,7 +24,7 @@ export default function SearchForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      productName: "",
     },
   });
 
@@ -42,17 +40,20 @@ export default function SearchForm() {
       >
         <FormField
           control={form.control}
-          name="username"
+          name="productName"
           render={({ field }) => (
             <FormItem className="w-full h-10 rounded-sm shadow-none">
               <FormControl className="w-full border-0 h-10 rounded-sm shadow-none">
                 <Input placeholder="Temukan Produk..." {...field} />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-white" />
             </FormItem>
           )}
         />
-        <Button type="submit" className="h-8 rounded-sm shadow-s w-14 mx-1">
+        <Button
+          type="submit"
+          className="h-8 bg-bright-green rounded-sm shadow-s w-14 mx-1"
+        >
           <Search />
         </Button>
       </form>
