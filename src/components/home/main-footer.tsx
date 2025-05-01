@@ -11,7 +11,6 @@ export default function MainFooter() {
           <ul className="space-y-2">
             <li>Tentang Kami</li>
             <li>Blog</li>
-            <li>Karier</li>
             <li>Kebijakan Donasi</li>
             <li>Visi & Misi</li>
           </ul>
@@ -22,7 +21,7 @@ export default function MainFooter() {
           <ul className="space-y-2">
             <li>Cari Produk</li>
             <li>Cara Checkout</li>
-            <li>Promo & Poin</li>
+            <li>Poin & Merchandise</li>
           </ul>
 
           <h3 className="font-bold mt-5 mb-3">Jual</h3>

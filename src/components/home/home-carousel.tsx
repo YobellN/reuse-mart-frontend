@@ -31,7 +31,7 @@ const banner = [
 
 export default function HomeCarousel() {
   return (
-    <div className="my-6 shadow-xl/20">
+    <div className="mt-2 sm:my-6 shadow-xl/20">
       <Carousel
         opts={{
           align: "start",

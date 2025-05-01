@@ -7,9 +7,9 @@ export default function DisplayProdukRekomendasi() {
       className="my-6 bg-white rounded-2xl p-3 lg:p-6 border border-gray-200
     dark:bg-slate-950 dark:border-slate-600"
     >
-      <div className="mb-6 font-semibold text-xl">
+      <div className="mb-6 font-semibold text-xl bg-white dark:bg-slate-950 sticky top-16 sm:top-32 z-10">
         <h2>REKOMENDASI PRODUK</h2>
-        <div className="w-64 my-1">
+        <div className="w-64 md:w-full my-1">
           <Separator className="border-3 border-green-500 rounded-full" />
         </div>
       </div>

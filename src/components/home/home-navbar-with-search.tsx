@@ -15,9 +15,33 @@ type HomeNavbarProps = {
 export default function HomeNavbar({ user, ...props }: {user?: IResponse<User>}) {
   return (
     <>
-      <div className="h-30 w-full bg-bright-green flex-col content-center shadow-sm sticky top-0 z-50">
-        <div className="flex p-2 md:p-0 place-content-between md:w-5/6 m-auto">
-          <div className="relative w-40 h-16 shrink hidden sm:block">
+      <div className="h-16 sm:h-32 w-full bg-bright-green flex-col content-center sm:content-between shadow-sm sticky top-0 z-50">
+        <div className="bg-green-600 mb-2 px-2 md:px-0 md:p-0 hidden sm:flex ">
+          <div className="mx-auto flex items-center justify-end md:w-5/6">
+            <nav className="py-1.5 flex justify-end gap-6 text-[12px] text-white font-medium">
+              <Link
+                href={"/home"}
+                className="hover:text-lime-300 transition-colors duration-200"
+              >
+                Tentang ReuseMart
+              </Link>
+              <Link
+                href={"/home"}
+                className="hover:text-lime-300 transition-colors duration-200"
+              >
+                Informasi Penitipan
+              </Link>
+              <Link
+                href={"/home"}
+                className="hover:text-lime-300 transition-colors duration-200"
+              >
+                Kategori Barang Titipan
+              </Link>
+            </nav>
+          </div>
+        </div>
+        <div className="flex px-2 md:p-0 place-content-between md:w-5/6 m-auto">
+          <div className="relative sm:w-36 sm:h-16 shrink hidden sm:block">
             <Link href="/home">
               <Image
                 src="/ReuseMart_horizontal.png"
@@ -29,7 +53,7 @@ export default function HomeNavbar({ user, ...props }: {user?: IResponse<User>})
             </Link>
           </div>
 
-          <div className="relative h-16 content-center w-2/3 ">
+          <div className="relative h-16 content-center w-2/3 flex-col">
             <div className="flex shrink h-10 items-center bg-white rounded-sm py-1 mx-1 shadow-sm">
               <SearchForm />
             </div>
@@ -61,6 +85,37 @@ export default function HomeNavbar({ user, ...props }: {user?: IResponse<User>})
               </div>
             )}
           </div>
+        </div>
+        <div className="w-5/6 mx-auto flex items-start justify-center">
+          <nav className="px-2 hidden pb-2 w-2/3 sm:flex justify-start text-[12px] text-white overflow-hidden whitespace-nowrap truncate">
+            <Link
+              href="/home"
+              className="px-2 hover:text-lime-300 transition-colors duration-200"
+            >
+              Produk Bergaransi
+            </Link>{" "}
+            |{" "}
+            <Link
+              href="/home"
+              className="px-2 hover:text-lime-300 transition-colors duration-200"
+            >
+              Pakaian & Aksesori
+            </Link>{" "}
+            |{" "}
+            <Link
+              href="/home"
+              className="px-2 hover:text-lime-300 transition-colors duration-200"
+            >
+              Otomotif & Aksesori
+            </Link>{" "}
+            |{" "}
+            <Link
+              href="/home"
+              className="px-2 hover:text-lime-300 transition-colors duration-200"
+            >
+              Perabotan Rumah Tangga
+            </Link>
+          </nav>
         </div>
       </div>
     </>
