@@ -43,7 +43,7 @@ export default function SearchForm() {
           name="productName"
           render={({ field }) => (
             <FormItem className="w-full h-10 rounded-sm shadow-none">
-              <FormControl className="w-full border-0 h-10 rounded-sm shadow-none">
+              <FormControl className="w-full border-0 h-10 rounded-sm shadow-none dark:bg-white">
                 <Input placeholder="Temukan Produk..." {...field} />
               </FormControl>
               <FormMessage className="text-white" />

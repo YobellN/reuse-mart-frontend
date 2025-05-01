@@ -22,7 +22,7 @@ const kategoriProduk = [
 
 export default function KategoriGrid() {
   return (
-    <div className="my-6 bg-white rounded-2xl p-6 border border-gray-200">
+    <div className="my-6 bg-white dark:bg-slate-950 rounded-2xl p-6 border border-gray-200 dark:border-slate-600">
       <div className="mb-6 font-semibold text-xl">
         <h2>KATEGORI PRODUK</h2>
         <div className="w-64 my-1">
@@ -35,7 +35,10 @@ export default function KategoriGrid() {
             key={kategori.name}
             className="shrink-0 max-w-[102px] flex justify-center snap-start mb-2"
           >
-            <Card className="w-full h-40 flex flex-col items-center justify-center hover:shadow-md hover:border-2 hover:border-green-500 cursor-pointer transition-all duration-300 ease-in-out py-0 rounded-lg bg-white">
+            <Card
+              className="w-full h-40 flex flex-col items-center justify-center hover:shadow-md hover:border-2 hover:border-green-500 cursor-pointer transition-all duration-300 ease-in-out py-0 rounded-lg bg-white 
+            dark:bg-slate-800 dark:border-slate-600 dark:hover:border-green-500 dark:hover:bg-slate-900"
+            >
               <CardContent className="flex flex-col items-center align-top pt-2 h-full">
                 <div className="w-23 h-23 relative mb-2 flex items-center justify-center">
                   <Image

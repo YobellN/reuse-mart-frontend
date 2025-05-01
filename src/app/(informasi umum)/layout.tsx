@@ -1,5 +1,6 @@
 import AlertBox from "@/components/alert-box";
 import HomeNavbar from "@/components/home/home-navbar-with-search";
+import MainFooter from "@/components/home/main-footer";
 import { Button } from "@/components/ui/button";
 import { getUser } from "@/services/auth/user-services";
 import { Metadata } from "next";
@@ -28,6 +29,7 @@ export default async function InformasiUmumLayout({
       <div className="w-full font-[family-name:var(--font-plus-jakarta-sans)]">
         <HomeNavbar />
         <section className="p-2 md:p-0 md:w-5/6 m-auto">{children}</section>
+        <MainFooter />
       </div>
     );
   } else {
@@ -39,6 +41,7 @@ export default async function InformasiUmumLayout({
       <div className="w-full font-[family-name:var(--font-plus-jakarta-sans)]">
         <HomeNavbar user={user} />
         <section className="p-2 md:p-0 md:w-5/6 m-auto">{children}</section>
+        <MainFooter />
       </div>
     );
   }

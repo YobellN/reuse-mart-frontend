@@ -11,7 +11,8 @@ export default function DisplayProductCard() {
   return (
     <Card
       className="p-0 pb-2 w-full rounded-lg shadow-none bg-white gap-2
-    hover:shadow-md hover:border-2 hover:border-green-500 transition-all duration-300 ease-in-out"
+    hover:shadow-md hover:border-2 hover:border-green-500 transition-all duration-300 ease-in-out
+    dark:bg-slate-800 dark:border-slate-600 dark:hover:border-green-500 dark:hover:bg-slate-900"
     >
       <CardHeader className="w-full h-50 relative">
         <Image
@@ -22,12 +23,12 @@ export default function DisplayProductCard() {
         />
       </CardHeader>
 
-      <CardContent className="text-sm text-muted-foreground px-2 py-0">
+      <CardContent className="text-sm text-muted-foreground dark:text-white px-2 py-0">
         <p className="my-1 font-semibold">Nama Produk Disini</p>
         <p className="my-1 font-extrabold">Rp100.000</p>
       </CardContent>
 
-      <CardFooter className="text-xs text-muted-foreground px-2 py-0">
+      <CardFooter className="text-xs text-muted-foreground dark:text-white px-2 py-0">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -38,7 +39,7 @@ export default function DisplayProductCard() {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="lucide lucide-badge-check-icon lucide-badge-check"
+          className="lucide lucide-badge-check-icon lucide-badge-check dark:stroke-slate-800 me-[2px]"
         >
           <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
           <path d="m9 12 2 2 4-4" />
