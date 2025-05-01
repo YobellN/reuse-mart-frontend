@@ -19,12 +19,10 @@ import {
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
 import React from "react";
 import ProductImage from "../product/product-image";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
-const kategoriColor: Record<string, string> = {
-  "Peralatan Dapur": "bg-orange-100 text-orange-800",
-  Elektronik: "bg-blue-100 text-blue-800",
-  Pakaian: "bg-green-100 text-green-800",
-};
+
 const status = {
   "Menunggu Pembayaran": "bg-yellow-100 text-yellow-800",
   "Menunggu Konfirmasi": "bg-blue-100   text-blue-800",
@@ -38,64 +36,52 @@ export default function TransaksiCard(trx: Penjualan) {
   return (
     <Card className="bg-white border rounded-xl shadow-sm hover:shadow-md transition p-0 overflow-hidden max-w-full mx-auto">
       <CardHeader className="flex flex-col lg:flex-row justify-between items-start lg:items-center bg-secondary px-4 py-2 gap-3 border-b">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-2">
-          <Badge className="flex items-center text-sm font-semibold bg-white text-muted-foreground px-2 py-1 rounded">
-            <FileText className="w-5 h-5 mr-2" />
-            Nota: {trx.id_penjualan}
-          </Badge>
-          <div className="flex items-center text-sm text-muted-foreground bg-white px-2 py-1 rounded">
-            <CalendarClock className="w-5 h-5 mr-2" />
+        <div className="flex flex-col lg:flex-row gap-2">
+          <Badge className="flex items-center text-xs font-semibold text-secondary-foreground bg-white  px-2 py-1 rounded">
+            <CalendarClock className="w-4 h-4 mr-1" />
             {format(new Date(trx.tanggal_penjualan), "dd MMM yyyy", { locale: id })}
-          </div>
+          </Badge>
+          <Badge className="flex items-center text-xs font-normal bg-secondary text-muted-foreground px-2 py-1 rounded">
+            <FileText className="w-5 h-5" />
+            {trx.id_penjualan}
+          </Badge>
         </div>
 
-        <div className="flex flex-col lg:flex-row lg:items-center gap-2 w-full lg:w-auto">
-          <Badge
-            className={`flex items-center text-sm font-semibold px-2 py-1 rounded ${trx.metode_pengiriman === "Ambil di gudang"
-              ? "bg-muted text-secondary-foreground"
-              : "bg-yellow-100 text-yellow-800"
-              }`}
-          >
-            {trx.metode_pengiriman === "Ambil di gudang"
-              ? <Store className="w-5 h-5 mr-2" />
-              : <Truck className="w-5 h-5 mr-2" />}
-            {trx.metode_pengiriman === "Ambil di gudang" ? "Ambil Sendiri" : "Kurir"}
-          </Badge>
+        <div className="flex flex-row lg:items-center gap-2 w-auto">
           <Badge
             className={`flex items-center text-sm font-semibold px-3 py-1 rounded-full ${status[trx.status_penjualan as keyof typeof status] ?? "bg-gray-100 text-gray-600"
               }`}
           >
-            <CheckCircle className="w-5 h-5 mr-2" />
+            <CheckCircle className="w-5 h-5 mr-1" />
             {trx.status_penjualan}
           </Badge>
         </div>
       </CardHeader>
 
       <CardContent className="px-3 lg:px-5">
-        <div className="space-y-4">
+        <div className="space-y-2">
           {trx.produk.map((b, i) => (
             <div
               key={i}
               className="flex flex-col lg:flex-row items-start lg:items-center gap-4 p-3 bg-gray-50 rounded-lg"
             >
               <div className="w-full h-48 lg:w-24 lg:h-24 relative rounded-lg overflow-hidden border">
-                <ProductImage filename={`${b.foto_produk}`} style={{ objectFit: "cover" }}/>
+                <ProductImage filename={`${b.foto_produk}`} style={{ objectFit: "cover" }} />
               </div>
-
               <div className="flex-1 flex flex-col justify-between min-w-0">
                 <h3 className="font-semibold text-base lg:text-lg line-clamp-2 break-words">
                   {b.nama_produk}
                 </h3>
                 <div className="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center mt-2 gap-2">
                   <Badge
-                    className={`flex items-center text-xs lg:text-sm font-medium px-2 py-1 rounded-full ${kategoriColor[b.kategori] ?? "bg-gray-200 text-gray-700"
+                    className={`flex items-center text-xs font-normal px-2 py-1 rounded-full bg-gray-200 text-gray-700"
                       }`}
                   >
                     <ShoppingBag className="w-4 h-4 mr-1" />
                     {b.kategori}
                   </Badge>
-                  <div className="flex items-center font-bold text-sm lg:text-base text-primary">
-                    <CreditCard className="w-4 h-4 mr-1" />
+                  <div className="flex items-center text-sm">
+                    {/* <CreditCard className="w-4 h-4 mr-1 " /> */}
                     Rp{b.harga.toLocaleString("id-ID")}
                   </div>
                 </div>
@@ -105,10 +91,10 @@ export default function TransaksiCard(trx: Penjualan) {
         </div>
       </CardContent>
 
-      <div className="bg-white border-t px-4 py-2 space-y-4">
+      <div className="bg-white border-t px-4 py-2 space-y-2 pb-4">
         <div className="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center gap-2">
           <div className="flex flex-col lg:flex-row gap-3 w-full lg:w-auto">
-            {trx.tenggat_pembayaran && trx.status_penjualan !== "Selesai" && (
+            {trx.tenggat_pembayaran && trx.status_penjualan === "Menunggu Pembayaran" && (
               <div className="flex items-center text-sm font-semibold bg-red-50 text-red-800 px-2 py-1 rounded">
                 <p>Tenggat Pembayaran</p>
                 <Badge className="flex items-center text-sm px-2 py-1 rounded bg-red-50 text-red-800">
@@ -127,10 +113,44 @@ export default function TransaksiCard(trx: Penjualan) {
               </div>
             )}
           </div>
-          <div className="flex items-center font-bold text-lg text-primary">
-            <CreditCard className="w-6 h-6 mr-2" />
-            Total: Rp{trx.total_harga}
+          <div className="flex items-center text-sm text-muted-foreground gap-1">
+            <CreditCard className="w-4 h-4" />
+            <span className="font-semibold text-sm">Total: </span>
+            <span className="text-base font-bold">
+              Rp{trx.total_harga}
+            </span>
           </div>
+        </div>
+        <div
+          className={`flex flex-col lg:flex-row ${trx.status_penjualan !== "Selesai" && trx.status_penjualan !== "Menunggu Pembayaran" ? "lg:justify-end" : "lg:justify-between"
+            } items-start lg:items-center gap-2 mt-2`}
+        >
+          {trx.status_penjualan === "Selesai" && (
+            <Button
+              variant="outline"
+              className="w-full lg:w-auto border-primary bg-white text-primary border"
+              size="sm"
+            >
+              Beri Rating
+            </Button>
+          )}
+
+          {trx.status_penjualan === "Menunggu Pembayaran" && (
+            <Button
+              variant="outline"
+              className="w-full lg:w-auto border-primary bg-white text-primary border"
+              size="sm"
+            >
+              Unggah Bukti Pembayaran
+            </Button>
+          )}
+
+          <Button
+            variant={"ghost"}
+            className="text-sm text-primary font-semibold hover:underline flex items-center gap-1 hover:bg-white"
+          >
+            Lihat Detail →
+          </Button>
         </div>
       </div>
     </Card>
