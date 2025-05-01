@@ -2,24 +2,20 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import Image from "next/image";
 import { format } from "date-fns";
 import { id } from "date-fns/locale/id";
 import {
-  Truck,
   ShoppingBag,
   AlarmClock,
   CalendarClock,
   Clock3,
   CreditCard,
   FileText,
-  Store,
-  CheckCircle
+  CheckCircle,
 } from "lucide-react";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
 import React from "react";
 import ProductImage from "../product/product-image";
-import Link from "next/link";
 import { Button } from "../ui/button";
 
 
@@ -81,7 +77,6 @@ export default function TransaksiCard(trx: Penjualan) {
                     {b.kategori}
                   </Badge>
                   <div className="flex items-center text-sm">
-                    {/* <CreditCard className="w-4 h-4 mr-1 " /> */}
                     Rp{b.harga.toLocaleString("id-ID")}
                   </div>
                 </div>
