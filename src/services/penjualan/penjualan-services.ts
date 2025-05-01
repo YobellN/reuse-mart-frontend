@@ -25,6 +25,11 @@ export async function getRiwayatPenjualan(
       total_poin: item.total_poin,
       status_penjualan: item.status_penjualan,
       tenggat_pembayaran: item.tenggat_pembayaran ?? undefined,
+      pembeli: {
+        nama: item.pembeli.user.nama,
+        no_telp: item.pembeli.user.no_telp,
+        email: item.pembeli.user.email,
+      },
       produk:
         item.detail?.map((d: any) => ({
           nama_produk: d.produk?.nama_produk ?? "",

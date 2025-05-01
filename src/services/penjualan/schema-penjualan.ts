@@ -1,3 +1,5 @@
+import {User } from "../utils";
+
 export type Penjualan = {
   id_penjualan: string;
   tanggal_penjualan: string;
@@ -10,6 +12,11 @@ export type Penjualan = {
   total_poin: number;
   status_penjualan: string;
   tenggat_pembayaran?: string;
+  pembeli: {
+    nama: string;
+    no_telp: string;
+    email: string;
+  };
   produk: {
     nama_produk: string;
     foto_produk: string;
