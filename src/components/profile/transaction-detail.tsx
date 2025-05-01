@@ -3,7 +3,7 @@ import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent, Dialog
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { id } from "date-fns/locale/id";
-import { MessageCircle, HelpCircle, X, Gift, CreditCard, Truck, MapPin } from "lucide-react";
+import { Gift, CreditCard, Truck, MapPin } from "lucide-react";
 import ProductImage from "../product/product-image";
 import { Card } from "../ui/card";
 import { format } from "date-fns";
@@ -76,46 +76,48 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
 
                 <Separator className="my-1" />
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3 text-sm">
+                <div className="flex flex-col items-start gap-2 mb-3 text-sm">
                     <div className="flex items-center gap-1">
-                        <Gift className="w-5 h-5 text-yellow-500" />
-                        <span>Poin diperoleh: <strong>{trx.poin_potongan}</strong></span>
+                        <Gift className="w-5 h-5 text-primary" />
+                        <span>Poin diperoleh: <strong>{trx.poin_perolehan}</strong></span>
                     </div>
-                    {trx.poin_potongan > 0 && (
-                        <div className="flex items-center gap-1">
-                            <Gift className="w-5 h-5 text-green-500" />
-                            <span>
-                                Poin digunakan: <strong>{trx.poin_potongan}</strong> (Diskon Rp{trx.poin_potongan * 10000})
-                            </span>
-                        </div>
-                    )}
+                    <div className="flex items-center gap-1">
+                        <Gift className="w-5 h-5 text-destructive" />
+                        <span>
+                            Poin digunakan: <strong>{trx.poin_potongan}</strong> (Diskon Rp{trx.poin_potongan * 10000})
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <Gift className="w-5 h-5 text-warning" />
+                        <span>
+                            Total poin setelah transaksi : <strong>{trx.total_poin}</strong>
+                        </span>
+                    </div>
                 </div>
 
                 <Separator className="my-1" />
 
                 <h3 className="font-medium mb-1 text-sm">Pengiriman</h3>
-                {trx.metode_pengiriman === 'Antar kurir' ? (
-                    <Card className="relative p-2 mb-3 text-sm">
-                        <div className="flex items-center gap-1 mb-1"><Truck className="w-5 h-5 text-blue-600" /></div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <div className="flex items-center gap-1">
-                                <MapPin className="w-4 h-4 text-primary" />
-                                <span>Alamat lengkap…</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <CreditCard className="w-4 h-4 text-primary" />
-                                <span>Ongkos kirim: Rp{trx.total_ongkir}</span>
-                            </div>
+                {trx.metode_pengiriman === 'Antar Kurir' ? (
+                    <Card className="relative p-2 mb-3 text-sm gap-2">
+                        <div className="flex items-center gap-1">
+                            <Truck className="w-5 h-5 text-blue-600" />
+                            <span>Antar Kurir</span>
                         </div>
-                        <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-green-100 to-transparent rounded-b" />
+                        <div className="flex items-center gap-1">
+                            <MapPin className="w-4 h-4 text-primary" />
+                            <span>Alamat:</span>
+                            <p className="text-sm font-medium">{trx.pengiriman?.alamat.label}</p>
+
+                        </div>
+                        <p className="text-sm font-medium">{trx.pengiriman?.alamat.detail_alamat}</p>
                     </Card>
                 ) : (
                     <Card className="relative p-2 mb-3 flex items-center gap-2 text-sm">
                         <MapPin className="w-5 h-5 text-green-600" />
                         <span>
-                            Ambil di gudang tanggal <strong>{/* tanggal ambil */}</strong>
+                            Ambil di gudang tanggal <strong>{format(new Date(trx.jadwal_pengambilan ?? trx.tanggal_penjualan), "dd MMM yyyy, HH:mm", { locale: id })}</strong>
                         </span>
-                        <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-green-100 to-transparent rounded-b" />
                     </Card>
                 )}
 
@@ -129,15 +131,15 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                     </div>
                     <div className="flex justify-between">
                         <span className="text-muted-foreground">Subtotal</span>
-                        <span>Rp{/* subtotal */}</span>
+                        <span>Rp{trx.produk.reduce((a, b) => a + b.harga, 0)}</span>
                     </div>
-                    {trx.poin_potongan > 0 && (
+                    {trx.poin_potongan >= 0 && (
                         <div className="flex justify-between">
                             <span className="text-muted-foreground">Diskon</span>
                             <span className="text-red-600">- Rp{trx.poin_potongan * 10000}</span>
                         </div>
                     )}
-                    {trx.metode_pengiriman === 'Antar kurir' && (
+                    {trx.metode_pengiriman === 'Antar Kurir' && (
                         <div className="flex justify-between">
                             <span className="text-muted-foreground">Ongkos Kirim</span>
                             <span>Rp{trx.total_ongkir}</span>
@@ -149,7 +151,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
 
                 <div className="flex justify-between items-center mb-3">
                     <span className="text-base font-medium">Total Bayar</span>
-                    <span className="text-xl font-bold text-primary">
+                    <span className="text-xl font-bold">
                         Rp{trx.total_harga}
                     </span>
                 </div>

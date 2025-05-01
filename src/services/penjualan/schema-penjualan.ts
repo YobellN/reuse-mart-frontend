@@ -1,9 +1,10 @@
 export type Penjualan = {
   id_penjualan: string;
   tanggal_penjualan: string;
-  metode_pengiriman: "Ambil di gudang" | "Antar kurir";
+  metode_pengiriman: "Ambil di gudang" | "Antar Kurir";
   jadwal_pengambilan?: string;
   total_ongkir?: string;
+  poin_perolehan: number | 0;
   poin_potongan: number | 0;
   total_harga: string;
   total_poin: number;

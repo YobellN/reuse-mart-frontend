@@ -20,6 +20,7 @@ export async function getRiwayatPenjualan(
       jadwal_pengambilan: item.jadwal_pengambilan ?? undefined,
       total_ongkir: item.total_ongkir ?? "0",
       poin_potongan: item.poin_potongan ?? 0,
+      poin_perolehan: item.poin_perolehan ?? 0,
       total_harga: item.total_harga,
       total_poin: item.total_poin,
       status_penjualan: item.status_penjualan,
