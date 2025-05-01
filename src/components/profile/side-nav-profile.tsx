@@ -5,19 +5,20 @@ import Link from "next/link";
 import { MapPin, UserCog, Clock, Star, LogOut } from "lucide-react";
 import logout from "@/services/auth/user-services";
 import { Separator } from "../ui/separator";
-import { AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogDescription, AlertDialogTitle } from "../ui/alert-dialog";
+import { AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogDescription, AlertDialogTitle } from "../ui/alert-dialog";
+import { toast } from "sonner";
+import React from "react";
 
 export const navItems = [
     { label: "Edit Profil", href: "/profile", icon: <UserCog className="h-4 w-4" /> },
     { label: "Alamat Pengiriman", href: "/profile/alamat", icon: <MapPin className="h-4 w-4" /> },
     { label: "Riwayat Transaksi", href: "/profile/transaksi", icon: <Clock className="h-4 w-4" /> },
-    { label: "Poin & Reward", href: "/profile/poin", icon: <Star className="h-4 w-4" /> },
-
 ];
 
 export default function SidebarNavProfile() {
     const pathname = usePathname();
     const router = useRouter();
+    const [open, setOpen] = React.useState(false);
 
     return (
         <>
@@ -30,22 +31,20 @@ export default function SidebarNavProfile() {
                         <Link key={item.href} href={item.href}>
                             <Button
                                 variant={isActive ? "default" : "ghost"}
-                                className="w-full justify-start flex items-center gap-2"
+                                className="w-full justify-start flex items-center gap-2 "
                             >
                                 {item.icon}
-                                <span className="text-sm">{item.label}</span>
+                                <span className="lg:text-sm text-xs">{item.label}</span>
                             </Button>
                         </Link>
                     );
                 })}
             </nav>
-            <Separator className="my-4" />
-            <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <Button variant="destructive" className="w-full justify-start flex items-center gap-2">
+            <Separator  />
+            <AlertDialog open={open} onOpenChange={setOpen}>
+                    <Button variant="destructive" className="w-full justify-start flex items-center gap-2" onClick={() => setOpen(true)}>
                         <LogOut className="h-4 w-4" /> Logout
                     </Button>
-                </AlertDialogTrigger>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Konfirmasi Logout</AlertDialogTitle>
@@ -58,7 +57,9 @@ export default function SidebarNavProfile() {
                         <AlertDialogAction
                             onClick={() => {
                                 logout().then(() => {
+                                    toast.success("Berhasil logout");
                                     router.push("/login");
+                                    setOpen(false);
                                 });
                             }}
                         >
@@ -74,6 +75,7 @@ export default function SidebarNavProfile() {
 export function MobileProfileNav() {
     const pathname = usePathname();
     const router = useRouter();
+    const [open, setOpen] = React.useState(false);
 
     return (
         <nav className="fixed bottom-0 inset-x-0 bg-white shadow-inner flex justify-around p-2 items-center lg:hidden">
@@ -90,14 +92,11 @@ export function MobileProfileNav() {
                     </div>
                 );
             })}
-
             <div className="flex-1 text-center">
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button variant="destructive" className="">
+                <AlertDialog open={open} onOpenChange={setOpen}>
+                        <Button variant="destructive" onClick={() => setOpen(true)}>
                             <LogOut className="h-4 w-4" />
                         </Button>
-                    </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>Konfirmasi Logout</AlertDialogTitle>
@@ -110,7 +109,9 @@ export function MobileProfileNav() {
                             <AlertDialogAction
                                 onClick={() => {
                                     logout().then(() => {
+                                        toast.success("Berhasil logout");
                                         router.push("/login");
+                                        setOpen(false);
                                     });
                                 }}
                             >

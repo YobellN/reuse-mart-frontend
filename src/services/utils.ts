@@ -9,14 +9,19 @@ export type User = {
   email: string;
   no_telp: string;
   role: string;
-  pegawai: object | null;
+  pegawai: Pegawai | null;
+  pembeli: Pembeli | null;
   organisasi: object | null;
   penitip: object | null;
-  pembeli: object | null;
 };
 
 
-
+export type Pembeli = {
+  id_pembeli: string;
+  poin: number;
+  otp: string | null;
+  otp_created_at: string | null;
+}
 
 export type Pegawai = {
   id_pegawai: string,

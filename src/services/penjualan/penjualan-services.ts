@@ -20,10 +20,16 @@ export async function getRiwayatPenjualan(
       jadwal_pengambilan: item.jadwal_pengambilan ?? undefined,
       total_ongkir: item.total_ongkir ?? "0",
       poin_potongan: item.poin_potongan ?? 0,
+      poin_perolehan: item.poin_perolehan ?? 0,
       total_harga: item.total_harga,
       total_poin: item.total_poin,
       status_penjualan: item.status_penjualan,
       tenggat_pembayaran: item.tenggat_pembayaran ?? undefined,
+      pembeli: {
+        nama: item.pembeli.user.nama,
+        no_telp: item.pembeli.user.no_telp,
+        email: item.pembeli.user.email,
+      },
       produk:
         item.detail?.map((d: any) => ({
           nama_produk: d.produk?.nama_produk ?? "",
@@ -39,7 +45,14 @@ export async function getRiwayatPenjualan(
             bukti_pembayaran: item.pembayaran.bukti_pembayaran,
           }
         : null,
-      pengiriman: item.pengiriman ?? null,
+      pengiriman: item.pengiriman ? {
+        jadwal_pengiriman: item.pengiriman.jadwal_pengiriman,
+        status_pengiriman: item.pengiriman.status_pengiriman,
+        alamat: {
+          label: item.pengiriman.alamat.label,
+          detail_alamat: item.pengiriman.alamat.detail_alamat,
+        },
+      } : null,
     }));
 
     return penjualans;
