@@ -39,7 +39,14 @@ export async function getRiwayatPenjualan(
             bukti_pembayaran: item.pembayaran.bukti_pembayaran,
           }
         : null,
-      pengiriman: item.pengiriman ?? null,
+      pengiriman: item.pengiriman ? {
+        jadwal_pengiriman: item.pengiriman.jadwal_pengiriman,
+        status_pengiriman: item.pengiriman.status_pengiriman,
+        alamat: {
+          label: item.pengiriman.alamat.label,
+          detail_alamat: item.pengiriman.alamat.detail_alamat,
+        },
+      } : null,
     }));
 
     return penjualans;

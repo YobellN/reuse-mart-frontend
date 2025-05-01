@@ -17,6 +17,7 @@ import { Penjualan } from "@/services/penjualan/schema-penjualan";
 import React from "react";
 import ProductImage from "../product/product-image";
 import { Button } from "../ui/button";
+import TransactionDetail from "./transaction-detail";
 
 
 const status = {
@@ -55,33 +56,34 @@ export default function TransaksiCard(trx: Penjualan) {
       </CardHeader>
 
       <CardContent className="px-3 lg:px-5">
-        <div className="space-y-2">
+        <div className="space-y-4">
           {trx.produk.map((b, i) => (
-            <div
+            <Card
               key={i}
-              className="flex flex-col lg:flex-row items-start lg:items-center gap-4 p-3 bg-gray-50 rounded-lg"
-            >
+              className="relative flex flex-col lg:flex-row items-start lg:items-center gap-4 p-4 bg-white rounded-2xl shadow-sm overflow-hidden">
               <div className="w-full h-48 lg:w-24 lg:h-24 relative rounded-lg overflow-hidden border">
-                <ProductImage filename={`${b.foto_produk}`} style={{ objectFit: "cover" }} />
+                <ProductImage filename={b.foto_produk} style={{ objectFit: "cover" }} />
               </div>
               <div className="flex-1 flex flex-col justify-between min-w-0">
-                <h3 className="font-semibold text-base lg:text-lg line-clamp-2 break-words">
+                <h3 className="font-semibold text-base lg:text-lg line-clamp-2">
                   {b.nama_produk}
                 </h3>
-                <div className="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center mt-2 gap-2">
-                  <Badge
-                    className={`flex items-center text-xs font-normal px-2 py-1 rounded-full bg-gray-200 text-gray-700"
-                      }`}
-                  >
-                    <ShoppingBag className="w-4 h-4 mr-1" />
-                    {b.kategori}
-                  </Badge>
-                  <div className="flex items-center text-sm">
-                    Rp{b.harga.toLocaleString("id-ID")}
+                <div className="flex items-center justify-between mt-2">
+                  <div>
+                    <Badge className="flex items-center text-xs px-2 py-1 rounded-full bg-gray-200 text-gray-700">
+                      <ShoppingBag className="w-4 h-4 mr-1" />
+                      {b.kategori}
+                    </Badge>
+                    <div className="flex items-center gap-1 mt-2 ml-2 text-xs">
+                      <CreditCard className="w-4 h-4 text-primary" />
+                      <span className="font-medium">
+                        Rp{b.harga.toLocaleString('id-ID')}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </CardContent>
@@ -139,13 +141,7 @@ export default function TransaksiCard(trx: Penjualan) {
               Unggah Bukti Pembayaran
             </Button>
           )}
-
-          <Button
-            variant={"ghost"}
-            className="text-sm text-primary font-semibold hover:underline flex items-center gap-1 hover:bg-white"
-          >
-            Lihat Detail →
-          </Button>
+          <TransactionDetail trx={trx} />
         </div>
       </div>
     </Card>

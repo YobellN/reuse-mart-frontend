@@ -4,7 +4,7 @@ export type Penjualan = {
   metode_pengiriman: "Ambil di gudang" | "Antar kurir";
   jadwal_pengambilan?: string;
   total_ongkir?: string;
-  poin_potongan?: number;
+  poin_potongan: number | 0;
   total_harga: string;
   total_poin: number;
   status_penjualan: string;
@@ -21,5 +21,12 @@ export type Penjualan = {
     status_pembayaran: string;
     bukti_pembayaran: string;
   } | null;
-  pengiriman: {} | null;
+  pengiriman: {
+    jadwal_pengiriman: string;
+    status_pengiriman: string;
+    alamat: {
+      label: string;
+      detail_alamat: string;
+    }
+  } | null;
 };
