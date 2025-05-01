@@ -22,7 +22,7 @@ const kategoriProduk = [
 
 export default function KategoriGrid() {
   return (
-    <div className="my-6 bg-white dark:bg-slate-950 rounded-2xl p-6 border border-gray-200 dark:border-slate-600">
+    <div className="my-6 bg-white dark:bg-slate-950 rounded-2xl p-3 lg:p-6 border border-gray-200 dark:border-slate-600">
       <div className="mb-6 font-semibold text-xl">
         <h2>KATEGORI PRODUK</h2>
         <div className="w-64 my-1">

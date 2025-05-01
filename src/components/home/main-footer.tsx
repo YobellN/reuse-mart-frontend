@@ -1,11 +1,13 @@
+import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function MainFooter() {
   return (
-    <footer className="bg-white dark:bg-[--card] text-sm text-gray-700 dark:text-[--card-foreground] border-t border-gray-200 dark:border-[--border] mt-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+    <footer className="bg-white dark:bg-slate-950 text-sm text-gray-700 dark:text-white border-t border-gray-200 dark:border-slate-600 mt-20">
+      <div className="max-w-5/6 mx-auto py-12 grid grid-cols-2 md:grid-cols-4 gap-6">
         <div>
-          <h3 className="font-semibold mb-3">ReUseMart</h3>
+          <h3 className="font-bold mb-3">ReUseMart</h3>
           <ul className="space-y-2">
             <li>Tentang Kami</li>
             <li>Blog</li>
@@ -16,14 +18,14 @@ export default function MainFooter() {
         </div>
 
         <div>
-          <h3 className="font-semibold mb-3">Beli</h3>
+          <h3 className="font-bold mb-3">Beli</h3>
           <ul className="space-y-2">
             <li>Cari Produk</li>
             <li>Cara Checkout</li>
             <li>Promo & Poin</li>
           </ul>
 
-          <h3 className="font-semibold mt-5 mb-3">Jual</h3>
+          <h3 className="font-bold mt-5 mb-3">Jual</h3>
           <ul className="space-y-2">
             <li>Daftar Penitip</li>
             <li>FAQ Penitipan</li>
@@ -31,78 +33,45 @@ export default function MainFooter() {
         </div>
 
         <div>
-          <h3 className="font-semibold mb-3">Bantuan dan Panduan</h3>
+          <h3 className="font-bold mb-3">Bantuan dan Panduan</h3>
           <ul className="space-y-2">
             <li>Pusat Bantuan</li>
             <li>Syarat & Ketentuan</li>
             <li>Kebijakan Privasi</li>
           </ul>
 
-          <h3 className="font-semibold mt-5 mb-3">Keamanan & Privasi</h3>
+          <h3 className="font-bold mt-5 mb-3">Download ReuseMart</h3>
           <div className="flex gap-2 items-center">
-            <Image
-              src="/security/pci-dss.png"
-              alt="PCI"
-              className="h-10"
-              width={100}
-              height={100}
-            />
-            <Image
-              src="/security/bsi-27001.png"
-              alt="BSI"
-              className="h-10"
-              width={100}
-              height={100}
-            />
+            <Link
+              href="https://play.google.com/store/apps/details?id=..."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="https://play.google.com/intl/en_us/badges/images/generic/id_badge_web_generic.png"
+                alt="Dapatkan di Google Play"
+                width={130}
+                height={40}
+              />
+            </Link>
           </div>
         </div>
 
         <div className="flex flex-col items-center md:items-end">
           <Image
-            src="/mascot/reusemart-family.png"
-            alt="ReuseMart Mascot"
-            className="w-40 h-auto mb-4"
+            src="/Reuse-mart.png"
+            alt="ReuseMart Logo"
+            className="w-60 h-auto"
             width={100}
             height={100}
           />
-
-          <div className="flex gap-2 mb-4">
-            <Image
-              src="/store/googleplay.png"
-              alt="Google Play"
-              className="h-10"
-              width={100}
-              height={100}
-            />
-            <Image
-              src="/store/appstore.png"
-              alt="App Store"
-              className="h-10"
-              width={100}
-              height={100}
-            />
-            <Image
-              src="/store/appgallery.png"
-              alt="App Gallery"
-              className="h-10"
-              width={100}
-              height={100}
-            />
-          </div>
-
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-            © 2025 ReUseMart
-          </p>
-
-          <div className="flex gap-2">
-            <button className="px-3 py-1 text-xs font-semibold rounded bg-green-500 text-white">
-              Indonesia
-            </button>
-            <button className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-800">
-              English
-            </button>
-          </div>
         </div>
+      </div>
+      <Separator className="border-gray-200 dark:border-[--border]" />
+      <div className="flex max-w-5/6 mx-auto py-4">
+        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+          &copy; 2025 ReUseMart, All Rights Reserved.
+        </p>
       </div>
     </footer>
   );

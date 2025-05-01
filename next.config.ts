@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb',
+      bodySizeLimit: "10mb",
     },
   },
   images: {
@@ -13,9 +13,14 @@ const nextConfig: NextConfig = {
         hostname: "localhost",
         port: "8000",
         pathname: "/storage/foto_produk/**",
-      }
-    ]
-  }
+      },
+      {
+        protocol: "https",
+        hostname: "play.google.com",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

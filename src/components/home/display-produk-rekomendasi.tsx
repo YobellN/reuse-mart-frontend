@@ -4,7 +4,7 @@ import { Separator } from "@radix-ui/react-dropdown-menu";
 export default function DisplayProdukRekomendasi() {
   return (
     <div
-      className="my-6 bg-white rounded-2xl p-6 border border-gray-200
+      className="my-6 bg-white rounded-2xl p-3 lg:p-6 border border-gray-200
     dark:bg-slate-950 dark:border-slate-600"
     >
       <div className="mb-6 font-semibold text-xl">
