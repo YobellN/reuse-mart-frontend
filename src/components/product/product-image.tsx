@@ -5,9 +5,10 @@ import { useState } from 'react';
 
 interface ProductImageProps {
     filename?: string;
+    style?: React.CSSProperties;
 }
 
-export default function ProductImage({ filename }: ProductImageProps) {
+export default function ProductImage({ filename, style }: ProductImageProps) {
     const backendUrl = filename
         ? `http://localhost:8000/storage/foto_produk/${filename}`
         : '';
@@ -18,7 +19,7 @@ export default function ProductImage({ filename }: ProductImageProps) {
             src={src}
             alt={filename || 'Reuse Mart'}
             fill
-            style={{ objectFit: 'cover' }}
+            style={{...style }}
             onError={() => {
                 if (src !== '/reuse-mart.png') {
                     setSrc('/reuse-mart.png');
