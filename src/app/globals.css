@@ -195,3 +195,18 @@
   background: var(--primary); 
   filter: brightness(1.2);
 }
+
+@layer utilities {
+  @keyframes spin-text {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin-text {
+    animation: spin-text 12s linear infinite;
+  }
+}

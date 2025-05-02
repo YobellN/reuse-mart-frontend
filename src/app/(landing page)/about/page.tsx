@@ -1,3 +1,9 @@
+import MainHero from "@/components/landing-page/hero/main-hero";
+
 export default function AboutPage() {
-  return <div className="h-screen">About Page</div>;
+  return (
+    <div>
+      <MainHero />
+    </div>
+  );
 }
