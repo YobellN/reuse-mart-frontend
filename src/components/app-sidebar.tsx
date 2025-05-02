@@ -2,11 +2,11 @@
 
 import * as React from "react"
 import {
-  AlertCircle,
   BookOpen,
-  Bot,
+  DollarSign,
   GalleryVerticalEnd,
-  Settings2,
+  Home,
+  ToyBrick,
   User2,
 } from "lucide-react"
 
@@ -27,6 +27,7 @@ import {
 import { TeamSwitcher } from "./team-switcher"
 import Link from "next/link"
 import { IResponse, User } from "@/services/utils"
+import { IconArchive, IconCalendarStats, IconCategory, IconChartBar, IconClipboardList, IconGift, IconInbox, IconMail, IconMoneybag, IconReceipt, IconTag, IconTrash } from "@tabler/icons-react"
 
 const data = {
   teams: [
@@ -46,7 +47,19 @@ const data = {
     {
       title: "Data Master Jabatan",
       url: "/admin/jabatan",
-      icon: Bot,
+      icon: User2,
+      role: "Admin"
+    },
+    {
+      title: "Data Master Organisasi",
+      url: "/admin/organisasi",
+      icon: Home,
+      role: "Admin"
+    },
+    {
+      title: "Data Master Merchandise",
+      url: "/admin/merchandise",
+      icon: BookOpen,
       role: "Admin"
     },
     {
@@ -56,12 +69,90 @@ const data = {
       role: "CS"
     },
     {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
+      title: "Daftar Pembayaran",
+      url: "/cs/pembayaran",
+      icon: DollarSign,
       role: "CS"
     },
-  ],
+    {
+      title: "Daftar Transaksi Merchandise",
+      url: "/cs/transaksi-merchandise",
+      icon: ToyBrick,
+      role: "CS"
+    },
+    {
+      title: "Request Donasi",
+      url: "/organisasi/request-donasi",
+      icon: IconMoneybag,
+      role: "Organisasi"
+    },
+    {
+      title: "Riwayat Penitipan",
+      url: "/penitip/riwayat-penitipan",
+      icon: ToyBrick,
+      role: "Penitip"
+    },
+    {
+      title: "Transaksi Penitipan",
+      url: "/gudang/transaksi-penitipan",
+      icon: ToyBrick,
+      role: "Gudang"
+    },
+    {
+      title: "Pengiriman",
+      url: "/gudang/pengiriman",
+      icon: ToyBrick,
+      role: "Gudang"
+    },
+    {
+      title: "Laporan Donasi Barang",
+      url: "/owner/laporan-donasi-barang",
+      icon: IconGift,
+      role: "Owner"
+    },
+    {
+      title: "Laporan Penjualan Bulanan",
+      url: "/owner/laporan-penjualan-bulanan",
+      icon: IconCalendarStats,
+      role: "Owner"
+    },
+    {
+      title: "Laporan Komisi Per Produk",
+      url: "/owner/laporan-komisi-per-produk",
+      icon: IconReceipt,
+      role: "Owner"
+    },
+    {
+      title: "Laporan Stok Gudang",
+      url: "/owner/laporan-stok-gudang",
+      icon: IconArchive,
+      role: "Owner"
+    },
+    {
+      title: "Laporan Penjualan Per Kategori",
+      url: "/owner/laporan-penjualan-per-kategori",
+      icon: IconTag,
+      role: "Owner"
+    },
+    {
+      title: "Laporan Barang Hangus",
+      url: "/owner/laporan-barang-penitipan-hangus",
+      icon: IconTrash,
+      role: "Owner"
+    },
+    {
+      title: "Laporan Request Donasi",
+      url: "/owner/laporan-request-donasi",
+      icon: IconInbox,
+      role: "Owner"
+    },
+    {
+      title: "Laporan Transaksi Penitip",
+      url: "/owner/laporan-transaksi-penitip",
+      icon: IconClipboardList,
+      role: "Owner"
+    }
+  ]
 }
 
 type AppSidebarProps = {

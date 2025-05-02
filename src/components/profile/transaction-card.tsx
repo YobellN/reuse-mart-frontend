@@ -114,7 +114,7 @@ export default function TransaksiCard(trx: Penjualan) {
             <CreditCard className="w-4 h-4" />
             <span className="font-semibold text-sm">Total: </span>
             <span className="text-base font-bold">
-              Rp{trx.total_harga}
+              Rp{trx.total_harga.toLocaleString('id-ID')}
             </span>
           </div>
         </div>
