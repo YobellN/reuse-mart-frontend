@@ -1,5 +1,5 @@
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
-import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent, DialogFooter } from "../ui/dialog";
+import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { id } from "date-fns/locale/id";
@@ -20,7 +20,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
 
             <DialogContent
                 className={
-                    `w-full max-w-sm sm:max-w-xl  max-h-[calc(100vh-4rem)] overflow-y-auto p-3 sm:p-5`
+                    `w-full max-w-sm sm:max-w-xl  max-h-[calc(100vh-4rem)] overflow-y-auto p-3 sm:p-5 bg-gradient-to-b from-green-50 to-green-100`
                 }
             >
                 <DialogHeader className="flex items-center justify-between pb-1">
@@ -82,7 +82,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                                 <p className="font-medium text-sm">{p.nama_produk}</p>
                                 <div className="flex items-center gap-1 mt-1 text-xs">
                                     <CreditCard className="w-4 h-4 text-primary" />
-                                    <span className="font-medium">
+                                    <span className="font-sm">
                                         Rp{p.harga.toLocaleString('id-ID')}
                                     </span>
                                 </div>
@@ -96,12 +96,12 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                 <h3 className="font-medium text-sm">Pengiriman</h3>
                 {trx.metode_pengiriman === 'Antar Kurir' ? (
                     <Card className="relative p-3 text-sm gap-2">
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-2">
                             <Truck className="w-5 h-5 text-blue-600" />
                             <span>Antar Kurir</span>
                         </div>
-                        <div className="flex items-center gap-1">
-                            <MapPin className="w-4 h-4 text-primary" />
+                        <div className="flex items-center gap-2">
+                            <MapPin className="w-5 h-5 text-primary" />
                             <span>Alamat:</span>
                             <p className="text-sm font-medium">{trx.pengiriman?.alamat.label}</p>
 
@@ -121,17 +121,17 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
 
                 <h3 className="font-medium  text-sm">Poin</h3>
                 <div className="flex flex-col items-start gap-2 text-sm">
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                         <Gift className="w-5 h-5 text-primary" />
                         <span>Poin diperoleh: <strong>{trx.poin_perolehan}</strong></span>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                         <Gift className="w-5 h-5 text-destructive" />
                         <span>
                             Poin digunakan: <strong>{trx.poin_potongan}</strong> (Diskon Rp{trx.poin_potongan * 10000})
                         </span>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                         <Gift className="w-5 h-5 text-warning" />
                         <span>
                             Total poin setelah transaksi : <strong>{trx.total_poin}</strong>
@@ -155,7 +155,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-muted-foreground">Subtotal</span>
-                                <span>Rp{trx.produk.reduce((a, b) => a + b.harga, 0)}</span>
+                                <span>Rp{trx.produk.reduce((a, b) => a + b.harga, 0).toLocaleString('id-ID')}</span>
                             </div>
                             {trx.poin_potongan >= 0 && (
                                 <div className="flex justify-between">
@@ -166,7 +166,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                             {trx.metode_pengiriman === 'Antar Kurir' && (
                                 <div className="flex justify-between">
                                     <span className="text-muted-foreground">Ongkos Kirim</span>
-                                    <span>Rp{trx.total_ongkir}</span>
+                                    <span>Rp{trx.total_ongkir?.toLocaleString('id-ID')}</span>
                                 </div>
                             )}
                         </div>
@@ -178,7 +178,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                 <div className="flex justify-between items-center ">
                     <span className="text-base font-medium">Total Bayar</span>
                     <span className="text-xl font-bold">
-                        Rp{trx.total_harga}
+                        Rp{trx.total_harga.toLocaleString('id-ID')}
                     </span>
                 </div>
             </DialogContent>
