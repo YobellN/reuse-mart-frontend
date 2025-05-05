@@ -75,7 +75,7 @@ export const columns: ColumnDef<Penitip>[] = [
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                         <Link href={`/cs/penitip/${row.original.id_penitip}`} className="hover:bg-accent hover:text-accent-foreground">
-                            <Button variant="warningText">Edit penitip</Button>
+                            <Button variant={"ghost"} className="text-warning">Edit penitip</Button>
                         </Link>
                         <HapusDialog id={row.original.id_penitip} onHapus={() => handleDeletePenitip(row.original.id_penitip)} label="penitip" detail={row.original.user.nama} />
                     </DropdownMenuContent>
