@@ -10,7 +10,7 @@ import ScrollIndicator from "./scroll-indicator";
 
 export default function MainHero() {
   return (
-    <div className="relative min-h-[calc(100vh-0rem)] flex flex-col justify-start lg:justify-center items-stretch bg-gradient-to-br from-lime-100 via-green-100 to-emerald-200 overflow-hidden">
+    <div className="relative min-h-[calc(100vh+0rem)] flex flex-col justify-start lg:justify-end items-stretch bg-gradient-to-br from-lime-100 via-green-100 to-emerald-200 overflow-hidden">
       {/* background wave  */}
       <div className="absolute top-0 left-0 w-full z-0 pointer-events-none">
         <motion.div
@@ -139,6 +139,7 @@ export default function MainHero() {
           <ScrollIndicator />
         </motion.div>
       </div>
+      <div className=" h-16 mt-6 bg-white rounded-t-full" />
     </div>
   );
 }
