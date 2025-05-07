@@ -13,7 +13,7 @@ export default async function Page({ params }: {
     if (!request_donasi) {
         return (
             <>
-                <SiteHeader title="Penitip" />
+                <SiteHeader title="Request Donasi" />
                 <div className="flex justify-center w-full mt-4">
                     <AlertBox variant="destructive" title="Error 404" description="Request donasi tidak ditemukan" />
                 </div>
