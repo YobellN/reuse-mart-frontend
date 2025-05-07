@@ -3,9 +3,7 @@ import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { getAllPenitip } from "@/services/penitip/penitip-services";
 
-
-
-export default async function PenitipPage() {
+export default async function Page() {
     const data = await getAllPenitip();
     return (
         <>
