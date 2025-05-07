@@ -1,0 +1,22 @@
+export type ProdukTitipan = {
+  id_produk: string;
+  nama_produk: string;
+  deskripsi_produk: string;
+  harga_produk: number;
+  foto_produk: string;
+  status_akhir_produk: string | null;
+  status_ketersediaan: boolean;
+  status_garansi: boolean;
+  waktu_garansi: string | null;
+  status_produk_hunting: boolean;
+  rating: number | null;
+  kategori: string;
+  id_penitipan: string;
+  tanggal_penitipan: string;
+  tenggat_penitipan: string;
+  tenggat_pengambilan: string;
+  status_perpanjangan: number;
+  qc: string;
+  hunter: string;
+  jadwal_pengambilan: string | null;
+};

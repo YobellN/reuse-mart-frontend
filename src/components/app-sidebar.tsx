@@ -87,8 +87,8 @@ const data = {
       role: "Organisasi"
     },
     {
-      title: "Riwayat Penitipan",
-      url: "/penitip/riwayat-penitipan",
+      title: "Data Barang Titipan",
+      url: "/penitip/data-barang-titipan",
       icon: ToyBrick,
       role: "Penitip"
     },
