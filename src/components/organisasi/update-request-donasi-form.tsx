@@ -58,7 +58,6 @@ export default function UpdateRequestDonasiForm({requestDonasi}: {requestDonasi:
             if (res.message === "Request donasi berhasil diubah") {
                 router.push("/organisasi/request-donasi");
                 toast.success("Request donasi berhasil diubah");
-                form.reset();
                 setOpen(false);
             } else {
                 if (res.errors) {

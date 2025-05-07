@@ -15,7 +15,7 @@ export default async function Page({ params }: {
             <>
                 <SiteHeader title="Penitip" />
                 <div className="flex justify-center w-full mt-4">
-                    <AlertBox variant="destructive" title="Error 404" description="Penitip tidak ditemukan" />
+                    <AlertBox variant="destructive" title="Error 404" description="Request donasi tidak ditemukan" />
                 </div>
             </>
         )
