@@ -1,3 +1,4 @@
+import FooterLanding from "@/components/landing-page/footer/footer-landing";
 import NavbarLandingPage from "@/components/landing-page/navbar/navbar-landing";
 import { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
@@ -21,6 +22,7 @@ export default function InformasiUmumLayout({
       {/* <section className="p-2 md:p-0 md:w-5/6 m-auto">{children}</section> */}
       <NavbarLandingPage />
       <section>{children}</section>
+      <FooterLanding />
     </div>
   );
 }

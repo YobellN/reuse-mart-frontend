@@ -71,9 +71,7 @@ const ChallengeCard = function ChallengeCard({
         <h3 className="text-2xl font-semibold tracking-tight text-green-700 mb-2">
           {title}
         </h3>
-        <p className="text-green-600 text-md text-justify max-w-[25ch]">
-          {description}
-        </p>
+        <p className="text-green-600 text-md text-start">{description}</p>
       </div>
     </motion.div>
   );
@@ -81,49 +79,53 @@ const ChallengeCard = function ChallengeCard({
 
 export default function ChallengesPage() {
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={{
-        hidden: {},
-        visible: { transition: { staggerChildren: 0.2 } },
-      }}
-      className="min-h-screen flex items-center justify-center pt-24 pb-24 bg-green-50 px-6"
-    >
-      <div className="w-full">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-4xl md:text-5xl font-bold tracking-tight text-center mt-0 mb-6 md:mb-6 "
-        >
-          Tantangan di Sekitar Kita
-        </motion.h2>
+    <div className="bg-green-50">
+      <div className=" h-16 bg-white rounded-b-full" />
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.2 } },
+        }}
+        className="min-h-screen flex items-center justify-center pt-24 pb-24 bg-green-50 px-6"
+      >
+        <div className="w-full">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-4xl md:text-5xl font-bold tracking-tight text-center mt-0 mb-6 text-green-800"
+          >
+            Tantangan di Sekitar Kita
+          </motion.h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-          className="text-lg my-8 font-medium tracking-tight text-center w-full md:w-2/3 mx-auto"
-        >
-          ReuseMart hadir sebagai solusi inovatif terhadap isu limbah barang
-          bekas, keterbatasan waktu masyarakat, dan rendahnya kesadaran ekonomi
-          sirkular di Indonesia.
-        </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            className="text-lg my-8 font-medium tracking-tight text-center w-full md:w-2/3 mx-auto"
+          >
+            Indonesia masih menghadapi tantangan serius terkait peningkatan
+            limbah barang bekas, keterbatasan waktu masyarakat untuk mengelola
+            barang tak terpakai, dan rendahnya kesadaran akan pentingnya
+            penerapan ekonomi sirkular dalam kehidupan sehari-hari.
+          </motion.p>
 
-        {/* card */}
-        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 max-w-3xl sm:max-w-5xl lg:max-w-6xl w-full mx-auto px-6">
-          {features.map((feature, index) => (
-            <ChallengeCard
-              key={feature.title}
-              title={feature.title}
-              image={feature.image}
-              description={feature.description}
-              index={index}
-            />
-          ))}
+          {/* card */}
+          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 max-w-3xl sm:max-w-5xl lg:max-w-6xl w-full mx-auto ">
+            {features.map((feature, index) => (
+              <ChallengeCard
+                key={feature.title}
+                title={feature.title}
+                image={feature.image}
+                description={feature.description}
+                index={index}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }

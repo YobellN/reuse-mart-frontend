@@ -139,7 +139,7 @@ export default function MainHero() {
           <ScrollIndicator />
         </motion.div>
       </div>
-      <div className=" h-16 mt-6 bg-white rounded-t-full"></div>
+      <div className=" h-16 mt-6 bg-white rounded-t-full" />
     </div>
   );
 }

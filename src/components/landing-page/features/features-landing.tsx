@@ -72,12 +72,13 @@ export function FeatureCard({
       <Card className="relative min-h-[20rem] flex flex-col justify-between rounded-xl overflow-hidden border border-green-200 shadow-none bg-gradient-to-br from-green-50 via-white to-white transition-all duration-300 ease-in-out hover:shadow-lg hover:border-green-500 hover:-translate-y-1">
         <Image
           src={feature.image}
+          alt="reuse-mart"
           width={150}
           height={150}
-          alt="reuse-mart"
-          className="absolute bottom-0 right-0 pointer-events-none"
+          className="absolute bottom-0 right-0 pointer-events-none scale-[0.8] sm:scale-90 md:scale-100 origin-bottom-right transition-transform duration-300"
         />
-        <CardHeader>
+
+        <CardHeader className="mb-24 sm:mb-0">
           <Icon className="text-green-700" />
           <h4 className="mt-1 mb-0 text-xl font-semibold tracking-tight text-green-700">
             {feature.title}
@@ -95,7 +96,7 @@ export default function FeaturesPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="max-w-screen-lg w-full pt-12 pb-24 px-6">
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-center mt-0 mb-6 md:mb-6">
+        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-center mt-0 mb-6 md:mb-6 text-green-800">
           Fitur Cerdas untuk Jual Beli Barang Bekas
         </h2>
         <p className="text-lg my-8 font-medium tracking-tight text-center">
