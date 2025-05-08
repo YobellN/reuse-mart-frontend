@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ProductDiscussionCard from "@/components/diskusi-produk/card-tampil-diskusi-produk";
-import { Separator } from "@radix-ui/react-dropdown-menu";
+import { Separator } from "../ui/separator";
 
 export default function ShowDiskusiPage() {
   return (

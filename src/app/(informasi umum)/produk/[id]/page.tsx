@@ -1,5 +1,6 @@
 'use server'
 
+import ShowDiskusiPage from "@/components/diskusi-produk/show-diskusi-page";
 import BreadcrumbsProduct from "@/components/product/breadcrumb-product";
 import DisplayProdukPenitip from "@/components/product/display-product-penitip";
 import ProductDetail from "@/components/product/product-detail";
@@ -20,6 +21,7 @@ export default async function ProductDetailPage({
       <BreadcrumbsProduct />
       <ProductDetail {...produk} />
       <SellerInfo idPenitip={produk.id_penitip} />
+      <ShowDiskusiPage />
       <DisplayProdukPenitip id_penitip={produk.id_penitip} />
     </div>
   );
