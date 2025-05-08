@@ -5,17 +5,17 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 
-export default function HapusDialog({ id, onHapus, label, detail }: { id: string, onHapus: (id: string) => Promise<IResponse<any>>, label: string, detail: string }) {
+export default function HapusDialog({ id, onHapus, label, detail }: { id: any, onHapus: (id: string) => Promise<IResponse<any>>, label: string, detail?: string }) {
     const [disabled, setDisabled] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const router = useRouter();
 
-    async function handleDelete(id: string) {
+    async function handleDelete(id: any) {
         try {
             const res = await onHapus(id);
             if (res.message.includes("berhasil")) {
                 router.refresh();
-                toast.success("Berhasil menghapus data " + label + " " + detail);
+                toast.success(`Berhasil menghapus data ${label} ${detail ?? ""}`);
             } else {
                 toast.error(res.message || "Gagal menghapus data " + label);
             }
@@ -32,7 +32,7 @@ export default function HapusDialog({ id, onHapus, label, detail }: { id: string
                     <AlertDialogHeader>
                         <AlertDialogTitle>Konfirmasi Hapus</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Apakah anda yakin ingin menghapus data {label} ({detail})?
+                            Apakah anda yakin ingin menghapus data {label} {detail}?
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
