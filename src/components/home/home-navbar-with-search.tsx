@@ -41,13 +41,13 @@ export default function HomeNavbar({ user, ...props }: {user?: IResponse<User>})
           </div>
         </div>
         <div className="flex px-2 md:p-0 place-content-between md:w-5/6 m-auto">
-          <div className="relative sm:w-36 sm:h-16 shrink hidden sm:block">
+          <div className="relative sm:w-38 sm:h-16 shrink hidden sm:block">
             <Link href="/home">
               <Image
                 src="/ReuseMart_horizontal.png"
                 alt="Reuse Mart Logo"
-                fill
-                objectFit="cover"
+                width={300}
+                height={300}
                 className="brightness-0 invert"
               />
             </Link>
