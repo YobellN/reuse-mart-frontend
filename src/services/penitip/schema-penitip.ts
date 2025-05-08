@@ -7,6 +7,8 @@ export type Penitip = {
   foto_ktp: string;
   saldo: number;
   poin: number;
+  rating: number | null;
+  total_produk: number | 0;
   user: {
     nama: string;
     email: string;

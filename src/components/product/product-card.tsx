@@ -4,10 +4,11 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { Produk } from "@/services/produk/schema-produk";
 import Image from "next/image";
 import React from "react";
 
-export default function DisplayProductCard() {
+export default function DisplayProductCard(produk: Produk) {
   return (
     <Card
       className="p-0 pb-2 w-full rounded-lg shadow-none bg-white gap-2
@@ -24,8 +25,8 @@ export default function DisplayProductCard() {
       </CardHeader>
 
       <CardContent className="text-sm text-muted-foreground dark:text-white px-2 py-0">
-        <p className="my-1 font-semibold">Nama Produk Disini</p>
-        <p className="my-1 font-extrabold">Rp100.000</p>
+        <p className="my-1 font-semibold">{produk.nama_produk}</p>
+        <p className="my-1 font-extrabold">Rp {produk.harga_produk}</p>
       </CardContent>
 
       <CardFooter className="text-xs text-muted-foreground dark:text-white px-2 py-0">
@@ -44,7 +45,7 @@ export default function DisplayProductCard() {
           <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
           <path d="m9 12 2 2 4-4" />
         </svg>
-        <p className="my-1 font-semibold">Nama Penjual Maybe</p>
+        <p className="my-1 font-semibold">{produk.nama_penitip}</p>
       </CardFooter>
     </Card>
   );
