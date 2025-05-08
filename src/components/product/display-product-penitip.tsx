@@ -17,7 +17,7 @@ export default function DisplayProdukPenitip({ id_penitip }: { id_penitip: strin
       setItems(data);
       setLoading(false);
     });
-  }, [id_penitip]);
+  }, []);
 
   return (
     <div className="mt-8 my-6 bg-white p-3 lg:p-6 dark:bg-slate-950 dark:border-slate-600">
