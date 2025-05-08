@@ -1,13 +1,58 @@
-"use server";
+'use client'
+
 import { getPenitipById } from "@/services/penitip/penitip-services";
 import { Penitip } from "@/services/penitip/schema-penitip";
 import { Star, MessageSquareText } from "lucide-react";
 import DiskusiModal from "../diskusi-produk/diskusi-modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 
-export default async function SellerInfo({ idPenitip }: { idPenitip: string }) {
-  const penitip: Penitip | null = await getPenitipById(idPenitip);
+export default function SellerInfo({ idPenitip }: { idPenitip: string }) {
+  const [penitip, setPenitip] = useState<Penitip | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    getPenitipById(idPenitip).then((data) => {
+      setPenitip(data);
+      setLoading(false);
+    }
+    );
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="mt-4 flex flex-col md:flex-row flex-wrap items-start md:items-center justify-start p-4 bg-white">
+        <div className="flex items-center gap-3 mb-4 md:mb-0">
+          <Skeleton className="w-12 h-12 rounded-full" />
+          <div className="flex flex-col space-y-2">
+            <Skeleton className="h-4 w-24 rounded" />
+            <Skeleton className="h-4 w-16 rounded" />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-6 mx-4 mb-4 md:mb-0">
+          <div className="space-y-1">
+            <Skeleton className="h-3 w-16 rounded" />
+            <Skeleton className="h-4 w-10 rounded" />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 mx-4 sm:border-l sm:pl-8 mb-4 md:mb-0">
+          <Skeleton className="h-6 w-24 rounded" />
+          <Skeleton className="h-6 w-24 rounded" />
+        </div>
+
+        <div className="flex flex-col gap-2 mx-4 sm:border-l sm:pl-8 w-full md:w-auto">
+          <Skeleton className="h-4 w-48 rounded" />
+          <Skeleton className="h-8 w-48 rounded" />
+        </div>
+      </div>
+    );
+  }
+
   if (!penitip) return null;
+
   return (
     <div className="mt-4 flex flex-col md:flex-row flex-wrap items-start md:items-center justify-start p-4 bg-white">
       <div className="flex items-center gap-3 me-4 mb-4 md:mb-0">
