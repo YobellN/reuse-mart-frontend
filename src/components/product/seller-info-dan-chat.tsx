@@ -1,8 +1,13 @@
+"use client";
+
 import { Star, MessageSquareText } from "lucide-react";
+import DiskusiModal from "../diskusi-produk/diskusi-modal";
+import { useState } from "react";
 
 export default function SellerInfo() {
   const sellerName = "Adi Sanjaya";
   const sellerInitial = sellerName.charAt(0).toUpperCase();
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div className="mt-4 flex flex-col md:flex-row flex-wrap items-start md:items-center justify-start p-4 bg-white">
@@ -51,12 +56,29 @@ export default function SellerInfo() {
       <div className="flex items-center gap-6 text-sm mx-4 sm:border-l sm:pl-8 w-full md:w-auto">
         <div className="text-left">
           <p className="text-black mb-1">Punya Pertanyaan Terkait Produk?</p>
-          <div className="bg-green-600 text-white font-medium border-2 border-green-600 py-1 px-3 inline-flex items-center gap-2 cursor-pointer hover:bg-green-700 transition">
+          <button
+            onClick={() => setModalOpen(true)}
+            className="bg-green-600 text-white font-medium border-2 border-green-600 py-1 px-3 inline-flex items-center gap-2 cursor-pointer hover:bg-green-700 transition"
+          >
             <MessageSquareText className="w-5 h-5 text-white" />
             <span>Chat Dengan CS Sekarang</span>
-          </div>
+          </button>
         </div>
       </div>
+
+      <DiskusiModal
+        trigger={<span />}
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+        diskusi={{
+          id: 123,
+          namaUser: "Ani",
+          idProduk: "P002",
+          pesan: "Barang ini bisa COD?",
+          waktu: "2024-05-08T16:12:00Z",
+          gambar: ["/img1.jpg", "/img2.jpg"],
+        }}
+      />
     </div>
   );
 }

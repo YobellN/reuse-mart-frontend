@@ -4,7 +4,7 @@ import { Separator } from "@radix-ui/react-dropdown-menu";
 export default function DisplayProdukPenitip() {
   return (
     <div
-      className="mt-8 my-6 bg-white p-3 lg:p-6
+      className="mt-4 my-6 bg-white p-3 lg:p-6
       dark:bg-slate-950 dark:border-slate-600"
     >
       <div className="mb-6 font-semibold text-xl">
