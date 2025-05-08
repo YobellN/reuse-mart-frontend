@@ -57,7 +57,7 @@ export default function SellerInfo({ idPenitip }: { idPenitip: string }) {
     <div className="mt-4 flex flex-col md:flex-row flex-wrap items-start md:items-center justify-start p-4 bg-white">
       <div className="flex items-center gap-3 me-4 mb-4 md:mb-0">
         <div className="w-12 h-12 rounded-full bg-green-600 text-white flex items-center justify-center text-lg font-bold">
-          {penitip?.user.nama}
+          {penitip?.user.nama?.charAt(0).toUpperCase()}
         </div>
         <div className="flex flex-col">
           <p className="font-semibold text-sm">{penitip?.user.nama}</p>
