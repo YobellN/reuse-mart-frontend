@@ -20,7 +20,7 @@ export default function DisplayProdukPenitip({
       setItems(data);
       setLoading(false);
     });
-  }, [id_penitip]);
+  }, []);
 
   return (
     <div
