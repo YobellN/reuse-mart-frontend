@@ -1,22 +1,20 @@
 "use client";
+import { Produk } from "@/services/produk/schema-produk";
 import ProductCarousel from "./product-carousel";
 import { ShoppingCart } from "lucide-react";
 
-type ProductDetailProps = {
-  id: string;
-};
 
-export default function ProductDetail({ id }: ProductDetailProps) {
+
+export default function ProductDetail(produk:Produk) {
   const mockProduct = {
-    name: "Kompor Tanam 3 Tungku",
-    price: 2000000,
+    name: produk.nama_produk,
+    price: produk.harga_produk,
     stock: 1,
-    category: "Peralatan Dapur",
-    description: "Kompor tanam 3 tungku dengan api besar dan hemat gas.",
-    warrantyUntil: "2025-07-01",
-    images: ["/kompor1.jpg", "/kompor2.jpg", "/kompor3.jpg"],
-    rating: 4.5,
-    totalSold: 23,
+    category: produk.nama_kategori,
+    description: produk.deskripsi_produk,
+    warrantyUntil: produk.waktu_garansi,
+    images: produk.foto_produk.map((f) => f.path_foto),
+    rating: produk.rating,
   };
 
   return (
@@ -24,7 +22,7 @@ export default function ProductDetail({ id }: ProductDetailProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/*FOTO PRODUK */}
         <div>
-          <ProductCarousel images={mockProduct.images} />
+          {/* <ProductCarousel images={mockProduct.images} /> */}
         </div>
 
         {/* INFORMASI PRODUK */}

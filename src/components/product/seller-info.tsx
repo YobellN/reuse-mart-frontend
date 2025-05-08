@@ -1,35 +1,33 @@
+'use server'
+import { getPenitipById } from "@/services/penitip/penitip-services";
+import { Penitip } from "@/services/penitip/schema-penitip";
 import { Star, MessageSquareText } from "lucide-react";
 
-export default function SellerInfo() {
-  const sellerName = "Adi Sanjaya";
-  const sellerInitial = sellerName.charAt(0).toUpperCase();
-
+export default async function SellerInfo({ idPenitip }: { idPenitip: string }) {
+  const penitip: Penitip | null = await getPenitipById(idPenitip);
+  if (!penitip) return null;
   return (
     <div className="mt-4 flex flex-col md:flex-row flex-wrap items-start md:items-center justify-start p-4 bg-white">
       <div className="flex items-center gap-3 me-4 mb-4 md:mb-0">
         <div className="w-12 h-12 rounded-full bg-green-600 text-white flex items-center justify-center text-lg font-bold">
-          {sellerInitial}
+          {penitip?.user.nama}
         </div>
         <div className="flex flex-col">
-          <p className="font-semibold text-sm">{sellerName}</p>
+          <p className="font-semibold text-sm">{penitip?.user.nama}</p>
           <div className="flex items-center text-sm text-gray-600">
             <Star
               className="w-4 h-4 text-yellow-500 mr-1"
               fill="currentColor"
             />
-            <span>4.8 / 5.0</span>
+            <span>{penitip?.rating} / 5.0</span>
           </div>
         </div>
       </div>
 
       <div className="flex items-center gap-6 text-sm mx-4 mb-4 md:mb-0">
         <div className="text-left">
-          <p className="text-gray-500">Penilaian</p>
-          <p className="text-black font-semibold">1.200</p>
-        </div>
-        <div className="text-left">
           <p className="text-gray-500">Produk</p>
-          <p className="text-black font-semibold">128</p>
+          <p className="text-black font-semibold">{penitip.total_produk}</p>
         </div>
       </div>
 
