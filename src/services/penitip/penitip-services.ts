@@ -77,7 +77,6 @@ export async function handleDeletePenitip(id: string) : Promise<IResponse<any>>{
             data: res.data.data
         }
     } catch (error : any) {
-        console.log(error)
         if(error.response?.data) {
             return {
                 message: error.response.data.message,
@@ -90,5 +89,4 @@ export async function handleDeletePenitip(id: string) : Promise<IResponse<any>>{
         }
     }
 }
-
 
