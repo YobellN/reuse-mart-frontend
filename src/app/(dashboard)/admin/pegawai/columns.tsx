@@ -14,6 +14,8 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Pegawai } from "@/services/utils";
 
+import { resetPasswordByAdmin } from "@/services/auth/user-services";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<Pegawai>[] = [
     {
@@ -34,6 +36,7 @@ export const columns: ColumnDef<Pegawai>[] = [
         id: "nama",
         accessorKey: "user.nama",
         header: "Nama",
+        // cell: ({ row }) => <span>{row.original.user.nama}</span>,
         cell: ({ row }) => <span>{row.original.user.nama}</span>,
     },
     {
@@ -68,7 +71,20 @@ export const columns: ColumnDef<Pegawai>[] = [
         enableHiding: false,
         header: "Aksi",
         cell: ({ row }) => {
-            const payment = row.original
+            const payment = row.original;
+            const pegawai_id = payment.id_pegawai;
+            const handleResetPassword = async () => {
+                if (confirm("Apakah Anda yakin ingin mereset password pegawai ini?")) {
+                    const response = await resetPasswordByAdmin(pegawai_id);
+
+                    if (response.message) {
+                        toast.success(response.message);
+                    } else {
+                        toast.error(response.message || "Gagal mereset password");
+                    }
+                }
+            };
+
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -87,6 +103,9 @@ export const columns: ColumnDef<Pegawai>[] = [
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>View customer</DropdownMenuItem>
                         <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        <DropdownMenuItem onClick={handleResetPassword}>
+                            Reset Password
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )

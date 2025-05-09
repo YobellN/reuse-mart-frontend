@@ -23,6 +23,8 @@ import Image from "next/image";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { sendEmailLink } from "@/services/auth/user-services";
+import { toast } from "sonner";
 
 const requestScheme = z.object({
   email: z
@@ -50,8 +52,19 @@ export function RequestResetPasswordForm({
     },
   });
 
-  function onSubmit(values: FormScheme) {
-    console.log(values);
+  // fungsi untuk submit form, then kiriml link ke email makai api
+  const onSubmit = async (values: FormScheme) => {
+    // 1. Persiapkan data untuk dikirim
+    const formData = new FormData();
+    formData.append("email", values.email);
+    // 2. Panggil API sendEmailLink
+    const result = await sendEmailLink(formData);
+    // 3. Handle response
+    if (result.message === "Link reset password telah dikirim ke email Anda") {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message+" Silahkan coba lagi");
+    }
   }
 
   return (
