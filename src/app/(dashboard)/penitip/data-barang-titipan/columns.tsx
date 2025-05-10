@@ -1,18 +1,14 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { ProdukTitipan } from "@/services/penitipan/schema-penitipan";
 import { format } from "date-fns";
 import { id } from "date-fns/locale/id";
+import { Badge } from "@/components/ui/badge";
+import ProductImage from "@/components/product/product-image";
 
 export const columns: ColumnDef<ProdukTitipan>[] = [
     {
@@ -34,11 +30,13 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
         id: "tanggal_penitipan",
         accessorKey: "tanggal_penitipan",
         header: "Tanggal Penitipan",
+        accessorFn: (row) =>
+            row.tanggal_penitipan
+                ? format(new Date(row.tanggal_penitipan), "dd MMMM yyyy", { locale: id })
+                : "",
         cell: ({ row }) => {
-            return (
-                format(new Date(row.getValue("tanggal_penitipan")), "dd-MMMM-yyyy", { locale: id })
-            )
-        }
+            return row.getValue("tanggal_penitipan");
+        },
     },
     {
         id: "nama_produk",
@@ -46,65 +44,130 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
         header: "Nama Produk",
     },
     {
+        id: "kategori_produk",
+        accessorKey: "kategori",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Kategori Produk
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+    },
+    {
         id: "harga_produk",
         accessorKey: "harga_produk",
-        header: "Harga Produk",
-        cell: ({ row }) => {
+        header: ({ column }) => {
             return (
-                `Rp. ${(row.getValue("harga_produk") as number).toLocaleString("id-ID")}`
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Harga Produk
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        accessorFn: (row) => row.harga_produk as number,
+        cell: ({ row }) => {
+            const harga = row.getValue("harga_produk");
+            return (
+                `Rp. ${(harga as number).toLocaleString("id-ID")}`
             )
         }
 
     },
     {
-        id: "status_garansi",
-        accessorKey: "status_garansi",
-        header: "Status Garansi",
+        id: "waktu_garansi",
+        accessorKey: "waktu_garansi",
+        header: "Garansi",
+        accessorFn: (row) =>
+            row.waktu_garansi
+                ? format(new Date(row.waktu_garansi), "dd MMMM yyyy", { locale: id })
+                : "Tidak ada",
         cell: ({ row }) => {
-            switch (row.getValue("status_garansi")) {
-                case true:
-                    return <span className="text-green-500 font-semibold">Ada</span>
-                case false:
-                    return <span className="text-red-500 font-semibold">Tidak ada</span>
-                default:
-                    return <span className="text-gray-500 font-semibold">Tidak ada</span>
-            }
-        }
+            const value = row.getValue("waktu_garansi");
 
+            if (value === "Tidak ada") {
+                return <span className="text-muted-foreground italic">Tidak ada</span>;
+            }
+
+            return value;
+        },
     },
     {
         id: "status_akhir_produk",
         accessorKey: "status_akhir_produk",
-        header: "Status Produk",
+        accessorFn: (row) => row.status_akhir_produk,
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Status Produk
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
         cell: ({ row }) => {
-            switch (row.getValue("status_akhir_produk")) {
+            const value = row.getValue("status_akhir_produk");
+            switch (value) {
                 case "Terjual":
-                    return <span className="text-green-500 font-semibold">{row.getValue("status_akhir_produk")}</span>
+                    return <Badge variant="success">{value}</Badge>;
                 case "Diambil":
-                    return <span className="text-red-500 font-semibold">{row.getValue("status_akhir_produk")}</span>
-                case null:
-                    return <span className="text-gray-500 font-semibold">Sedang dititipkan</span>
+                    return <Badge variant="destructive">{value}</Badge>;
+                case "Produk untuk donasi":
+                    return <Badge variant="warning">{value}</Badge>;
+                case "Didonasikan":
+                    return <Badge variant="secondary">{value}</Badge>;
                 default:
-                    return <span className="text-blue-500 font-semibold">{row.getValue("status_akhir_produk")}</span>
+                    return <Badge variant="processing">Sedang dijual</Badge>;
             }
+        },
+    },
+    {
+        id: "rating",
+        accessorKey: "rating",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Rating
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        accessorFn: (row) => row.rating,
+        cell: ({ row }) => {
+            const value = row.getValue("rating");
+
+            if (!value) return <span className="text-muted-foreground italic">Tidak ada</span>;
+
+            return (
+                <div className="flex items-center gap-1 text-yellow-500 font-medium">
+                    <Star className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
+                    <span>{row.getValue("rating")} / 5</span>
+                </div>
+            );
         }
     },
     {
-        id: "s",
-        header: "Aksi",
+        id: "foto_produk",
+        accessorKey: "foto_produk",
+        header: "Foto",
         cell: ({ row }) => {
             return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline">
-                            Lihat Detail
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="flex flex-col">
-                        <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
+                <div className="w-16 h-16 overflow-hidden rounded border relative">
+                    <ProductImage filename={row.getValue("foto_produk")} style={{ objectFit: "cover" }} />
+                </div>
+            );
         },
     },
 ];

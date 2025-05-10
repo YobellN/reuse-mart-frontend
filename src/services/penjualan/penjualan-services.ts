@@ -33,7 +33,7 @@ export async function getRiwayatPenjualan(
       produk:
         item.detail?.map((d: any) => ({
           nama_produk: d.produk?.nama_produk ?? "",
-          foto_produk: d.produk?.foto_produk ?? "",
+          foto_produk: d.produk?.foto_produk[0].path_foto ?? "",
           kategori: d.produk?.kategori?.nama_kategori ?? "",
           harga: parseInt(d.produk?.harga_produk ?? "0"),
         })) ?? [],

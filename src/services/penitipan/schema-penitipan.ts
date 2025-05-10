@@ -6,7 +6,6 @@ export type ProdukTitipan = {
   foto_produk: string;
   status_akhir_produk: string | null;
   status_ketersediaan: boolean;
-  status_garansi: boolean;
   waktu_garansi: string | null;
   status_produk_hunting: boolean;
   rating: number | null;

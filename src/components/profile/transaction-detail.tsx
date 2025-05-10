@@ -3,7 +3,7 @@ import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent } from 
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { id } from "date-fns/locale/id";
-import { Gift, CreditCard, Truck, MapPin, Mail, Phone, User } from "lucide-react";
+import { Gift, CreditCard, Truck, Mail, Phone, User, MapPinCheck } from "lucide-react";
 import ProductImage from "../product/product-image";
 import { Card } from "../ui/card";
 import { format } from "date-fns";
@@ -101,7 +101,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                             <span>Antar Kurir</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <MapPin className="w-5 h-5 text-primary" />
+                            <MapPinCheck className="w-5 h-5 text-primary" />
                             <span>Alamat:</span>
                             <p className="text-sm font-medium">{trx.pengiriman?.alamat.label}</p>
 
@@ -110,7 +110,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                     </Card>
                 ) : (
                     <Card className="relative p-2 flex items-center gap-2 text-sm">
-                        <MapPin className="w-5 h-5 text-green-600" />
+                        <MapPinCheck className="w-5 h-5 text-green-600" />
                         <span>
                             Ambil di gudang tanggal <strong>{format(new Date(trx.jadwal_pengambilan ?? trx.tanggal_penjualan), "dd MMM yyyy, HH:mm", { locale: id })}</strong>
                         </span>

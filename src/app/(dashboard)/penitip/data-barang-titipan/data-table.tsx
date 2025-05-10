@@ -19,12 +19,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 import React, { useState } from "react"
 import { DataTablePagination } from "@/components/data-table-pagination"
-import Link from "next/link"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -74,8 +72,8 @@ export function DataTable<TData, TValue>({
                     className="max-w-sm"
                 />
             </div>
-            <div className="rounded-md border">
-                <Table>
+            <div className="rounded-md border ">
+                <Table >
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
