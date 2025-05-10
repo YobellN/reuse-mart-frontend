@@ -18,13 +18,18 @@ export default function DisplayProdukRekomendasi() {
     loadPage(1);
   }, []);
 
+  const [loadedPages, setLoadedPages] = useState<Set<number>>(new Set());
+
   async function loadPage(p: number) {
+    if (loadedPages.has(p)) return;
+
     setLoading(true);
     try {
       const { data, meta }: Paginated<Produk> = await getProduk({ limit: 6, page: p });
       setItems(prev => (p === 1 ? data : [...prev, ...data]));
       setPage(meta.current_page);
       setLastPage(meta.last_page);
+      setLoadedPages(prev => new Set(prev).add(p));
     } finally {
       setLoading(false);
     }
