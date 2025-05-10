@@ -93,6 +93,12 @@ const data = {
       role: "Penitip"
     },
     {
+      title: "Data Barang Terjual",
+      url: "/penitip/data-barang-terjual",
+      icon: ToyBrick,
+      role: "Penitip"
+    },
+    {
       title: "Transaksi Penitipan",
       url: "/gudang/transaksi-penitipan",
       icon: ToyBrick,
@@ -163,12 +169,14 @@ type UserProfile = {
   name: string | undefined
   email: string | undefined
   avatar: string
+  role: string | undefined
 }
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
   const userProfile: UserProfile = {
     email: user.data?.email,
     name: user.data?.nama,
     avatar: "/avatars/shadcn.jpg",
+    role: user.data?.role,
   }
   return (
     <Sidebar collapsible="icon" {...props}>

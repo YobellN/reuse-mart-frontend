@@ -39,6 +39,7 @@ export function NavUser({
     name: string | undefined
     email: string | undefined
     avatar: string | undefined
+    role: string | undefined
   }
 }) {
   const { isMobile } = useSidebar();
@@ -52,6 +53,26 @@ export function NavUser({
       toast.error("Terjadi kesalahan" + err.message);
     })
   }
+
+  const handleNavigateToProfile = () => {
+    switch (user.role) {
+      case "Pembeli":
+        router.push("/profile");
+        break;
+      case "Penitip":
+        router.push("/penitip/profile");
+        break;
+      case "Admin":
+        router.push("/admin/profile");
+        break;
+      case "CS":
+        router.push("/cs/profile");
+        break;
+      default:
+        router.push("/profile");
+    }
+  };
+
 
   return (
     <SidebarMenu>
@@ -97,7 +118,7 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleNavigateToProfile}>
                 <IconUserCircle />
                 Account
               </DropdownMenuItem>

@@ -12,7 +12,7 @@ export type User = {
   pegawai: Pegawai | null;
   pembeli: Pembeli | null;
   organisasi: object | null;
-  penitip: object | null;
+  penitip: Penitip | null;
 };
 
 
@@ -43,4 +43,13 @@ export type Jabatan = {
     id_jabatan: string
     nama_jabatan: string
     status_jabatan: boolean
+}
+
+// seka yg nambahin
+export type Penitip = {
+  id_penitip: string;
+  nik: string;
+  foto_ktp: string;
+  saldo: number;
+  poin: number; 
 }

@@ -9,7 +9,7 @@ export default async function PenitipPage() {
     const data = await getProdukTitipan();
     return (
         <>
-            <SiteHeader title="Data Master Request Donasi" />
+            <SiteHeader title="Data Master Penitipan" />
             <DataTable columns={columns} data={data} />
         </>
     )
