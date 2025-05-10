@@ -3,14 +3,14 @@
 import { cookies } from "next/headers";
 import api from "../api";
 import { IResponse, User } from "../utils";
+import { cache } from "react";
 
-export async function getUser(): Promise<IResponse<User>> {
+export const getUser = cache(async (): Promise<IResponse<User>> => {
   try {
     const res = await api.get("/getUser");
-
     return {
       message: res.data.message,
-      data: res.data.data, 
+      data: res.data.data,
     };
   } catch (err: any) {
     if (err.response?.data?.errors) {
@@ -19,11 +19,9 @@ export async function getUser(): Promise<IResponse<User>> {
         errors: err.response.data.errors,
       };
     }
-    return {
-      message: "Terjadi kesalahan",
-    };
+    return { message: "Terjadi kesalahan" };
   }
-}
+});
 
 export async function handleLogin(formData: FormData): Promise<IResponse<any>> {
     try {
