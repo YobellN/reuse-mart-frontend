@@ -90,6 +90,46 @@ export async function handleRegister(formData: FormData): Promise<IResponse<User
     }
 }
 
+export async function handleRegisterOrganisasi(formData: FormData): Promise<IResponse<User>> {
+  try {
+    const nama = formData.get("nama");
+    const email = formData.get("email");
+    const no_telp = formData.get("no_telp");
+    const password = formData.get("password");
+    const no_sk = formData.get("no_sk");
+    const jenis_organisasi = formData.get("jenis_organisasi");
+    const alamat_organisasi = formData.get("alamat_organisasi");
+
+    console.log("masuk axios");
+    const res = await api.post("/register-organisasi", {
+      nama: nama,
+      no_telp: no_telp,
+      email: email,
+      password: password,
+      no_sk: no_sk,
+      jenis_organisasi: jenis_organisasi,
+      alamat_organisasi: alamat_organisasi
+    });
+    console.log("selesai axios : ", res.data);
+    return {
+      message: res.data.message,
+      data: res.data.data,
+    };
+    
+  } catch (err: any) {
+    if (err.response?.data?.errors) {
+      return {
+        message: err.response.data.message,
+        errors: err.response.data.errors,
+      };
+    }
+
+    return {
+      message: "Terjadi kesalahan",
+    };
+  }
+}
+
 export default async function logout() {
     (await cookies()).delete("token");
 }
