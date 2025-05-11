@@ -59,4 +59,10 @@ export type Organisasi = {
   no_sk: string;
   jenis_organisasi: string;
   alamat_organisasi: string;
+  user: {
+      nama: string;
+      email: string;
+      no_telp: string;
+      fcm_token: string | null;
+  };
 }

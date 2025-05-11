@@ -1,7 +1,7 @@
 'use server';
 
 import api from "../api";
-import { IResponse } from "../utils";
+import { IResponse, Organisasi } from "../utils";
 import { RequestDonasi } from "./schema-organisasi";
 
 export async function getAllRequestDonasi(): Promise<RequestDonasi[]> {
@@ -13,75 +13,128 @@ export async function getAllRequestDonasi(): Promise<RequestDonasi[]> {
   }
 };
 
+export async function getOrganisasiById(id_organisasi: string): Promise<Organisasi | null> {
+  try {
+    const res = await api.get(`/organisasi/${id_organisasi}`);
+    return res.data.data
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function handleNewRequestDonasi(formData: FormData): Promise<IResponse<RequestDonasi>> {
-    try {
-      const res = await api.post("/request-donasi", formData);
+  try {
+    const res = await api.post("/request-donasi", formData);
+    return {
+      message: res.data.message,
+      data: res.data.data,
+    };
+  } catch (err: any) {
+    if (err.response?.data?.errors) {
       return {
-        message: res.data.message,
-        data: res.data.data,
-      };
-    } catch (err: any) {
-      if (err.response?.data?.errors) {
-        return {
-          message: err.response.data.message,
-          errors: err.response.data.errors,
-        };
-      }
-      return {
-        message: "Terjadi kesalahan",
+        message: err.response.data.message,
+        errors: err.response.data.errors,
       };
     }
+    return {
+      message: "Terjadi kesalahan",
+    };
+  }
 };
 
 export async function getRequestDonasyById(id_request_donasi: number): Promise<RequestDonasi | null> {
-    try {
-        const res = await api.get(`/request-donasi/${id_request_donasi}`);
-        return res.data.data;
-    } catch (err: any) {
-        return null;
-    }
-    
+  try {
+    const res = await api.get(`/request-donasi/${id_request_donasi}`);
+    return res.data.data;
+  } catch (err: any) {
+    return null;
+  }
+
 };
 
 export async function handleUpdateRequestDonasi(formData: FormData, id_request_donasi: number): Promise<IResponse<RequestDonasi>> {
-    try {
+  try {
     //   formData.append("_method", "PATCH");
-      const res = await api.patch(`/request-donasi/${id_request_donasi}`, {
-        deskripsi_request: formData.get("deskripsi_request"),
-      });
+    const res = await api.patch(`/request-donasi/${id_request_donasi}`, {
+      deskripsi_request: formData.get("deskripsi_request"),
+    });
+    return {
+      message: res.data.message,
+      data: res.data.data,
+    };
+  } catch (err: any) {
+    if (err.response?.data?.errors) {
       return {
-        message: res.data.message,
-        data: res.data.data,
-      };
-    } catch (err: any) {
-      if (err.response?.data?.errors) {
-        return {
-          message: err.response.data.message,
-          errors: err.response.data.errors,
-        };
-      }
-      return {
-        message: "Terjadi kesalahan",
+        message: err.response.data.message,
+        errors: err.response.data.errors,
       };
     }
+    return {
+      message: "Terjadi kesalahan",
+    };
+  }
 };
 
 
-export async function handleDeleteRequestDonasi(id_request_donasi:number) : Promise<IResponse<any>> {
+export async function handleDeleteRequestDonasi(id_request_donasi: number): Promise<IResponse<any>> {
+  try {
+    const res = await api.delete(`/request-donasi/${id_request_donasi}`);
+    return {
+      message: res.data.message,
+    }
+  } catch (error: any) {
+    if (error.response?.data) {
+      return {
+        message: error.response.data.message,
+        errors: error.response.data.errors
+      }
+    }
+    return {
+      message: "Terjadi kesalahan"
+    }
+  }
+};
+
+export async function handleUpdateOrganisasi(formData: FormData, id_organisasi: string): Promise<IResponse<Organisasi>> {
+  try {
+    formData.append("_method", "PUT");
+    const res = await api.post(`/organisasi/${id_organisasi}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return {
+      message: res.data.message,
+      data: res.data.data,
+    };
+  } catch (err: any) {
+    if (err.response?.data?.errors) {
+      return {
+        message: err.response.data.message,
+        errors: err.response.data.errors,
+      };
+    }
+    return {
+      message: "Terjadi kesalahan",
+    };
+  }
+};
+
+export async function handleDeleteOrganisasi(id: string) : Promise<IResponse<any>>{
     try {
-        const res = await api.delete(`/request-donasi/${id_request_donasi}`);
+        const res = await api.delete(`/organisasi/${id}`);
         return {
             message: res.data.message,
+            data: res.data.data
         }
-    } catch (error:any) {
-        if(error.response?.data){
+    } catch (error : any) {
+        if(error.response?.data) {
             return {
                 message: error.response.data.message,
                 errors: error.response.data.errors
             }
-        }
-        return {
-            message: "Terjadi kesalahan"
+        } else {
+            return {
+                message: "Terjadi kesalahan"
+            }
         }
     }
-};
+}
