@@ -90,3 +90,12 @@ export async function handleDeletePenitip(id: string) : Promise<IResponse<any>>{
     }
 }
 
+export async function getNikPenitip(): Promise<string | null> {
+  try {
+      const res = await api.get(`penitip/getNikPenitip`);
+      console.log(res.data.data.nik);
+      return res.data.data.nik;
+  } catch (error) {
+      return null;
+  }
+}

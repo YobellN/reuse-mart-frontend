@@ -11,8 +11,8 @@ export type User = {
   role: string;
   pegawai: Pegawai | null;
   pembeli: Pembeli | null;
-  organisasi: object | null;
-  penitip: object | null;
+  organisasi: Organisasi | null;
+  penitip: Penitip | null;
 };
 
 
@@ -43,4 +43,26 @@ export type Jabatan = {
     id_jabatan: string
     nama_jabatan: string
     status_jabatan: boolean
+}
+
+// seka yg nambahin
+export type Penitip = {
+  id_penitip: string;
+  nik: string;
+  foto_ktp: string;
+  saldo: number;
+  poin: number; 
+}
+
+export type Organisasi = {
+  id_organisasi: string;
+  no_sk: string;
+  jenis_organisasi: string;
+  alamat_organisasi: string;
+  user: {
+      nama: string;
+      email: string;
+      no_telp: string;
+      fcm_token: string | null;
+  };
 }

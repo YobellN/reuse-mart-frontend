@@ -95,6 +95,12 @@ const data = {
       role: "Penitip"
     },
     {
+      title: "Data Barang Terjual",
+      url: "/penitip/data-barang-terjual",
+      icon: ToyBrick,
+      role: "Penitip"
+    },
+    {
       title: "Perpanjang Produk Titipan",
       url: "/penitip/perpanjang",
       icon: TimerReset,
@@ -177,12 +183,14 @@ type UserProfile = {
   name: string | undefined
   email: string | undefined
   avatar: string
+  role: string | undefined
 }
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
   const userProfile: UserProfile = {
     email: user.data?.email,
     name: user.data?.nama,
     avatar: "/avatars/shadcn.jpg",
+    role: user.data?.role,
   }
 
   function getBaseRouteByRole(role: string | undefined): string {
