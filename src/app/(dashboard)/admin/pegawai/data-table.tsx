@@ -25,10 +25,11 @@ import { Input } from "@/components/ui/input"
 
 import React, { useState } from "react"
 import { DataTablePagination } from "@/components/data-table-pagination"
+import Link from "next/link";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
 export function DataTable<TData, TValue>({
@@ -41,9 +42,7 @@ export function DataTable<TData, TValue>({
       desc: false,
     },
   ]);
-  const [globalFilter, setGlobalFilter] = useState<any>([])
-
-
+  const [globalFilter, setGlobalFilter] = useState<any>([]);
 
   const table = useReactTable({
     data,
@@ -53,7 +52,7 @@ export function DataTable<TData, TValue>({
     initialState: {
       pagination: {
         pageSize: 10,
-      }
+      },
     },
     getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
@@ -62,23 +61,20 @@ export function DataTable<TData, TValue>({
       sorting,
       globalFilter,
     },
-    onGlobalFilterChange: setGlobalFilter
-  })
-
+    onGlobalFilterChange: setGlobalFilter,
+  });
 
   return (
     <div>
       <div className="flex items-center py-4 md:py-6 justify-between">
         <Input
           placeholder="Cari pegawai..."
-          onChange={e => table.setGlobalFilter(String(e.target.value))}
-
+          onChange={(e) => table.setGlobalFilter(String(e.target.value))}
           className="max-w-sm"
         />
-
-        <Button>
-          + Tambah pegawai
-        </Button>
+        <Link href="/admin/pegawai/new">
+          <Button>+ Tambah pegawai</Button>
+        </Link>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -91,11 +87,11 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -109,14 +105,20 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   Tidak ada data pegawai
                 </TableCell>
               </TableRow>
@@ -127,5 +129,5 @@ export function DataTable<TData, TValue>({
       <br />
       <DataTablePagination table={table} />
     </div>
-  )
+  );
 }
