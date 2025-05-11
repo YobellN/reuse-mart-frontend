@@ -162,12 +162,20 @@ export function LoginForm({
                   loginForm.formState.isSubmitSuccessful
                     ? "Memproses.."
                     : "Masuk"}
-                </Button>
+                </Button> 
                 <div className="text-center text-sm">
                   Belum memiliki akun?{" "}
                   <Link href="/register">
                     <span className="underline underline-offset-4 text-primary">
                       Daftar
+                    </span>
+                  </Link>
+                </div>
+                <div className="text-center text-sm">
+                Organisasi?{" "}
+                  <Link href="/organisasi-register">
+                    <span className="underline underline-offset-4 text-primary">
+                    Daftar disini!
                     </span>
                   </Link>
                 </div>
