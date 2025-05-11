@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import * as React from "react";
 import { format } from "date-fns";
@@ -47,14 +47,15 @@ import {
   PegawaiFormSchema,
   PegawaiSchema,
 } from "@/services/pegawai/schema-pegawai";
-import router from "next/router";
 import { toast } from "sonner";
 import { handleNewPegawai } from "@/services/pegawai/pegawai-service";
+import { useRouter } from "next/navigation";
 
 export default function NewPegawaiForm() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [submit, setSubmit] = React.useState(false);
+  const router = useRouter();
 
   const form = useForm<PegawaiFormSchema>({
     resolver: zodResolver(PegawaiSchema),
@@ -85,7 +86,6 @@ export default function NewPegawaiForm() {
       };
 
       finalFormData.current = payload;
-      console.log(finalFormData.current);
       setOpen(true);
     } else {
       alert("Form belum valid");
@@ -93,14 +93,12 @@ export default function NewPegawaiForm() {
   }
 
   async function handleSubmit(data: PegawaiPayload) {
-    console.log(data);
     setSubmit(true);
 
     try {
       const res = await handleNewPegawai(data);
-      console.log(res);
 
-      if (res.message === "Pegawai berhasil ditambahkan") {
+      if (res.message == "Pegawai berhasil ditambahkan") {
         router.push("/admin/pegawai");
         toast.success("Pegawai berhasil ditambahkan");
         form.reset();
@@ -117,9 +115,6 @@ export default function NewPegawaiForm() {
         setSubmit(false);
         toast.error("Gagal menambahkan pegawai");
       }
-    } catch (err) {
-      setSubmit(false);
-      toast.error("Terjadi kesalahan server");
     } finally {
       setOpen(false);
     }

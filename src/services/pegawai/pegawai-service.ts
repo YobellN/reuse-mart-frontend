@@ -1,3 +1,5 @@
+'use server'
+
 import api from "../api";
 import { IResponse } from "../utils";
 import { Pegawai, PegawaiPayload } from "./schema-pegawai";
@@ -27,8 +29,6 @@ export async function getPegawaiById(
 export async function handleNewPegawai(
   data: PegawaiPayload
 ): Promise<IResponse<Pegawai>> {
-  console.log("CEK API================");
-  console.log(data);
   try {
     const res = await api.post("/pegawai", data);
     return {
