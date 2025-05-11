@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Star } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { ProdukTitipan } from "@/services/penitipan/schema-penitipan";
@@ -9,6 +9,14 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale/id";
 import { Badge } from "@/components/ui/badge";
 import ProductImage from "@/components/product/product-image";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import ConfirmDialog from "@/components/confirm-dialog";
+import { konfirmasiPengambilan } from "@/services/penitipan/penitipan-services";
 
 export const columns: ColumnDef<ProdukTitipan>[] = [
     {
@@ -48,6 +56,18 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
                 : "",
         cell: ({ row }) => {
             return row.getValue("tanggal_penitipan");
+        },
+    },
+    {
+        id: "tenggat_pengambilan",
+        accessorKey: "tenggat_pengambilan",
+        header: "Tenggat Pengambilan",
+        accessorFn: (row) =>
+            row.tenggat_pengambilan
+                ? format(new Date(row.tenggat_pengambilan), "dd MMMM yyyy", { locale: id })
+                : "",
+        cell: ({ row }) => {
+            return row.getValue("tenggat_pengambilan");
         },
     },
     {
@@ -140,38 +160,37 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
                 case "Tidak Laku":
                     return <Badge variant="destructive">{value}</Badge>;
                 case "Akan Diambil":
-                    return <Badge variant="outline" className="text-purple-500 dark:text-purple-400 border-purple-500 dark:border-purple-400">{value}</Badge>;
+                    return <Badge variant="outline" className="text-orange-400 border-orange-400">{value}</Badge>;
                 default:
                     return <Badge variant="processing">Sedang dijual</Badge>;
             }
         },
     },
     {
-        id: "rating",
-        accessorKey: "rating",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Rating
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-        accessorFn: (row) => row.rating,
+        id: "actions",
+        header: "Aksi",
         cell: ({ row }) => {
-            const value = row.getValue("rating");
-
-            if (!value) return <span className="text-muted-foreground italic">Tidak ada</span>;
+            const id_produk: string = row.original.id_produk;
 
             return (
-                <div className="flex items-center gap-1 text-yellow-500 font-medium">
-                    <Star className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
-                    <span>{row.getValue("rating")} / 5</span>
-                </div>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="flex flex-col">
+                        <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                        <ConfirmDialog
+                            description="Apakah anda yakin ingin melakukan konfirmasi pengambilan?"
+                            onConfirm={() => konfirmasiPengambilan(id_produk)}
+                            label="Konfirmasi Pengambilan"
+                            message="Konfirmasi pengambilan berhasil dilakukan"
+                        />
+                    </DropdownMenuContent>
+                </DropdownMenu>
             );
-        }
+        },
     },
 ];

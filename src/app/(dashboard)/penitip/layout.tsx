@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
     const user = await getUser();
-    if(user?.data && user.data.role !== "Penitip") {
+    if (user?.data && user.data.role !== "Penitip") {
         return (
             <div className="p-4 md:p-10 flex justify-center min-h-svh">
                 <div className="w-full max-w-md">
@@ -23,6 +23,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
     }
 
     return (
-       children
+        <>
+            {children}
+        </>
     );
 }

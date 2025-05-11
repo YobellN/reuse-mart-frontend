@@ -5,7 +5,9 @@ import {
   BookOpen,
   DollarSign,
   GalleryVerticalEnd,
+  HandHelping,
   Home,
+  TimerReset,
   ToyBrick,
   User2,
 } from "lucide-react"
@@ -27,14 +29,14 @@ import {
 import { TeamSwitcher } from "./team-switcher"
 import Link from "next/link"
 import { IResponse, User } from "@/services/utils"
-import { IconArchive, IconCalendarStats, IconCategory, IconChartBar, IconClipboardList, IconGift, IconInbox, IconMail, IconMoneybag, IconReceipt, IconTag, IconTrash } from "@tabler/icons-react"
+import { IconArchive, IconCalendarStats, IconClipboardList, IconGift, IconInbox, IconMoneybag, IconReceipt, IconTag, IconTrash } from "@tabler/icons-react"
 
 const data = {
   teams: [
     {
       name: "ReUse Mart",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: "E-Commerce",
     },
   ],
   navMain: [
@@ -90,6 +92,18 @@ const data = {
       title: "Data Produk Titipan",
       url: "/penitip/data-barang-titipan",
       icon: ToyBrick,
+      role: "Penitip"
+    },
+    {
+      title: "Perpanjang Produk Titipan",
+      url: "/penitip/perpanjang",
+      icon: TimerReset,
+      role: "Penitip"
+    },
+    {
+      title: "Pengambilan Produk Titipan",
+      url: "/penitip/pengambilan",
+      icon: HandHelping,
       role: "Penitip"
     },
     {
@@ -170,10 +184,29 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
     name: user.data?.nama,
     avatar: "/avatars/shadcn.jpg",
   }
+
+  function getBaseRouteByRole(role: string | undefined): string {
+    switch (role) {
+      case "Admin":
+        return "/admin";
+      case "CS":
+        return "/cs";
+      case "Gudang":
+        return "/gudang";
+      case "Penitip":
+        return "/penitip";
+      case "Organisasi":
+        return "/organisasi";
+      case "Owner":
+        return "/owner";
+      default:
+        return "/";
+    }
+  }
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <TeamSwitcher teams={data.teams} link={getBaseRouteByRole(user?.data?.role)} />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroupLabel>Data Master {user?.data?.role}</SidebarGroupLabel>

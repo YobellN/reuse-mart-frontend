@@ -1,16 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { ChevronsUpDown, Plus } from "lucide-react"
 
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
   SidebarMenu,
@@ -21,15 +14,15 @@ import {
 import Link from "next/link"
 
 export function TeamSwitcher({
-  teams,
+  teams, link
 }: {
   teams: {
     name: string
     logo: React.ElementType
     plan: string
-  }[]
+  }[], link: string
 }) {
-  const { isMobile } = useSidebar()
+  // const { isMobile } = useSidebar()
   const [activeTeam, setActiveTeam] = React.useState(teams[0])
 
   if (!activeTeam) {
@@ -40,8 +33,8 @@ export function TeamSwitcher({
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-        <Link href={'/dashboard'}>
-        <SidebarMenuButton
+          <Link href={`${link.toLocaleLowerCase()}`}>
+            <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
@@ -55,7 +48,7 @@ export function TeamSwitcher({
                 <span className="truncate text-xs">{activeTeam.plan}</span>
               </div>
             </SidebarMenuButton>
-        </Link>
+          </Link>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>

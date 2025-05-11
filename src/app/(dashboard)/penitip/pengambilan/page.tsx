@@ -6,7 +6,7 @@ import { getProdukTitipanPenitip } from "@/services/penitipan/penitipan-services
 
 
 export default async function Page() {
-    const data = await getProdukTitipanPenitip();
+    const data = await getProdukTitipanPenitip("Tidak Laku");
     return (
         <>
             <SiteHeader title="Data Master Produk Titipan" />
