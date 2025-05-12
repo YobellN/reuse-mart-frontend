@@ -14,7 +14,7 @@ import HapusDialog from "@/components/hapus-dialog";
 import Link from "next/link";
 import { Penitip } from "@/services/penitip/schema-penitip";
 import { handleDeletePenitip } from "@/services/penitip/penitip-services";
-import ProductImage from "@/components/product/product-image";
+import FotoKTP from "@/components/penitip/foto-ktp";
 
 export const columns: ColumnDef<Penitip>[] = [
     {
@@ -24,7 +24,7 @@ export const columns: ColumnDef<Penitip>[] = [
         cell: ({ row }) => {
             return (
                 <div className="w-16 h-16 overflow-hidden rounded border relative">
-                    <ProductImage filename={row.getValue("foto_ktp")} style={{ objectFit: "cover" }} />
+                    <FotoKTP filename={row.getValue("foto_ktp")} style={{ objectFit: "cover" }} />
                 </div>
             );
         },
