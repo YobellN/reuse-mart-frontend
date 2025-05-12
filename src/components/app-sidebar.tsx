@@ -139,13 +139,13 @@ const data = {
     },
     {
       title: "Kelola Donasi Barang",
-      url: "/owner/donasi",
+      url: "/owner/data-barang-donasi",
       icon: IconGift,
       role: "Owner",
     },
     {
       title: "Histori Donasi",
-      url: "/owner/history-donasi",
+      url: "/owner/riwayat-donasi",
       icon: IconReceipt,
       role: "Owner",
     },
