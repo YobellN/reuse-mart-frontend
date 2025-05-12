@@ -23,6 +23,8 @@ import { Pegawai } from "@/services/utils";
 import { resetPasswordByAdmin } from "@/services/auth/user-services";
 import { toast } from "sonner";
 import Link from "next/link";
+import HapusDialog from "@/components/hapus-dialog";
+import { handleDeletePegawai } from "@/services/pegawai/pegawai-service";
 
 export const columns: ColumnDef<Pegawai>[] = [
   {
@@ -119,9 +121,18 @@ export const columns: ColumnDef<Pegawai>[] = [
               <KeyRound /> Reset Password
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600 focus:text-red-600">
-              <Trash2 className="text-red-600" /> Hapus Data Pegawai
-            </DropdownMenuItem>
+
+            <HapusDialog
+              id={row.original.id_pegawai}
+              onHapus={() => handleDeletePegawai(row.original.id_pegawai)}
+              label="Data Pegawai"
+              detail={row.original.user.nama}
+              triggerButton={
+                <Button className="text-red-600 focus:text-red-600 bg-transparent hover:bg-red-200">
+                  <Trash2 className="text-red-600" /> Hapus Data Pegawai
+                </Button>
+              }
+            />
           </DropdownMenuContent>
         </DropdownMenu>
       );
