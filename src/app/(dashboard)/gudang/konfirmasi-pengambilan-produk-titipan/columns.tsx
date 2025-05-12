@@ -15,8 +15,6 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ConfirmDialog from "@/components/confirm-dialog";
-import { konfirmasiPengambilan } from "@/services/penitipan/penitipan-services";
 
 export const columns: ColumnDef<ProdukTitipan>[] = [
     {
@@ -59,15 +57,15 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
         },
     },
     {
-        id: "tenggat_pengambilan",
-        accessorKey: "tenggat_pengambilan",
-        header: "Tenggat Pengambilan",
+        id: "jadwal_pengambilan",
+        accessorKey: "jadwal_pengambilan",
+        header: "Jadwal Pengambilan",
         accessorFn: (row) =>
-            row.tenggat_pengambilan
-                ? format(new Date(row.tenggat_pengambilan), "dd MMMM yyyy", { locale: id })
-                : "",
+            row.tanggal_pengambilan
+                ? format(new Date(row.tanggal_pengambilan), "dd MMMM yyyy", { locale: id })
+                : "Belum dijadwalkan",
         cell: ({ row }) => {
-            return row.getValue("tenggat_pengambilan");
+            return row.getValue("jadwal_pengambilan");
         },
     },
     {
@@ -182,12 +180,12 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        <ConfirmDialog
+                        {/* <ConfirmDialog
                             description="Apakah anda yakin ingin melakukan konfirmasi pengambilan?"
                             onConfirm={() => konfirmasiPengambilan(id_produk)}
                             label="Konfirmasi Pengambilan"
                             message="Konfirmasi pengambilan berhasil dilakukan"
-                        />
+                        /> */}
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

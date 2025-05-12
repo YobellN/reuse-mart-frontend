@@ -160,7 +160,7 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
                 case "Tidak Laku":
                     return <Badge variant="destructive">{value}</Badge>;
                 case "Akan Diambil":
-                    return <Badge className="text-orange-400 border-orange-400">{value}</Badge>;
+                    return <Badge variant="outline" className="text-purple-500 dark:text-purple-400 border-purple-500 dark:border-purple-400">{value}</Badge>;
                 default:
                     return <Badge variant="processing">Sedang dijual</Badge>;
             }

@@ -21,5 +21,5 @@ export type ProdukTitipan = {
   nama_qc: string;
   id_hunter: string | null;
   hunter: string | null;
-  jadwal_pengambilan: string | null;
+  tanggal_pengambilan: string | null;
 };

@@ -3,6 +3,7 @@
 import * as React from "react"
 import {
   BookOpen,
+  Calendar,
   DollarSign,
   GalleryVerticalEnd,
   HandHelping,
@@ -110,6 +111,12 @@ const data = {
       title: "Pengambilan Produk Titipan",
       url: "/penitip/pengambilan",
       icon: HandHelping,
+      role: "Penitip"
+    },
+    {
+      title: "Riwayat Pengambilan Produk Titipan",
+      url: "/penitip/riwayat-pengambilan",
+      icon: Calendar,
       role: "Penitip"
     },
     {

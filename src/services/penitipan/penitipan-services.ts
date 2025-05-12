@@ -30,6 +30,7 @@ export async function getProdukTitipanPenitip(status_produk?: string): Promise<P
       tenggat_penitipan: item.detail_penitipan.penitipan.tenggat_penitipan,
       tenggat_pengambilan: item.detail_penitipan.penitipan.tenggat_pengambilan,
       status_perpanjangan: item.detail_penitipan.penitipan.status_perpanjangan,
+      tanggal_pengambilan: item.detail_penitipan.tanggal_pengambilan
     }));
 
     return data;   
