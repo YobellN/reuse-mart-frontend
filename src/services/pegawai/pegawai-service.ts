@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 "use server";
-=======
-'use server'
->>>>>>> master
 
 import api from "../api";
 import { IResponse } from "../utils";
