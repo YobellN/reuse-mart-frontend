@@ -22,6 +22,7 @@ import { Pegawai } from "@/services/utils";
 
 import { resetPasswordByAdmin } from "@/services/auth/user-services";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export const columns: ColumnDef<Pegawai>[] = [
   {
@@ -82,8 +83,8 @@ export const columns: ColumnDef<Pegawai>[] = [
     enableHiding: false,
     header: "Aksi",
     cell: ({ row }) => {
-      const payment = row.original;
-      const pegawai_id = payment.id_pegawai;
+      const rowData = row.original;
+      const pegawai_id = rowData.id_pegawai;
       const handleResetPassword = async () => {
         if (confirm("Apakah Anda yakin ingin mereset password pegawai ini?")) {
           const response = await resetPasswordByAdmin(pegawai_id);
@@ -107,7 +108,9 @@ export const columns: ColumnDef<Pegawai>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Aksi:</DropdownMenuLabel>
             <DropdownMenuItem>
-              <SquarePen /> Edit Data Pegawai
+              <Link href={`admin/pegawai/${rowData.id_pegawai}`}>
+                <SquarePen /> Edit Data Pegawai
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleResetPassword}>
               <KeyRound /> Reset Password
