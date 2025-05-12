@@ -41,6 +41,8 @@ export default function UpdatePenitipForm({ penitip }: { penitip: Penitip }) {
             email: penitip.user.email,
             no_telp: penitip.user.no_telp,
             nik: penitip.nik,
+            poin: penitip.poin,
+            saldo: penitip.saldo
         },
     });
     const finalFormData = React.useRef(new FormData());
@@ -53,6 +55,8 @@ export default function UpdatePenitipForm({ penitip }: { penitip: Penitip }) {
             formData.append("nama", values.nama);
             formData.append("email", values.email);
             formData.append("no_telp", values.no_telp);
+            formData.append("poin", (values.poin ?? 0).toString());
+            formData.append("saldo", (values.saldo ?? 0).toString());
             formData.append("nik", values.nik);
             if (values.foto_ktp) {
                 formData.append("foto_ktp", values.foto_ktp);
@@ -145,6 +149,32 @@ export default function UpdatePenitipForm({ penitip }: { penitip: Penitip }) {
                             )}
                         />
 
+                        <FormField
+                            control={form.control}
+                            name="poin"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Poin</FormLabel>
+                                    <FormControl>
+                                        <Input type="number" placeholder="" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="saldo"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Saldo</FormLabel>
+                                    <FormControl>
+                                        <Input type="number" placeholder="" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="nik"
