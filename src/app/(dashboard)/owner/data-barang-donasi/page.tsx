@@ -8,9 +8,9 @@ import { getProdukDonasi } from "@/services/organisasi/organisasi-services";
 export default async function Page() {
     const data = await getProdukDonasi();
     return (
-        <>
-            <SiteHeader title="Data Master Produk Titipan" />
-            <DataTable columns={columns} data={data} />
-        </>
-    )
+      <>
+        <SiteHeader title="Daftar Produk Untuk Donasi" />
+        <DataTable columns={columns} data={data} />
+      </>
+    );
 }
