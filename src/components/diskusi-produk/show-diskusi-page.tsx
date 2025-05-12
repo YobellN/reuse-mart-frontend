@@ -7,7 +7,7 @@ import {
 import ProductDiscussionCard from "@/components/diskusi-produk/card-tampil-diskusi-produk";
 import { Separator } from "../ui/separator";
 
-export default function ShowDiskusiPage() {
+export default function ShowDiskusiPage({ id_produk }: { id_produk: string }) {
   return (
     <Accordion
       defaultValue="item-0"
@@ -28,7 +28,7 @@ export default function ShowDiskusiPage() {
           </div>
         </AccordionTrigger>
         <AccordionContent className="p-3">
-          <ProductDiscussionCard />
+          <ProductDiscussionCard id_produk={id_produk} />
         </AccordionContent>
       </AccordionItem>
     </Accordion>

@@ -98,7 +98,6 @@ export async function handleRegisterOrganisasi(formData: FormData): Promise<IRes
     const jenis_organisasi = formData.get("jenis_organisasi");
     const alamat_organisasi = formData.get("alamat_organisasi");
 
-    console.log("masuk axios");
     const res = await api.post("/register-organisasi", {
       nama: nama,
       no_telp: no_telp,
@@ -108,7 +107,6 @@ export async function handleRegisterOrganisasi(formData: FormData): Promise<IRes
       jenis_organisasi: jenis_organisasi,
       alamat_organisasi: alamat_organisasi
     });
-    console.log("selesai axios : ", res.data);
     return {
       message: res.data.message,
       data: res.data.data,

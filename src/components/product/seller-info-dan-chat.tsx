@@ -6,8 +6,9 @@ import { Star, MessageSquareText } from "lucide-react";
 import DiskusiModal from "../diskusi-produk/diskusi-modal";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
+import { getDiskusiById } from "@/services/diskusi/diskusi-services";
 
-export default function SellerInfo({ idPenitip }: { idPenitip: string }) {
+export default function SellerInfo({ idPenitip, id_produk }: { idPenitip: string, id_produk: string }) {
   const [penitip, setPenitip] = useState<Penitip | null>(null);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -110,14 +111,7 @@ export default function SellerInfo({ idPenitip }: { idPenitip: string }) {
         trigger={<span />}
         open={modalOpen}
         onOpenChange={setModalOpen}
-        diskusi={{
-          id: 123,
-          namaUser: "Ani",
-          idProduk: "P002",
-          pesan: "Barang ini bisa COD?",
-          waktu: "2024-05-08T16:12:00Z",
-          gambar: ["/img1.jpg", "/img2.jpg"],
-        }}
+        id_produk={id_produk}
       />
     </div>
   );
