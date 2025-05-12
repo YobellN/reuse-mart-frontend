@@ -70,3 +70,9 @@ export type PegawaiFormSchema = z.infer<typeof PegawaiSchema>;
 export type PegawaiPayload = Omit<PegawaiFormSchema, "tanggal_lahir"> & {
   tanggal_lahir: string;
 };
+
+export type UpdatePegawaiPayload = Partial<
+  Omit<PegawaiFormSchema, "tanggal_lahir">
+> & {
+  tanggal_lahir?: string;
+};

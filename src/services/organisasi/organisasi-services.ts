@@ -1,8 +1,8 @@
 'use server';
 
 import api from "../api";
-import { IResponse, Organisasi } from "../utils";
-import { RequestDonasi } from "./schema-organisasi";
+import { IResponse } from "../utils";
+import { RequestDonasi, Organisasi } from "./schema-organisasi";
 
 export async function getAllRequestDonasi(): Promise<RequestDonasi[]> {
   try {

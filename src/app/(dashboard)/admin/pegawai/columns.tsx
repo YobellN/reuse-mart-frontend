@@ -22,6 +22,9 @@ import { Pegawai } from "@/services/utils";
 
 import { resetPasswordByAdmin } from "@/services/auth/user-services";
 import { toast } from "sonner";
+import Link from "next/link";
+import HapusDialog from "@/components/hapus-dialog";
+import { handleDeletePegawai } from "@/services/pegawai/pegawai-service";
 
 export const columns: ColumnDef<Pegawai>[] = [
   {
@@ -82,8 +85,8 @@ export const columns: ColumnDef<Pegawai>[] = [
     enableHiding: false,
     header: "Aksi",
     cell: ({ row }) => {
-      const payment = row.original;
-      const pegawai_id = payment.id_pegawai;
+      const rowData = row.original;
+      const pegawai_id = rowData.id_pegawai;
       const handleResetPassword = async () => {
         if (confirm("Apakah Anda yakin ingin mereset password pegawai ini?")) {
           const response = await resetPasswordByAdmin(pegawai_id);
@@ -107,15 +110,29 @@ export const columns: ColumnDef<Pegawai>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Aksi:</DropdownMenuLabel>
             <DropdownMenuItem>
-              <SquarePen /> Edit Data Pegawai
+              <Link
+                href={`/admin/pegawai/${rowData.id_pegawai}`}
+                className="flex gap-2 items-center"
+              >
+                <SquarePen /> Edit Data Pegawai
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleResetPassword}>
               <KeyRound /> Reset Password
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600 focus:text-red-600">
-              <Trash2 className="text-red-600" /> Hapus Data Pegawai
-            </DropdownMenuItem>
+
+            <HapusDialog
+              id={row.original.id_pegawai}
+              onHapus={() => handleDeletePegawai(row.original.id_pegawai)}
+              label="Data Pegawai"
+              detail={row.original.user.nama}
+              triggerButton={
+                <Button className="text-red-600 focus:text-red-600 bg-transparent hover:bg-red-200">
+                  <Trash2 className="text-red-600" /> Hapus Data Pegawai
+                </Button>
+              }
+            />
           </DropdownMenuContent>
         </DropdownMenu>
       );

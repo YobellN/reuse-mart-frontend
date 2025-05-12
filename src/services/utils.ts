@@ -1,3 +1,6 @@
+import { Label } from "recharts";
+import { string } from "zod";
+
 export type IResponse<T> = {
   message: string;
   data?: T;
@@ -65,4 +68,14 @@ export type Organisasi = {
       no_telp: string;
       fcm_token: string | null;
   };
+}
+
+export type Alamat = {
+  id_alamat : string;
+  id_pembeli : string;
+  label : string;
+  kota : string;
+  kecamatan : string;
+  kode_pos : string;
+  alamat_utama : boolean;
 }
