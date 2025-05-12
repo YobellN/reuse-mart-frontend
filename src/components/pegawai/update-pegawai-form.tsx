@@ -44,46 +44,60 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
+  Pegawai,
   PegawaiFormSchema,
   PegawaiSchema,
 } from "@/services/pegawai/schema-pegawai";
 import { toast } from "sonner";
-import { handleNewPegawai } from "@/services/pegawai/pegawai-service";
+import { handleUpdatePegawai } from "@/services/pegawai/pegawai-service";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
 
-export default function UpdatePegawaiForm() {
+const UpdatePegawaiSchema = PegawaiSchema.partial();
+
+type UpdatePegawaiFormSchema = z.infer<typeof UpdatePegawaiSchema>;
+
+export default function UpdatePegawaiForm({ pegawai }: { pegawai: Pegawai }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [submit, setSubmit] = React.useState(false);
   const router = useRouter();
 
-  const form = useForm<PegawaiFormSchema>({
-    resolver: zodResolver(PegawaiSchema),
+  const form = useForm<UpdatePegawaiFormSchema>({
+    resolver: zodResolver(UpdatePegawaiSchema),
     defaultValues: {
-      nama: "",
-      email: "",
-      password: "",
-      no_telp: "",
-      id_jabatan: 1,
-      nip: "",
-      tanggal_lahir: new Date(),
+      nama: pegawai.user.nama,
+      email: pegawai.user.email,
+      no_telp: pegawai.user.no_telp,
+      id_jabatan: pegawai.id_jabatan,
+      nip: pegawai.nip,
+      tanggal_lahir: new Date(pegawai.tanggal_lahir),
     },
   });
 
-  type PegawaiPayload = Omit<PegawaiFormSchema, "tanggal_lahir"> & {
+  type PegawaiPayload = Omit<UpdatePegawaiFormSchema, "tanggal_lahir"> & {
     tanggal_lahir: string;
   };
 
   const finalFormData = React.useRef<PegawaiPayload | null>(null);
 
-  async function onSubmit(values: PegawaiFormSchema) {
+  async function onSubmit(values: UpdatePegawaiFormSchema) {
     const isValid = await form.trigger();
 
     if (isValid) {
-      const payload = {
+      const payload: PegawaiPayload = {
         ...values,
-        tanggal_lahir: format(values.tanggal_lahir, "yyyy-MM-dd"),
+        tanggal_lahir: values.tanggal_lahir
+          ? format(values.tanggal_lahir, "yyyy-MM-dd")
+          : "",
       };
+
+      Object.keys(payload).forEach((key) => {
+        const value = payload[key as keyof PegawaiPayload];
+        if (value === undefined || value === "" || value === null) {
+          delete payload[key as keyof PegawaiPayload];
+        }
+      });
 
       finalFormData.current = payload;
       setOpen(true);
@@ -96,11 +110,11 @@ export default function UpdatePegawaiForm() {
     setSubmit(true);
 
     try {
-      const res = await handleNewPegawai(data);
+      const res = await handleUpdatePegawai(data, pegawai.id_pegawai);
 
-      if (res.message == "Pegawai berhasil ditambahkan") {
+      if (res.message == "Pegawai berhasil diubah") {
         router.push("/admin/pegawai");
-        toast.success("Pegawai berhasil ditambahkan");
+        toast.success("Data pegawai berhasil diubah");
         form.reset();
         setOpen(false);
       } else {
@@ -113,7 +127,7 @@ export default function UpdatePegawaiForm() {
           });
         }
         setSubmit(false);
-        toast.error("Gagal menambahkan pegawai");
+        toast.error("Gagal mengubah data pegawai");
       }
     } finally {
       setOpen(false);
@@ -124,7 +138,7 @@ export default function UpdatePegawaiForm() {
     <Card className="max-w-2xl mx-auto mt-10 shadow-md">
       <CardHeader>
         <CardTitle className="text-2xl text-center">
-          Tambah Data Pegawai Baru
+          Edit Data Pegawai
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -189,7 +203,7 @@ export default function UpdatePegawaiForm() {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
@@ -224,7 +238,7 @@ export default function UpdatePegawaiForm() {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}
@@ -299,7 +313,7 @@ export default function UpdatePegawaiForm() {
             <div className="pt-4">
               <AlertDialog open={open} onOpenChange={setOpen}>
                 <Button type="submit" className="w-full" disabled={submit}>
-                  Daftar
+                  Perbarui Data Pegawai
                 </Button>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -324,7 +338,7 @@ export default function UpdatePegawaiForm() {
                       }}
                       disabled={submit}
                     >
-                      {submit ? "Memproses..." : "Ya, Daftarkan"}
+                      {submit ? "Memproses..." : "Ya, Perbarui"}
                     </Button>
                   </AlertDialogFooter>
                 </AlertDialogContent>

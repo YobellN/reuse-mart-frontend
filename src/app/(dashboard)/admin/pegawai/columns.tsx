@@ -108,7 +108,10 @@ export const columns: ColumnDef<Pegawai>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Aksi:</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link href={`admin/pegawai/${rowData.id_pegawai}`}>
+              <Link
+                href={`/admin/pegawai/${rowData.id_pegawai}`}
+                className="flex gap-2 items-center"
+              >
                 <SquarePen /> Edit Data Pegawai
               </Link>
             </DropdownMenuItem>

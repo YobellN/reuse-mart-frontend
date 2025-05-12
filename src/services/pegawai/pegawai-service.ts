@@ -2,7 +2,11 @@
 
 import api from "../api";
 import { IResponse } from "../utils";
-import { Pegawai, PegawaiPayload } from "./schema-pegawai";
+import {
+  Pegawai,
+  PegawaiPayload,
+  UpdatePegawaiPayload,
+} from "./schema-pegawai";
 
 export async function getAllPegawai(): Promise<Pegawai[]> {
   const res = await api.get("/pegawai");
@@ -50,7 +54,7 @@ export async function handleNewPegawai(
 }
 
 export async function handleUpdatePegawai(
-  data: PegawaiPayload,
+  data: UpdatePegawaiPayload,
   id_pegawai: string
 ): Promise<IResponse<Pegawai>> {
   try {
