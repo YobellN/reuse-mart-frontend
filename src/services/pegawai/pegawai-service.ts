@@ -1,3 +1,5 @@
+"use server";
+
 import api from "../api";
 import { IResponse } from "../utils";
 import { Pegawai, PegawaiPayload } from "./schema-pegawai";
@@ -36,6 +38,7 @@ export async function handleNewPegawai(
       data: res.data.data,
     };
   } catch (err: any) {
+    console.error("AXIOS ERROR:", err.response?.data || err.message);
     if (err.response?.data?.errors) {
       return {
         message: err.response.data.message,
