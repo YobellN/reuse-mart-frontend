@@ -1,5 +1,3 @@
-import {User } from "../utils";
-
 export type Penjualan = {
   id_penjualan: string;
   tanggal_penjualan: string;

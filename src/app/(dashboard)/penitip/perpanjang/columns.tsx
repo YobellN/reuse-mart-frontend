@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Star } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { ProdukTitipan } from "@/services/penitipan/schema-penitipan";
@@ -9,6 +9,14 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale/id";
 import { Badge } from "@/components/ui/badge";
 import ProductImage from "@/components/product/product-image";
+import ConfirmDialog from "@/components/confirm-dialog";
+import { konfirmasiPerpanjangan } from "@/services/penitipan/penitipan-services";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export const columns: ColumnDef<ProdukTitipan>[] = [
     {
@@ -48,6 +56,18 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
                 : "",
         cell: ({ row }) => {
             return row.getValue("tanggal_penitipan");
+        },
+    },
+    {
+        id: "tenggat_penitipan",
+        accessorKey: "tenggat_penitipan",
+        header: "Tenggat Penitipan",
+        accessorFn: (row) =>
+            row.tenggat_penitipan
+                ? format(new Date(row.tenggat_penitipan), "dd MMMM yyyy", { locale: id })
+                : "",
+        cell: ({ row }) => {
+            return row.getValue("tenggat_penitipan");
         },
     },
     {
@@ -140,38 +160,57 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
                 case "Tidak Laku":
                     return <Badge variant="destructive">{value}</Badge>;
                 case "Akan Diambil":
-                    return <Badge variant="outline" className="text-purple-500 dark:text-purple-400 border-purple-500 dark:border-purple-400">{value}</Badge>;
+                    return <Badge className="text-orange-400 border-orange-400">{value}</Badge>;
                 default:
                     return <Badge variant="processing">Sedang dijual</Badge>;
             }
         },
     },
     {
-        id: "rating",
-        accessorKey: "rating",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Rating
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
+        id: "status_perpanjangan",
+        accessorKey: "status_perpanjangan",
+        header: "Status Perpanjangan",
+        accessorFn: (row) => {
+            return row.status_perpanjangan === 1
+                ? "Sudah diperpanjang"
+                : "Belum perpanjangan";
         },
-        accessorFn: (row) => row.rating,
-        cell: ({ row }) => {
-            const value = row.getValue("rating");
 
-            if (!value) return <span className="text-muted-foreground italic">Tidak ada</span>;
+        cell: ({ row }) => {
+            const value = row.getValue("status_perpanjangan");
+
+            if (value === "Sudah diperpanjang") {
+                return <Badge variant="success">{value}</Badge>;
+            } else {
+                return <Badge variant="destructive">{value as string}</Badge>;
+            }
+        },
+    },
+    {
+        id: "actions",
+        header: "Aksi",
+        cell: ({ row }) => {
+            const id_penitipan: string = row.original.id_penitipan;
 
             return (
-                <div className="flex items-center gap-1 text-yellow-500 font-medium">
-                    <Star className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
-                    <span>{row.getValue("rating")} / 5</span>
-                </div>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="flex flex-col">
+                        <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                        <ConfirmDialog
+                            description="Apakah anda yakin ingin melakukan perpanjangan penitipan produk?"
+                            onConfirm={() => konfirmasiPerpanjangan(id_penitipan)}
+                            label="Konfirmasi Perpanjangan"
+                            message="Masa penitipan produk berhasil diperpanjang"
+                        />
+                    </DropdownMenuContent>
+                </DropdownMenu>
             );
-        }
+        },
     },
 ];

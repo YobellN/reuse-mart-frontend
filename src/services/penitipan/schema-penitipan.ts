@@ -6,7 +6,6 @@ export type ProdukTitipan = {
   foto_produk: string;
   status_akhir_produk: string | null;
   status_ketersediaan: boolean;
-  status_garansi: boolean;
   waktu_garansi: string | null;
   status_produk_hunting: boolean;
   rating: number | null;
@@ -16,7 +15,11 @@ export type ProdukTitipan = {
   tenggat_penitipan: string;
   tenggat_pengambilan: string;
   status_perpanjangan: number;
-  qc: string;
-  hunter: string;
+  id_penitip: string | null;
+  nama_penitip: string | null;
+  id_qc: string;
+  nama_qc: string;
+  id_hunter: string | null;
+  hunter: string | null;
   jadwal_pengambilan: string | null;
 };
