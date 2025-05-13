@@ -40,7 +40,7 @@ export default function ProductCarousel({ images }: { images: string[] }) {
               <Card>
                 <CardContent className="p-0 aspect-video flex items-center justify-center overflow-hidden">
                   <Image
-                    src={img}
+                    src={img || "/reuse-mart.png"}
                     alt={`product-${index}`}
                     width={600}
                     height={400}
@@ -72,11 +72,11 @@ export default function ProductCarousel({ images }: { images: string[] }) {
                   <Card>
                     <CardContent className="p-1 aspect-square h-16">
                       <Image
-                        src={img}
-                        alt={`thumb-${index}`}
-                        width={50}
-                        height={50}
-                        className="rounded-sm object-cover w-full h-full"
+                        src={img || "/reuse-mart.png"}
+                        alt={`product-${index}`}
+                        width={600}
+                        height={400}
+                        className="object-cover w-full h-full rounded-xl"
                       />
                     </CardContent>
                   </Card>

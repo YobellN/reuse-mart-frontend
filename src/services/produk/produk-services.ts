@@ -50,7 +50,9 @@ export async function getProduk({
       id_penitip: item.detail_penitipan.penitipan.penitip.id_penitip,
       nama_penitip: item.detail_penitipan.penitipan.penitip.user.nama,
       tanggal_penitipan: item.detail_penitipan.penitipan.tanggal_penitipan,
-      foto_produk: item.foto_produk.map((f: any) => f.path_foto),
+      foto_produk: item.foto_produk.map((f: any) => ({
+        path_foto: f.path_foto,
+      })),
     }));
 
     const meta: PaginationMeta = {

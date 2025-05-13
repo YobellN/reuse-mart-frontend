@@ -17,18 +17,17 @@ export default function DisplayProductCard(produk: Produk) {
     dark:bg-slate-800 dark:border-slate-600 dark:hover:border-green-500 dark:hover:bg-slate-900"
     >
       <CardHeader className="w-full h-50 relative">
-        {/* <ProductImage filename={produk.foto_produk?.[0]} style={{ objectFit: "cover" }} /> */}
-        <Image
-          src="/kategori/pakaian.png"
-          alt="Reuse Mart Banner"
-          fill
-          className="object-cover rounded-t-lg"
+        <ProductImage
+          filename={produk.foto_produk?.[0].path_foto as string}
+          style={{ objectFit: "cover" }}
         />
       </CardHeader>
 
       <CardContent className="text-sm text-muted-foreground dark:text-white px-2 py-0">
         <p className="my-1 font-semibold">{produk.nama_produk}</p>
-        <p className="my-1 font-extrabold">Rp {produk.harga_produk}</p>
+        <p className="my-1 font-extrabold">
+          Rp{produk.harga_produk.toLocaleString("id-ID")}
+        </p>
       </CardContent>
 
       <CardFooter className="text-xs text-muted-foreground dark:text-white px-2 py-0">

@@ -13,7 +13,7 @@ export default function ProductDetail(produk:Produk) {
     category: produk.nama_kategori,
     description: produk.deskripsi_produk,
     warrantyUntil: produk.waktu_garansi,
-    images: produk.foto_produk.map((f) => f.path_foto),
+    images: produk.foto_produk?.map((f) => f.path_foto) ?? [],
     rating: produk.rating,
   };
 
@@ -22,7 +22,7 @@ export default function ProductDetail(produk:Produk) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/*FOTO PRODUK */}
         <div>
-          {/* <ProductCarousel images={mockProduct.images} /> */}
+          <ProductCarousel images={mockProduct.images} />
         </div>
 
         {/* INFORMASI PRODUK */}
@@ -40,7 +40,13 @@ export default function ProductDetail(produk:Produk) {
             <p>{mockProduct.stock} pcs</p>
 
             <p className="font-semibold">Status Garansi</p>
-            <p className="">Produk dengan garansi</p>
+            <p>
+              {!mockProduct.warrantyUntil
+                ? "Tanpa garansi"
+                : new Date(mockProduct.warrantyUntil) < new Date()
+                ? "Garansi kadaluarsa"
+                : "Produk dengan garansi"}
+            </p>
 
             <p className="font-semibold">Garansi hingga</p>
             <p className="">{mockProduct.warrantyUntil}</p>
