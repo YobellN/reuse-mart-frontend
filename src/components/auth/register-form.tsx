@@ -63,7 +63,7 @@ export function RegisterForm({
     const result = await handleRegister(formData);
 
     if (result.message === "Berhasil daftar") {
-      router.replace('/admin');
+      router.replace('/login');
     }
 
     if (result.errors) {
