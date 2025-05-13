@@ -1,51 +1,73 @@
-export default function ProductDiscussionCard() {
-  const discussions = [
-    {
-      user: "Lukas",
-      time: "40 menit lalu",
-      question: "Kak tuker barang bisa ga?",
-      reply: "Halo, mohon maaf tidak bisa ditukar ya kak 🙏",
-    },
-    {
-      user: "Indah",
-      time: "1 jam lalu",
-      question: "Apakah warna asli sama seperti di foto?",
-      reply: "Iya kak, foto sesuai barang yang dikirim.",
-    },
-  ];
+'use client';
+
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { getDiskusiById } from "@/services/diskusi/diskusi-services";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+
+export default function ProductDiscussionCard({ id_produk }: {id_produk: string}) {
+  const [discussions, setDiscussions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getDiskusiById(id_produk)
+      .then((result) => {
+        if (result) {
+          setDiscussions(result);
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, [id_produk]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!discussions || discussions.length === 0) {
+    return (
+      <div className="text-center text-gray-500">
+        Belum ada diskusi yang terjadi.
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-4">
-      {discussions.map((item, i) => (
-        <div
-          key={i}
-          className="bg-green-50 border-1 border-green-300 rounded-md p-4 space-y-3"
-        >
-          <div className="flex items-start gap-3 ">
-            <div className="w-8 min-w-8 aspect-square rounded-full bg-gray-400 text-white flex items-center justify-center text-xs font-bold shrink-0">
-              {item.user.charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 mb-1">
-                Oleh {item.user} • {item.time}
-              </p>
-              <p className="text-base font-semibold text-gray-800">
-                {item.question}
-              </p>
+    <ScrollArea className="whitespace-nowrap rounded-md border p-6">
+      <div className="space-y-6">
+        {discussions.map((item, i) => (
+          <div
+            key={i}
+            className={cn(
+              "rounded-lg p-6 space-y-3 border",
+              item.user.role === "CS" 
+                ? "bg-gray-50 border-green-300" 
+                : "bg-green-50 border-green-300"
+            )}
+          >
+            <div className="flex items-start gap-4">
+                <div className={cn(
+                "w-8 min-w-8 aspect-square rounded-full text-white flex items-center justify-center text-xs font-bold shrink-0",
+                item.user.role === "CS"
+                  ? "bg-white text-green-600 border-2 border-green-600"
+                  : "bg-gray-400"
+                )}>
+                {item.user.role === "CS" ? "CS" : item.user.nama[0].toUpperCase()}
+                </div>
+              <div>
+                <p className="text-xs text-gray-500 mb-2">
+                  {item.user.role === "CS" ? "Customer Service" : "Pembeli"} • {item.timestamp}
+                </p>
+                <p className="text-base text-gray-800">
+                  {item.pesan}
+                </p>
+              </div>
             </div>
           </div>
-
-          <div className="flex items-start gap-3 bg-white border border-green-200 rounded-md px-3 py-2 text-sm text-gray-700">
-            <div className="w-8 min-w-8 aspect-square rounded-full bg-green-600 text-white flex items-center justify-center text-xs font-bold shrink-0">
-              CS
-            </div>
-            <div>
-              <p className="font-semibold text-green-700 mb-1">Balasan CS:</p>
-              <p>{item.reply}</p>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </ScrollArea>
   );
 }

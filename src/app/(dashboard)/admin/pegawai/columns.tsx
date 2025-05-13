@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import HapusDialog from "@/components/hapus-dialog";
 import { handleDeletePegawai } from "@/services/pegawai/pegawai-service";
+import UbahDialog from "@/components/ubah-dialog";
 
 export const columns: ColumnDef<Pegawai>[] = [
   {
@@ -86,18 +87,6 @@ export const columns: ColumnDef<Pegawai>[] = [
     header: "Aksi",
     cell: ({ row }) => {
       const rowData = row.original;
-      const pegawai_id = rowData.id_pegawai;
-      const handleResetPassword = async () => {
-        if (confirm("Apakah Anda yakin ingin mereset password pegawai ini?")) {
-          const response = await resetPasswordByAdmin(pegawai_id);
-
-          if (response.message) {
-            toast.success(response.message);
-          } else {
-            toast.error(response.message || "Gagal mereset password");
-          }
-        }
-      };
 
       return (
         <DropdownMenu>
@@ -117,9 +106,12 @@ export const columns: ColumnDef<Pegawai>[] = [
                 <SquarePen /> Edit Data Pegawai
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleResetPassword}>
-              <KeyRound /> Reset Password
-            </DropdownMenuItem>
+            <UbahDialog 
+              id={row.original.id_pegawai}
+              onUbah={() => resetPasswordByAdmin(row.original.id_pegawai)} 
+              label=" Password Pegawai"
+              detail={row.original.user.nama}
+            />
             <DropdownMenuSeparator />
 
             <HapusDialog

@@ -6,7 +6,6 @@ import { Alamat } from "./schema-alamat";
 
 export async function handleNewAlamat(formData: FormData): Promise<IResponse<Alamat>> {
   try {
-    console.log("TESTER formData: ", formData);
     const res = await api.post("/alamat", formData);
     return {
       message: res.data.message,

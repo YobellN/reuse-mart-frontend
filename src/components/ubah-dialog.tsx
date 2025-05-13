@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { IResponse } from "@/services/utils";
+import { KeyRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
@@ -20,7 +21,7 @@ export default function UbahDialog({
     detail,
 }: {
     id: any;
-    onUbah: (id: string) => Promise<IResponse<any>>;
+    onUbah: (id: string) => Promise<any>;
     label: string;
     detail?: string;
 }) {
@@ -46,7 +47,7 @@ export default function UbahDialog({
         <>
             <AlertDialog open={open} onOpenChange={setOpen}>
                 <Button variant="ghost" onClick={() => setOpen(true)}>
-                    Ubah {label}
+                    <KeyRound /> Ubah {label}
                 </Button>
                 <AlertDialogContent>
                     <AlertDialogHeader>

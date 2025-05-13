@@ -71,7 +71,6 @@ export function RegisterOrganisasiForm({
         formData.append("alamat_organisasi", data.alamat_organisasi);
 
         const result = await handleRegisterOrganisasi(formData);
-        console.log(result);
         if (result.message === "Berhasil daftar") {
             router.replace('/login');
         }

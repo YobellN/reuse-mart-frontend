@@ -20,8 +20,8 @@ export default async function ProductDetailPage({
     <div>
       <BreadcrumbsProduct />
       <ProductDetail {...produk} />
-      <SellerInfo idPenitip={produk.id_penitip} />
-      <ShowDiskusiPage />
+      <SellerInfo idPenitip={produk.id_penitip} id_produk={id} />
+      <ShowDiskusiPage id_produk={id} />
       <DisplayProdukPenitip id_penitip={produk.id_penitip} />
     </div>
   );
