@@ -94,6 +94,8 @@ export async function getProdukById(id_produk: string): Promise<Produk | null> {
       foto_produk: data.foto_produk.map((f: any) => f.path_foto),
     };
 
+    console.log(produk);
+
     return produk;
 
   } catch (error) {

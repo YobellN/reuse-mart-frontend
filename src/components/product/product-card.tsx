@@ -5,7 +5,6 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Produk } from "@/services/produk/schema-produk";
-import Image from "next/image";
 import React from "react";
 import ProductImage from "./product-image";
 

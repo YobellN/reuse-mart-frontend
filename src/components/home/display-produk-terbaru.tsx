@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ProductCard from "@/components/product/product-card";
-import { getProduk, Paginated } from "@/services/produk/produk-services";
+import { getProduk } from "@/services/produk/produk-services";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Produk } from '@/services/produk/schema-produk';
