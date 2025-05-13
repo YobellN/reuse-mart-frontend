@@ -78,6 +78,12 @@ const data = {
       role: "CS",
     },
     {
+      title: "Daftar Produk",
+      url: "/cs/produk",
+      icon: BookOpen,
+      role: "CS",
+    },
+    {
       title: "Daftar Transaksi Merchandise",
       url: "/cs/transaksi-merchandise",
       icon: ToyBrick,

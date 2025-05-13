@@ -6,7 +6,7 @@ import { Diskusi } from "./schema-diskusi";
 
 export async function handleNewDiskusi(formData: FormData): Promise<IResponse<Diskusi>> {
   try {
-    formData.append("_method", "POST");
+    // formData.append("_method", "POST");
     const res = await api.post("/diskusi", formData);
     return {
       message: res.data.message,

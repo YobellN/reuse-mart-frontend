@@ -128,3 +128,35 @@ export async function getProdukByPenitip(id_penitip: string) : Promise<Produk[]>
     return [];
   }
 }
+
+export async function getProdukAll(): Promise<Produk[]> {
+  try {
+    const res = await api.get<any>("/produk/getAllProduk");
+
+    const wrapper = res.data.data;
+    const rawItems = wrapper.data as any[];
+
+    const data: Produk[] = rawItems.map((item) => ({
+      id_produk: item.id_produk,
+      nama_produk: item.nama_produk,
+      deskripsi_produk: item.deskripsi_produk,
+      harga_produk: item.harga_produk,
+      status_akhir_produk: item.status_akhir_produk,
+      status_ketersediaan: item.status_ketersediaan,
+      status_garansi: item.status_garansi,
+      status_produk_hunting: item.status_produk_hunting,
+      waktu_garansi: item.waktu_garansi,
+      rating: item.rating,
+      nama_kategori: item.kategori.nama_kategori,
+      id_penitip: item.detail_penitipan.penitipan.penitip.id_penitip,
+      nama_penitip: item.detail_penitipan.penitipan.penitip.user.nama,
+      tanggal_penitipan: item.detail_penitipan.penitipan.tanggal_penitipan,
+      foto_produk: item.foto_produk.map((f: any) => f.path_foto),
+    }));
+
+    return data;
+  } catch (error) {
+    console.error("getProdukAll error", error);
+    return [];
+  }
+}
