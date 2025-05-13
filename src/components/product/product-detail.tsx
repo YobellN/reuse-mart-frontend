@@ -21,9 +21,7 @@ export default function ProductDetail(produk:Produk) {
     <div className="max-w-full mx-auto p-4 bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/*FOTO PRODUK */}
-        <div>
-          <ProductCarousel images={mockProduct.images} />
-        </div>
+        <div>{/* <ProductCarousel images={mockProduct.images} /> */}</div>
 
         {/* INFORMASI PRODUK */}
         <div className="space-y-4">
