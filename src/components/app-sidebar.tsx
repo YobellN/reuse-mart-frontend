@@ -123,7 +123,7 @@ const data = {
       title: "Riwayat Pengambilan Produk Titipan",
       url: "/penitip/riwayat-pengambilan",
       icon: Calendar,
-      role: "Penitip"
+      role: "Penitip",
     },
     {
       title: "Transaksi Penitipan",
@@ -144,14 +144,14 @@ const data = {
       role: "Owner",
     },
     {
-      title: "Kelola Donasi Barang",
-      url: "/owner/donasi",
+      title: "Barang Siap Donasi",
+      url: "/owner/data-barang-donasi",
       icon: IconGift,
       role: "Owner",
     },
     {
-      title: "Histori Donasi",
-      url: "/owner/history-donasi",
+      title: "Riwayat Donasi",
+      url: "/owner/riwayat-donasi",
       icon: IconReceipt,
       role: "Owner",
     },
@@ -263,8 +263,8 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
                       .filter((item) =>
                         [
                           "Daftar Request Donasi",
-                          "Kelola Donasi Barang",
-                          "Histori Donasi",
+                          "Barang Siap Donasi",
+                          "Riwayat Donasi",
                         ].includes(item.title)
                       )
                       .map((item) => (

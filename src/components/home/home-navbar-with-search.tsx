@@ -20,19 +20,19 @@ export default function HomeNavbar({ user, ...props }: {user?: IResponse<User>})
           <div className="mx-auto flex items-center justify-end md:w-5/6">
             <nav className="py-1.5 flex justify-end gap-6 text-[12px] text-white font-medium">
               <Link
-                href={"/home"}
+                href={"/about"}
                 className="hover:text-lime-300 transition-colors duration-200"
               >
                 Tentang ReuseMart
               </Link>
               <Link
-                href={"/home"}
+                href={"/about"}
                 className="hover:text-lime-300 transition-colors duration-200"
               >
                 Informasi Penitipan
               </Link>
               <Link
-                href={"/home"}
+                href={"/about"}
                 className="hover:text-lime-300 transition-colors duration-200"
               >
                 Kategori Barang Titipan

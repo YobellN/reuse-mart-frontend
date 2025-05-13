@@ -7,15 +7,28 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Edit, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import HapusDialog from "@/components/hapus-dialog";
 import Link from "next/link";
 import { Penitip } from "@/services/penitip/schema-penitip";
 import { handleDeletePenitip } from "@/services/penitip/penitip-services";
+import FotoKTP from "@/components/penitip/foto-ktp";
 
 export const columns: ColumnDef<Penitip>[] = [
+    {
+        id: "foto_ktp",
+        accessorKey: "foto_ktp",
+        header: "Foto KTP",
+        cell: ({ row }) => {
+            return (
+                <div className="w-16 h-16 overflow-hidden rounded border relative">
+                    <FotoKTP filename={row.getValue("foto_ktp")} style={{ objectFit: "cover" }} />
+                </div>
+            );
+        },
+    },
     {
         accessorKey: "id_penitip",
         header: ({ column }) => {
@@ -48,16 +61,29 @@ export const columns: ColumnDef<Penitip>[] = [
         header: "NIK",
     },
     {
-        accessorKey: "foto_ktp",
-        header: "Foto KTP",
+        accessorKey: "poin",
+        header: "Poin",
     },
     {
         accessorKey: "saldo",
-        header: "Saldo",
-    },
-    {
-        accessorKey: "poin",
-        header: "Poin",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Saldo
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        accessorFn: (row) => row.saldo as number,
+        cell: ({ row }) => {
+            const saldo = row.getValue("saldo");
+            return (
+                `Rp${(saldo as number).toLocaleString("id-ID")}`
+            )
+        }
     },
     {
         id: "actions",
@@ -75,7 +101,7 @@ export const columns: ColumnDef<Penitip>[] = [
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                         <Link href={`/cs/penitip/${row.original.id_penitip}`} className="hover:bg-accent hover:text-accent-foreground">
-                            <Button variant={"ghost"} className="text-warning">Edit penitip</Button>
+                            <Button variant={"ghost"} className="text-warning"><Edit className=" h-4 w-4" />Edit penitip</Button>
                         </Link>
                         <HapusDialog id={row.original.id_penitip} onHapus={() => handleDeletePenitip(row.original.id_penitip)} label="penitip" detail={row.original.user.nama} />
                     </DropdownMenuContent>

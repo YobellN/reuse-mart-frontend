@@ -7,6 +7,7 @@ import {
 import { Produk } from "@/services/produk/schema-produk";
 import Image from "next/image";
 import React from "react";
+import ProductImage from "./product-image";
 
 export default function DisplayProductCard(produk: Produk) {
   return (
@@ -16,6 +17,7 @@ export default function DisplayProductCard(produk: Produk) {
     dark:bg-slate-800 dark:border-slate-600 dark:hover:border-green-500 dark:hover:bg-slate-900"
     >
       <CardHeader className="w-full h-50 relative">
+        {/* <ProductImage filename={produk.foto_produk?.[0]} style={{ objectFit: "cover" }} /> */}
         <Image
           src="/kategori/pakaian.png"
           alt="Reuse Mart Banner"

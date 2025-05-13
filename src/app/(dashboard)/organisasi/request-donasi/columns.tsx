@@ -7,12 +7,11 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Edit, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import HapusDialog from "@/components/hapus-dialog";
 import Link from "next/link";
-import { handleDeletePenitip } from "@/services/penitip/penitip-services";
 import { RequestDonasi } from "@/services/organisasi/schema-organisasi";
 import { Badge } from "@/components/ui/badge";
 import { handleDeleteRequestDonasi } from "@/services/organisasi/organisasi-services";
@@ -66,7 +65,7 @@ export const columns: ColumnDef<RequestDonasi>[] = [
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                         <Link href={`/organisasi/request-donasi/${row.original.id_request_donasi}`} className="hover:bg-accent hover:text-accent-foreground">
-                            <Button variant={"ghost"} className="text-warning">Edit request</Button>
+                            <Button variant={"ghost"} className="text-warning"><Edit className=" h-4 w-4" />Edit request</Button>
                         </Link>
                         <HapusDialog id={row.original.id_request_donasi} onHapus={() => handleDeleteRequestDonasi(row.original.id_request_donasi)} label="request" />
                     </DropdownMenuContent>

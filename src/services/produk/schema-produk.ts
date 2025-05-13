@@ -17,7 +17,7 @@ export type Produk = {
         {
             path_foto: string
         }
-    ],    
+    ] | null,    
 };
 
 export type ProdukRaw = {
