@@ -29,6 +29,11 @@ const nextConfig: NextConfig = {
         hostname: "plus.unsplash.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "reuse-mart-backend-production.up.railway.app",
+        pathname: "/**",
+      }
     ],
   },
   eslint: {
