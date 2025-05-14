@@ -11,7 +11,7 @@ interface ProductImageProps {
 export default function ProductImage({ filename, style }: ProductImageProps) {
   console.log(filename);
   const backendUrl = filename
-    ? `http://localhost:8000/storage/foto_produk/${filename}`
+    ? `${process.env.NEXT_PUBLIC_URL}/storage/foto_produk/${filename}`
     : "";
   const [src, setSrc] = useState<string>(backendUrl || "/reuse-mart.png");
 
