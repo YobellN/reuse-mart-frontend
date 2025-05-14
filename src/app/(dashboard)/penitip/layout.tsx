@@ -1,7 +1,10 @@
+
 import AlertBox from "@/components/alert-box";
 import { Button } from "@/components/ui/button";
 import { getUser } from "@/services/auth/user-services";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
     const user = await getUser();
