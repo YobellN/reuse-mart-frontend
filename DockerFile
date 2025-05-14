@@ -1,0 +1,23 @@
+# Gunakan image resmi Node.js
+FROM node:18-alpine
+
+# Set direktori kerja di dalam container
+WORKDIR /app
+
+# Salin file dependency
+COPY package*.json ./
+
+# Install dependensi
+RUN npm install
+
+# Salin seluruh project
+COPY . .
+
+# Build aplikasi Next.js
+RUN npm run build
+
+# Expose port untuk Railway
+EXPOSE 3000
+
+# Jalankan Next.js di production
+CMD ["npm", "start"]
