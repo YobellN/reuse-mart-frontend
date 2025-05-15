@@ -5,9 +5,9 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Produk } from "@/services/produk/schema-produk";
-import Image from "next/image";
 import React from "react";
 import ProductImage from "./product-image";
+import { Banknote } from "lucide-react";
 
 export default function DisplayProductCard(produk: Produk) {
   return (
@@ -20,7 +20,7 @@ export default function DisplayProductCard(produk: Produk) {
         <ProductImage
           filename={produk.foto_produk?.[0].path_foto as string}
           style={{ objectFit: "cover" }}
-          className="rounded-t-lg"
+          className="rounded-t-lg drop-shadow-sm "
         />
       </CardHeader>
 
@@ -31,7 +31,8 @@ export default function DisplayProductCard(produk: Produk) {
             : produk.nama_produk}
         </p>
 
-        <p className="my-1 font-extrabold">
+        <p className="mt-2 mb-0 p-1 font-extrabold text-black bg-emerald-100 flex items-center gap-1 text-green-950">
+          <Banknote className="w-5 h-5" />
           Rp{produk.harga_produk.toLocaleString("id-ID")}
         </p>
       </CardContent>
@@ -52,7 +53,11 @@ export default function DisplayProductCard(produk: Produk) {
           <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
           <path d="m9 12 2 2 4-4" />
         </svg>
-        <p className="my-1 font-semibold">{produk.nama_penitip}</p>
+        <p className="my-1 font-semibold">
+          {produk.nama_penitip.length > 23
+            ? produk.nama_penitip.slice(0, 23) + "..."
+            : produk.nama_penitip}
+        </p>
       </CardFooter>
     </Card>
   );
