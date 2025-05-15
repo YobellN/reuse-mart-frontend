@@ -16,6 +16,7 @@ export default async function ProductDetailPage({
   const { id } = await params;
   const produk: Produk | null = await getProdukById(id).catch(() => null);
   if (!produk) return <div>Produk tidak ditemukan</div>
+  console.log(produk);
   return (
     <div>
       <BreadcrumbsProduct />
