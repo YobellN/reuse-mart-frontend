@@ -37,11 +37,11 @@ export default function DetailProductImage({ images }: { images: string[] }) {
           <CarouselContent>
             {images.map((filename, index) => (
               <CarouselItem key={index} className="px-4">
-                <Card className="p-0">
-                  <CardContent className="relative p-0 aspect-video sm:min-h-48 flex items-center justify-center overflow-hidden">
+                <Card className="p-0 ">
+                  <CardContent className="relative p-0 aspect-video sm:aspect-3/2  flex items-center justify-center overflow-hidden">
                     <ProductImage
                       filename={filename}
-                      style={{ objectFit: "cover" }}
+                      style={{ objectFit: "contain" }}
                       className="rounded-lg "
                     />
                   </CardContent>
