@@ -37,7 +37,7 @@ export default function DisplayProdukPenitip({
         };
       });
 
-      setItems(mapped);
+      setItems(mapped as Produk[]);
       setLoading(false);
     });
   }, [id_penitip]);

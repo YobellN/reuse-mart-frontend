@@ -6,7 +6,6 @@ import { ShoppingCart } from "lucide-react";
 import SearchForm from "@/components/home/search-bar";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { IResponse, User } from "@/services/utils";
-import { LogoWhite } from "../landing-page/navbar/logo";
 
 type HomeNavbarProps = {
   user?: IResponse<User>;
