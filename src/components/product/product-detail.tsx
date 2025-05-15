@@ -13,7 +13,7 @@ export default function ProductDetail(produk:Produk) {
     category: produk.nama_kategori,
     description: produk.deskripsi_produk,
     warrantyUntil: produk.waktu_garansi,
-    images: produk.foto_produk?.map((f) => f.path_foto) ?? [],
+    images: produk.foto_produk ?? [],
     rating: produk.rating,
   };
 

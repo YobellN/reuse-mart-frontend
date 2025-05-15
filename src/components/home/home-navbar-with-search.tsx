@@ -6,13 +6,19 @@ import { ShoppingCart } from "lucide-react";
 import SearchForm from "@/components/home/search-bar";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { IResponse, User } from "@/services/utils";
+import { LogoWhite } from "../landing-page/navbar/logo";
 
 type HomeNavbarProps = {
   user?: IResponse<User>;
 };
 //& React.ComponentProps<typeof Sidebar>
 
-export default function HomeNavbar({ user, ...props }: {user?: IResponse<User>}) {
+export default function HomeNavbar({
+  user,
+  ...props
+}: {
+  user?: IResponse<User>;
+}) {
   return (
     <>
       <div className="h-16 sm:h-32 w-full bg-bright-green flex-col content-center sm:content-between shadow-sm sticky top-0 z-50">

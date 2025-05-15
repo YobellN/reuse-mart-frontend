@@ -20,11 +20,17 @@ export default function DisplayProductCard(produk: Produk) {
         <ProductImage
           filename={produk.foto_produk?.[0].path_foto as string}
           style={{ objectFit: "cover" }}
+          className="rounded-t-lg"
         />
       </CardHeader>
 
       <CardContent className="text-sm text-muted-foreground dark:text-white px-2 py-0">
-        <p className="my-1 font-semibold">{produk.nama_produk}</p>
+        <p className="my-1 font-semibold">
+          {produk.nama_produk.length > 30
+            ? produk.nama_produk.slice(0, 40) + "..."
+            : produk.nama_produk}
+        </p>
+
         <p className="my-1 font-extrabold">
           Rp{produk.harga_produk.toLocaleString("id-ID")}
         </p>
