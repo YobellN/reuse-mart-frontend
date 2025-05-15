@@ -94,7 +94,7 @@ export const columns: ColumnDef<RequestDonasi>[] = [
               label="request"
               triggerButton={
                 <Button className="text-red-600 focus:text-red-600 bg-transparent hover:bg-red-200">
-                  <Trash2 className="text-red-600" /> Hapus Data Pegawai
+                  <Trash2 className="text-red-600" /> Hapus Data Donasi
                 </Button>
               }
             />
