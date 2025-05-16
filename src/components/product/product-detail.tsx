@@ -22,7 +22,7 @@ export default function ProductDetail(produk:Produk) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/*FOTO PRODUK */}
         <div>
-          <ProductCarousel images={mockProduct.images} />
+          <ProductCarousel images={mockProduct.images as string[]} />
         </div>
 
         {/* INFORMASI PRODUK */}
