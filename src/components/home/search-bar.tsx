@@ -5,13 +5,7 @@ import { toast } from "sonner";
 import { Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 const FormSchema = z.object({
@@ -46,7 +40,6 @@ export default function SearchForm() {
               <FormControl className="w-full border-0 h-10 rounded-sm shadow-none dark:bg-white">
                 <Input placeholder="Temukan Produk..." {...field} />
               </FormControl>
-              <FormMessage className="text-white" />
             </FormItem>
           )}
         />
