@@ -15,6 +15,9 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import ConfirmDialog from "@/components/confirm-dialog";
+import { pengambilanProdukTitipan } from "@/services/penitipan/penitipan-services";
+
 
 export const columns: ColumnDef<ProdukTitipan>[] = [
     {
@@ -57,15 +60,33 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
         },
     },
     {
-        id: "jadwal_pengambilan",
-        accessorKey: "jadwal_pengambilan",
-        header: "Jadwal Pengambilan",
+        id: "tenggat_pengambilan",
+        accessorKey: "tenggat_pengambilan",
+        header: "Tenggat Pengambilan",
+        accessorFn: (row) =>
+            row.tenggat_pengambilan
+                ? format(new Date(row.tenggat_pengambilan), "dd MMMM yyyy", { locale: id })
+                : "",
+        cell: ({ row }) => {
+            return row.getValue("tenggat_pengambilan");
+        },
+    },
+    {
+        id: "tanggal_pengambilan",
+        accessorKey: "tanggal_pengambilan",
+        header: "Tanggal Pengambilan",
         accessorFn: (row) =>
             row.tanggal_pengambilan
                 ? format(new Date(row.tanggal_pengambilan), "dd MMMM yyyy", { locale: id })
-                : "Belum dijadwalkan",
+                : "Belum diambil",
         cell: ({ row }) => {
-            return row.getValue("jadwal_pengambilan");
+            const value = row.getValue("tanggal_pengambilan");
+
+            if (value === "Belum diambil") {
+                return <span className="text-muted-foreground italic">Belum diambil</span>;
+            }
+
+            return value;
         },
     },
     {
@@ -180,12 +201,12 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        {/* <ConfirmDialog
+                        <ConfirmDialog
                             description="Apakah anda yakin ingin melakukan konfirmasi pengambilan?"
-                            onConfirm={() => konfirmasiPengambilan(id_produk)}
+                            onConfirm={() => pengambilanProdukTitipan(id_produk)}
                             label="Konfirmasi Pengambilan"
                             message="Konfirmasi pengambilan berhasil dilakukan"
-                        /> */}
+                        />
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

@@ -35,8 +35,12 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([
         {
-            id: "id_penitipan",
-            desc: true,
+            id: "status_akhir_produk",
+            desc: false,
+        },
+        {
+            id: "tenggat_pengambilan",
+            desc: false,
         },
     ]);
     const [globalFilter, setGlobalFilter] = useState<any>([])
