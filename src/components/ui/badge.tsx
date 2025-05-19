@@ -9,14 +9,20 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
-        secondary: "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
-        destructive: "border border-destructive text-destructive [a&]:hover:bg-destructive/10",
-        outline: "border border-muted-foreground text-muted-foreground [a&]:hover:bg-muted/10",
+        default:
+          "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
+        secondary:
+          "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
+        blue: "border-transparent bg-blue-500 text-white [a&]:hover:bg-blue/90",
+        destructive:
+          "border border-destructive text-destructive [a&]:hover:bg-destructive/10",
+        outline:
+          "border border-muted-foreground text-muted-foreground [a&]:hover:bg-muted/10",
         success: "border border-primary text-primary [a&]:hover:bg-primary/10", // green outline
         warning: "border border-warning text-warning [a&]:hover:bg-warning/10", // yellow/orange outline
         processing: "border border-info text-info [a&]:hover:bg-info/10", // blue outline
-        failed: "border border-destructive text-destructive [a&]:hover:bg-destructive/10", // red outline
+        failed:
+          "border border-destructive text-destructive [a&]:hover:bg-destructive/10", // red outline
         pink: "border border-pink text-pink [a&]:hover:bg-pink/10", // pink outline
         purple: "border border-purple text-purple [a&]:hover:bg-purple/10", // purple outline
       },
@@ -25,7 +31,7 @@ const badgeVariants = cva(
       variant: "default",
     },
   }
-)
+);
 
 function Badge({
   className,

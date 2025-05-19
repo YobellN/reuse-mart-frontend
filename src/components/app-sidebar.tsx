@@ -8,13 +8,14 @@ import {
   GalleryVerticalEnd,
   HandHelping,
   Home,
+  Package,
   TimerReset,
   ToyBrick,
+  Truck,
   User2,
-} from "lucide-react"
+} from "lucide-react";
 
-
-import { NavUser } from "@/components/nav-user"
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -26,11 +27,21 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { TeamSwitcher } from "./team-switcher"
-import Link from "next/link"
-import { IResponse, User } from "@/services/utils"
-import { IconArchive, IconCalendarStats, IconClipboardList, IconGift, IconInbox, IconMoneybag, IconReceipt, IconTag, IconTrash } from "@tabler/icons-react"
+} from "@/components/ui/sidebar";
+import { TeamSwitcher } from "./team-switcher";
+import Link from "next/link";
+import { IResponse, User } from "@/services/utils";
+import {
+  IconArchive,
+  IconCalendarStats,
+  IconClipboardList,
+  IconGift,
+  IconInbox,
+  IconMoneybag,
+  IconReceipt,
+  IconTag,
+  IconTrash,
+} from "@tabler/icons-react";
 
 const data = {
   teams: [
@@ -128,13 +139,13 @@ const data = {
     {
       title: "Transaksi Penitipan",
       url: "/gudang/transaksi-penitipan",
-      icon: ToyBrick,
+      icon: Package,
       role: "Gudang",
     },
     {
       title: "Pengiriman",
       url: "/gudang/pengiriman",
-      icon: ToyBrick,
+      icon: Truck,
       role: "Gudang",
     },
     {
