@@ -16,11 +16,32 @@ export default function DisplayProdukPenitip({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!id_penitip) return;
+
     getProdukByPenitip(id_penitip).then((data) => {
-      setItems(data);
+      const filtered = data.filter(
+        (produk) => produk.status_ketersediaan === true
+      );
+
+      const mapped = filtered.map((produk) => {
+        const foto = produk.foto_produk;
+
+        const foto_produk =
+          Array.isArray(foto) && typeof foto[0] === "string"
+            ? foto.map((f) => ({ path_foto: f }))
+            : foto;
+
+        return {
+          ...produk,
+          foto_produk,
+        };
+      });
+
+      setItems(mapped as Produk[]);
       setLoading(false);
     });
-  }, []);
+  }, [id_penitip]);
+
 
   return (
     <div
