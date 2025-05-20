@@ -1,7 +1,7 @@
 "use client";
 import { Produk } from "@/services/produk/schema-produk";
-import ProductCarouselApi from "./product-carousel";
 import { ShoppingCart } from "lucide-react";
+import ProductCarousel from "./product-carousel";
 
 export default function ProductDetail(produk: Produk) {
   const mockProduct = {
@@ -11,7 +11,7 @@ export default function ProductDetail(produk: Produk) {
     category: produk.nama_kategori,
     description: produk.deskripsi_produk,
     warrantyUntil: produk.waktu_garansi,
-    images: produk.foto_produk?.map((foto) => foto.path_foto) ?? [],
+    images: produk.foto_produk ?? [],
     rating: produk.rating,
   };
   // console.log(mockProduct.images);
@@ -22,7 +22,7 @@ export default function ProductDetail(produk: Produk) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/*FOTO PRODUK */}
         <div>
-          <ProductCarouselApi images={mockProduct.images} />
+          <ProductCarousel images={mockProduct.images as string[]} />
         </div>
 
         {/* INFORMASI PRODUK */}

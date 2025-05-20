@@ -4,60 +4,61 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { ProdukTitipan } from "@/services/penitipan/schema-penitipan";
+import { DetailProdukTitipan } from "@/services/penitipan/schema-penitipan";
 import { format } from "date-fns";
 import { id } from "date-fns/locale/id";
 import { Badge } from "@/components/ui/badge";
 import ProductImage from "@/components/product/product-image";
 
 
-export const columns: ColumnDef<ProdukTitipan>[] = [
+export const columns: ColumnDef<DetailProdukTitipan>[] = [
     {
-        id: "foto_produk",
-        accessorKey: "foto_produk",
-        header: "Foto Produk",
-        cell: ({ row }) => {
-            return (
-                <div className="w-16 h-16 overflow-hidden rounded border relative">
-                    <ProductImage filename={row.getValue("foto_produk")} style={{ objectFit: "cover" }} />
-                </div>
-            );
+            id: "foto_produk",
+            header: "Foto Produk",
+            accessorFn: row => row.foto_produk[0]?.path_foto ?? "",
+            cell: info => {
+                const filename = info.getValue<string>();
+                return (
+                    <div className="w-16 h-16 overflow-hidden rounded border relative">
+                        <ProductImage filename={filename || ""} style={{ objectFit: "cover" }} />
+                    </div>
+                );
+            },
         },
-    },
-    {
-        id: "id_penitipan",
-        accessorKey: "id_penitipan",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Nomor Nota
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
+        {
+            id: "id_penitipan",
+            accessorKey: "detail_penitipan.penitipan.id_penitipan",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Nomor Nota
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                )
+            },
         },
-    },
-    {
-        id: "tanggal_penitipan",
-        accessorKey: "tanggal_penitipan",
-        header: "Tanggal Penitipan",
-        accessorFn: (row) =>
-            row.tanggal_penitipan
-                ? format(new Date(row.tanggal_penitipan), "dd MMMM yyyy", { locale: id })
-                : "",
-        cell: ({ row }) => {
-            return row.getValue("tanggal_penitipan");
+        {
+            id: "tanggal_penitipan",
+            accessorKey: "detail_penitipan.penitipan.tanggal_penitipan",
+            header: "Tanggal Penitipan",
+            accessorFn: (row) =>
+                row.detail_penitipan.penitipan.tanggal_penitipan
+                    ? format(new Date(row.detail_penitipan.penitipan.tanggal_penitipan), "dd MMMM yyyy", { locale: id })
+                    : "",
+            cell: ({ row }) => {
+                return row.getValue("tanggal_penitipan");
+            },
         },
-    },
     {
         id: "tenggat_pengambilan",
-        accessorKey: "tenggat_pengambilan",
+        accessorKey: "detail_penitipan.penitipan.tenggat_pengambilan",
         header: "Tenggat Pengambilan",
         accessorFn: (row) =>
-            row.tenggat_pengambilan
-                ? format(new Date(row.tenggat_pengambilan), "dd MMMM yyyy", { locale: id })
+            row.detail_penitipan.penitipan.tenggat_pengambilan
+                ? format(new Date(row.detail_penitipan.penitipan.tenggat_pengambilan), "dd MMMM yyyy", { locale: id })
                 : "",
         cell: ({ row }) => {
             return row.getValue("tenggat_pengambilan");
@@ -68,8 +69,8 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
         accessorKey: "tanggal_pengambilan",
         header: "Tanggal Pengambilan",
         accessorFn: (row) =>
-            row.tanggal_pengambilan
-                ? format(new Date(row.tanggal_pengambilan), "dd MMMM yyyy", { locale: id })
+            row.detail_penitipan.tanggal_pengambilan
+                ? format(new Date(row.detail_penitipan.tanggal_pengambilan), "dd MMMM yyyy", { locale: id })
                 : "Belum diambil",
         cell: ({ row }) => {
             const value = row.getValue("tanggal_pengambilan");
@@ -88,7 +89,7 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
     },
     {
         id: "kategori_produk",
-        accessorKey: "kategori",
+        accessorKey: "kategori.nama_kategori",
         header: ({ column }) => {
             return (
                 <Button

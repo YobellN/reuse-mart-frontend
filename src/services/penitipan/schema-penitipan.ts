@@ -23,3 +23,50 @@ export type ProdukTitipan = {
   hunter: string | null;
   tanggal_pengambilan: string | null;
 };
+
+export type DetailProdukTitipan = {
+  id_produk: string;
+  nama_produk: string;
+  deskripsi_produk: string;
+  harga_produk: number;
+  status_akhir_produk: string | null;
+  status_ketersediaan: boolean;
+  waktu_garansi: string | null;
+  status_produk_hunting: boolean;
+  rating: number | null;
+  foto_produk: {
+    path_foto: string;
+  }[];
+  kategori: {
+    nama_kategori: string;
+  };
+  detail_penitipan: {
+    tanggal_pengambilan: string | null;
+    konfirmasi_donasi: boolean | null;
+    penitipan: {
+      id_penitipan: string;
+      tanggal_penitipan: string;
+      tenggat_penitipan: string;
+      tenggat_pengambilan: string;
+      status_perpanjangan: number;
+      hunter: {
+        id_hunter: string;
+        user: {
+          nama: string;
+        };
+      } | null;
+      penitip: {
+        id_penitip: string;
+        user: {
+          nama: string;
+        };
+      };
+      qc: {
+        id_qc: string;
+        user: {
+          nama: string;
+        };
+      };
+    };
+  };
+};

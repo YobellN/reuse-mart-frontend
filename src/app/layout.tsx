@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { object } from "zod";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {

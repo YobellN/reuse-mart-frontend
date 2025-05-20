@@ -12,7 +12,12 @@ type HomeNavbarProps = {
 };
 //& React.ComponentProps<typeof Sidebar>
 
-export default function HomeNavbar({ user, ...props }: {user?: IResponse<User>}) {
+export default function HomeNavbar({
+  user,
+  ...props
+}: {
+  user?: IResponse<User>;
+}) {
   return (
     <>
       <div className="h-16 sm:h-32 w-full bg-bright-green flex-col content-center sm:content-between shadow-sm sticky top-0 z-50">

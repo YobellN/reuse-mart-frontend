@@ -11,8 +11,8 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import ProductImageModal from "./product-image-modal";
+import ProductImage from "./product-image";
 
 export default function ProductCarousel({ images }: { images: string[] }) {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -37,22 +37,19 @@ export default function ProductCarousel({ images }: { images: string[] }) {
         <CarouselContent>
           {images.map((img, index) => (
             <CarouselItem key={index} className="px-2">
-              <Card>
-                <CardContent className="p-0 aspect-video flex items-center justify-center overflow-hidden">
-                  <Image
-                    src={img || "/reuse-mart.png"}
-                    alt={`product-${index}`}
-                    width={600}
-                    height={400}
-                    className="object-cover w-full h-full rounded-xl"
+              <Card className="p-0 ">
+                <CardContent className="relative p-0 aspect-video sm:min-h-84 flex items-center justify-center overflow-hidden">
+                  <ProductImage
+                    filename={img}
+                    style={{ objectFit: "cover" }}
+                    className="rounded-lg "
                   />
                 </CardContent>
               </Card>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className=" absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-16 bg-transparent rounded-none flex items-center justify-center text-4xl font-bold text-gray-800 " />
-
+        <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-16 bg-transparent rounded-none flex items-center justify-center text-4xl font-bold text-gray-800" />
         <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-16 bg-transparent rounded-none flex items-center justify-center text-4xl font-bold text-gray-800" />
       </Carousel>
 
@@ -69,14 +66,12 @@ export default function ProductCarousel({ images }: { images: string[] }) {
                   )}
                   onClick={() => handleThumbClick(index)}
                 >
-                  <Card>
-                    <CardContent className="p-1 aspect-square h-16">
-                      <Image
-                        src={img || "/reuse-mart.png"}
-                        alt={`product-${index}`}
-                        width={600}
-                        height={400}
-                        className="object-cover w-full h-full rounded-xl"
+                  <Card className="p-0">
+                    <CardContent className="relative aspect-square sm:h-24">
+                      <ProductImage
+                        filename={img}
+                        style={{ objectFit: "cover" }}
+                        className="rounded-lg border-2 border-green-600"
                       />
                     </CardContent>
                   </Card>
