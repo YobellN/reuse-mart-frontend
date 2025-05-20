@@ -138,6 +138,12 @@ const data = {
     },
     {
       title: "Transaksi Penitipan",
+      url: "/gudang/transaksi-penitipan-2",
+      icon: Package,
+      role: "Gudang",
+    },
+    {
+      title: "Temp Penitipan",
       url: "/gudang/transaksi-penitipan",
       icon: Package,
       role: "Gudang",
