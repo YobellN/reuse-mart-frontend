@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { ProdukTitipan } from "@/services/penitipan/schema-penitipan";
+import { DetailProdukTitipan } from "@/services/penitipan/schema-penitipan";
 import { format } from "date-fns";
 import { id } from "date-fns/locale/id";
 import { Badge } from "@/components/ui/badge";
@@ -15,23 +15,27 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import ConfirmDialog from "@/components/confirm-dialog";
+import { pengambilanProdukTitipan } from "@/services/penitipan/penitipan-services";
 
-export const columns: ColumnDef<ProdukTitipan>[] = [
+
+export const columns: ColumnDef<DetailProdukTitipan>[] = [
     {
         id: "foto_produk",
-        accessorKey: "foto_produk",
         header: "Foto Produk",
-        cell: ({ row }) => {
+        accessorFn: row => row.foto_produk[0]?.path_foto ?? "",
+        cell: info => {
+            const filename = info.getValue<string>();
             return (
                 <div className="w-16 h-16 overflow-hidden rounded border relative">
-                    <ProductImage filename={row.getValue("foto_produk")} style={{ objectFit: "cover" }} />
+                    <ProductImage filename={filename || ""} style={{ objectFit: "cover" }} />
                 </div>
             );
         },
     },
     {
         id: "id_penitipan",
-        accessorKey: "id_penitipan",
+        accessorKey: "detail_penitipan.penitipan.id_penitipan",
         header: ({ column }) => {
             return (
                 <Button
@@ -46,26 +50,44 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
     },
     {
         id: "tanggal_penitipan",
-        accessorKey: "tanggal_penitipan",
+        accessorKey: "detail_penitipan.penitipan.tanggal_penitipan",
         header: "Tanggal Penitipan",
         accessorFn: (row) =>
-            row.tanggal_penitipan
-                ? format(new Date(row.tanggal_penitipan), "dd MMMM yyyy", { locale: id })
+            row.detail_penitipan.penitipan.tanggal_penitipan
+                ? format(new Date(row.detail_penitipan.penitipan.tanggal_penitipan), "dd MMMM yyyy", { locale: id })
                 : "",
         cell: ({ row }) => {
             return row.getValue("tanggal_penitipan");
         },
     },
     {
-        id: "jadwal_pengambilan",
-        accessorKey: "jadwal_pengambilan",
-        header: "Jadwal Pengambilan",
+        id: "tenggat_pengambilan",
+        accessorKey: "detail_penitipan.penitipan.tenggat_pengambilan",
+        header: "Tenggat Pengambilan",
         accessorFn: (row) =>
-            row.tanggal_pengambilan
-                ? format(new Date(row.tanggal_pengambilan), "dd MMMM yyyy", { locale: id })
-                : "Belum dijadwalkan",
+            row.detail_penitipan.penitipan.tenggat_pengambilan
+                ? format(new Date(row.detail_penitipan.penitipan.tenggat_pengambilan), "dd MMMM yyyy", { locale: id })
+                : "",
         cell: ({ row }) => {
-            return row.getValue("jadwal_pengambilan");
+            return row.getValue("tenggat_pengambilan");
+        },
+    },
+    {
+        id: "tanggal_pengambilan",
+        accessorKey: "detail_penitipan.tanggal_pengambilan",
+        header: "Tanggal Pengambilan",
+        accessorFn: (row) =>
+            row.detail_penitipan.tanggal_pengambilan
+                ? format(new Date(row.detail_penitipan.tanggal_pengambilan), "dd MMMM yyyy", { locale: id })
+                : "Belum diambil",
+        cell: ({ row }) => {
+            const value = row.getValue("tanggal_pengambilan");
+
+            if (value === "Belum diambil") {
+                return <span className="text-muted-foreground italic">Belum diambil</span>;
+            }
+
+            return value;
         },
     },
     {
@@ -75,7 +97,7 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
     },
     {
         id: "kategori_produk",
-        accessorKey: "kategori",
+        accessorKey: "kategori.nama_kategori",
         header: ({ column }) => {
             return (
                 <Button
@@ -180,12 +202,12 @@ export const columns: ColumnDef<ProdukTitipan>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        {/* <ConfirmDialog
+                        <ConfirmDialog
                             description="Apakah anda yakin ingin melakukan konfirmasi pengambilan?"
-                            onConfirm={() => konfirmasiPengambilan(id_produk)}
+                            onConfirm={() => pengambilanProdukTitipan(id_produk)}
                             label="Konfirmasi Pengambilan"
                             message="Konfirmasi pengambilan berhasil dilakukan"
-                        /> */}
+                        />
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

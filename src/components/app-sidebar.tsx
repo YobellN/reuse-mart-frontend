@@ -143,6 +143,12 @@ const data = {
       role: "Gudang",
     },
     {
+      title: "Pengambilan Produk Titipan",
+      url: "/gudang/pengambilan-produk-titipan",
+      icon: HandHelping,
+      role: "Gudang",
+    },
+    {
       title: "Pengiriman",
       url: "/gudang/pengiriman",
       icon: Truck,
