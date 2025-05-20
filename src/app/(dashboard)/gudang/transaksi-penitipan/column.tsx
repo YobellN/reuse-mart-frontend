@@ -19,7 +19,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Penitipan } from "@/services/utils";
-
+import { format } from "date-fns";
+import { id } from "date-fns/locale/id";
 import Link from "next/link";
 import HapusDialog from "@/components/hapus-dialog";
 import UbahDialog from "@/components/ubah-dialog";
@@ -50,14 +51,14 @@ export const columns: ColumnDef<Penitipan>[] = [
   {
     accessorKey: "tanggal_penitipan",
     header: "Tanggal Penitipan",
+    accessorFn: (row) =>
+      row.tanggal_penitipan
+        ? format(new Date(row.tanggal_penitipan), "dd MMMM yyyy", {
+            locale: id,
+          })
+        : "",
     cell: ({ row }) => {
-      const tanggal = new Date(row.original.tanggal_penitipan);
-      const formatted = tanggal.toLocaleDateString("id-ID", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      });
-      return <span>{formatted}</span>;
+      return row.getValue("tanggal_penitipan");
     },
   },
   {
