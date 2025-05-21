@@ -57,27 +57,27 @@ export default function TransaksiCard(trx: Penjualan) {
 
       <CardContent className="px-3 lg:px-5">
         <div className="space-y-4">
-          {trx.produk.map((b, i) => (
+          {trx.detail.map((b, i) => (
             <Card
               key={i}
               className="relative flex flex-col lg:flex-row items-start lg:items-center gap-4 p-4 bg-white rounded-2xl shadow-sm overflow-hidden">
               <div className="w-full h-48 lg:w-24 lg:h-24 relative rounded-lg overflow-hidden border">
-                <ProductImage filename={b.foto_produk} style={{ objectFit: "cover" }} />
+                <ProductImage filename={b.produk.foto_produk[0].path_foto} style={{ objectFit: "cover" }} />
               </div>
               <div className="flex-1 flex flex-col justify-between min-w-0">
                 <h3 className="font-semibold text-base lg:text-lg line-clamp-2">
-                  {b.nama_produk}
+                  {b.produk.nama_produk}
                 </h3>
                 <div className="flex items-center justify-between mt-2">
                   <div>
                     <Badge className="flex items-center text-xs px-2 py-1 rounded-full bg-gray-200 text-gray-700">
                       <ShoppingBag className="w-4 h-4 mr-1" />
-                      {b.kategori}
+                      {b.produk.kategori.nama_kategori}
                     </Badge>
                     <div className="flex items-center gap-1 mt-2 ml-2 text-xs">
                       <CreditCard className="w-4 h-4 text-primary" />
                       <span className="font-medium">
-                        Rp{b.harga.toLocaleString('id-ID')}
+                        Rp{b.produk.harga_produk.toLocaleString('id-ID')}
                       </span>
                     </div>
                   </div>
