@@ -18,9 +18,9 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
+    <>
       <SiteHeader title="Data Master Penitipan" />
       <DataTable columns={columns} data={penitipan} />
-    </div>
+    </>
   );
 }

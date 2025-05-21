@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
           onChange={(e) => table.setGlobalFilter(String(e.target.value))}
           className="max-w-sm"
         />
-        <Link href="#">
+        <Link href="/gudang/transaksi-penitipan/new">
           <Button>+ Tambah Penitipan</Button>
         </Link>
       </div>

@@ -13,6 +13,7 @@ import {
   ToyBrick,
   Truck,
   User2,
+  Archive,
 } from "lucide-react";
 
 import { NavUser } from "@/components/nav-user";
@@ -137,9 +138,15 @@ const data = {
       role: "Penitip",
     },
     {
+      title: "Produk Titipan",
+      url: "/gudang/produk-titipan",
+      icon: Package,
+      role: "Gudang",
+    },
+    {
       title: "Transaksi Penitipan",
       url: "/gudang/transaksi-penitipan",
-      icon: Package,
+      icon: Archive,
       role: "Gudang",
     },
     {
