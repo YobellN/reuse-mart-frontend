@@ -6,7 +6,6 @@ import { getProduk } from "@/services/produk/produk-services";
 export default async function Page() {
     const paginatedData = await getProduk();
     const data = paginatedData.data;
-    console.log(data);
     return (
         <>
             <SiteHeader title="Data Master Produk" />

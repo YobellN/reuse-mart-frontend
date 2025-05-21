@@ -79,3 +79,14 @@ export type Alamat = {
   kode_pos : string;
   alamat_utama : boolean;
 }
+
+export type Penitipan = {
+  id_penitipan: string;
+  tanggal_penitipan: string;
+  tenggat_penitipan: string;
+  tenggat_pengambilan: string;
+  status_perpanjangan: number;
+  nama_penitip: string;
+  nama_qc: string;
+  id_hunter: string | null;
+};
