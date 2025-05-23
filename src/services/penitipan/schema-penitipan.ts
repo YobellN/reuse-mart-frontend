@@ -117,10 +117,9 @@ export const PenitipanSchema = z.object({
     .trim()
     .startsWith("P", { message: "Format ID Hunter tidak valid" })
     .nullable(),
-  tanggal_penitipan: z
-    .date()
-    .min(new Date("1955-01-01"), { message: "Usia Terlalu Tua" })
-    .max(new Date("2008-06-01"), { message: "Usia Terlalu Muda" }),
+  tanggal_penitipan: z.date().max(new Date(), {
+    message: "Tidak dapat menitipkan barang untuk tanggal yang belum datang",
+  }),
 });
 
 export type PenitipanFormSchema = z.infer<typeof PenitipanSchema>;

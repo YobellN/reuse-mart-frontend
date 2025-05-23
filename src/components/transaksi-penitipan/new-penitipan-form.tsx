@@ -3,27 +3,16 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { Calendar as CalendarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { toast } from "@/components/hooks/use-toast";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -40,7 +29,6 @@ import {
   PenitipanFormSchema,
   PenitipanSchema,
 } from "@/services/penitipan/schema-penitipan";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { getAllPenitip } from "@/services/penitip/penitip-services";
 import { Penitip } from "@/services/penitip/schema-penitip";
@@ -51,6 +39,10 @@ import {
 } from "@/services/penitipan/penitipan-services";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
+import { CalendarDMY } from "../ui/calendar-month-year";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
+import { FormSelectPopover } from "../form-select-popover";
 
 export default function NewPenitipanForm() {
   const [penitipRaw, setPenitipRaw] = React.useState<Penitip[]>([]);
@@ -115,9 +107,20 @@ export default function NewPenitipanForm() {
 
   // 2. Define a submit handler.
   function onSubmit(values: PenitipanFormSchema) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    if (showHunterForm && !values.id_hunter) {
+      toast({
+        title: "Validasi gagal",
+        description: "Mohon pilih hunter terlebih dahulu.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!showHunterForm) {
+      values.id_hunter = null;
+    }
+
+    console.log("Data dikirim:", values);
   }
 
   return (
@@ -133,84 +136,19 @@ export default function NewPenitipanForm() {
         </CardTitle>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 items-start">
               <FormField
                 control={form.control}
                 name="id_penitip"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Nama Penitip</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-full md:w-[350px] justify-between bg-white",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? (
-                              <span>
-                                <span className="text-green-700 font-bold">
-                                  {
-                                    dataPenitip.find(
-                                      (dPen) => dPen.value === field.value
-                                    )?.value
-                                  }
-                                </span>{" "}
-                                -{" "}
-                                <span className="font-normal">
-                                  {
-                                    dataPenitip.find(
-                                      (dPen) => dPen.value === field.value
-                                    )?.label
-                                  }
-                                </span>
-                              </span>
-                            ) : (
-                              "Pilih nama penitip"
-                            )}
-                            <ChevronsUpDown className="opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-full p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Cari penitip..."
-                            className="h-9"
-                          />
-                          <CommandList>
-                            <CommandEmpty>
-                              Penitip tidak ditemukan.
-                            </CommandEmpty>
-                            <CommandGroup>
-                              {dataPenitip.map((dataPen) => (
-                                <CommandItem
-                                  value={dataPen.value}
-                                  key={dataPen.value}
-                                  onSelect={() => {
-                                    form.setValue("id_penitip", dataPen.value);
-                                  }}
-                                >
-                                  {dataPen.value} - {dataPen.label}
-                                  <Check
-                                    className={cn(
-                                      "ml-auto",
-                                      dataPen.value === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    )}
-                                  />
-                                </CommandItem>
-                              ))}
-                            </CommandGroup>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
+                    <FormSelectPopover
+                      options={dataPenitip}
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder="Pilih nama penitip"
+                    />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -221,265 +159,96 @@ export default function NewPenitipanForm() {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Nama Pegawai QC</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-full md:w-[350px] justify-between bg-white",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {/* {field.value
-                            ? dataQC.find((dQC) => dQC.value === field.value)
-                                ?.label
-                            : "Pilih pegawai QC"}
-                             */}
-                            {field.value ? (
-                              <span>
-                                <span className="text-green-700 font-bold">
-                                  {
-                                    dataQC.find(
-                                      (dQC) => dQC.value === field.value
-                                    )?.value
-                                  }
-                                </span>{" "}
-                                -{" "}
-                                <span className="font-normal">
-                                  {
-                                    dataQC.find(
-                                      (dQC) => dQC.value === field.value
-                                    )?.label
-                                  }
-                                </span>
-                              </span>
-                            ) : (
-                              "Pilih pegawai QC"
-                            )}
-                            <ChevronsUpDown className="opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-full p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Cari pegawai QC..."
-                            className="h-9"
-                          />
-                          <CommandList>
-                            <CommandEmpty>
-                              Pegawai QC tidak ditemukan.
-                            </CommandEmpty>
-                            <CommandGroup>
-                              {dataQC.map((dataPen) => (
-                                <CommandItem
-                                  value={dataPen.value}
-                                  key={dataPen.value}
-                                  onSelect={() => {
-                                    form.setValue("id_qc", dataPen.value);
-                                  }}
-                                >
-                                  {dataPen.value} - {dataPen.label}
-                                  <Check
-                                    className={cn(
-                                      "ml-auto",
-                                      dataPen.value === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    )}
-                                  />
-                                </CommandItem>
-                              ))}
-                            </CommandGroup>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
+                    <FormSelectPopover
+                      options={dataQC}
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder="Pilih pegawai QC"
+                    />
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              <div>
+                {showHunterForm ? (
+                  <FormField
+                    control={form.control}
+                    name="id_hunter"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Nama Hunter</FormLabel>
+                        <FormSelectPopover
+                          options={dataHunter}
+                          value={field.value}
+                          onChange={field.onChange}
+                          placeholder="Pilih hunter"
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                ) : null}
+                <div className="flex items-center space-x-2 mt-4">
+                  <Checkbox
+                    id="terms"
+                    checked={showHunterForm}
+                    onCheckedChange={(value) => {
+                      if (!value) {
+                        form.setValue("id_hunter", null);
+                      }
+                      setShowHunterForm(value === true);
+                    }}
+                  />
+                  <Label htmlFor="terms">Produk adalah produk hunting</Label>
+                </div>
+              </div>
+
               <FormField
                 control={form.control}
-                name="id_hunter"
+                name="tanggal_penitipan"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Nama Hunter</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
+                  <FormItem>
+                    <FormLabel>Tanggal Penitipan</FormLabel>
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
                           <Button
-                            variant="outline"
-                            role="combobox"
+                            variant={"outline"}
                             className={cn(
-                              "w-full md:w-[350px] justify-between bg-white",
+                              "w-full md:w-[350px] justify-start text-left font-semibold bg-white",
                               !field.value && "text-muted-foreground"
                             )}
                           >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
                             {field.value ? (
-                              <span>
-                                <span className="text-green-700 font-bold">
-                                  {
-                                    dataHunter.find(
-                                      (dHunter) => dHunter.value === field.value
-                                    )?.value
-                                  }
-                                </span>{" "}
-                                -{" "}
-                                <span className="font-normal">
-                                  {
-                                    dataHunter.find(
-                                      (dHunter) => dHunter.value === field.value
-                                    )?.label
-                                  }
-                                </span>
-                              </span>
+                              format(field.value, "dd MMMM yyyy", {
+                                locale: id,
+                              })
                             ) : (
-                              "Pilih hunter"
+                              <span>Pilih tanggal</span>
                             )}
-                            <ChevronsUpDown className="opacity-50" />
                           </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-full p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Cari data hunter..."
-                            className="h-9"
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                          <CalendarDMY
+                            mode="single"
+                            selected={field.value ?? new Date()}
+                            onSelect={field.onChange}
+                            initialFocus
                           />
-                          <CommandList>
-                            <CommandEmpty>
-                              Pegawai hunter tidak ditemukan.
-                            </CommandEmpty>
-                            <CommandGroup>
-                              {dataHunter.map((dataPen) => (
-                                <CommandItem
-                                  value={dataPen.value}
-                                  key={dataPen.value}
-                                  onSelect={() => {
-                                    form.setValue("id_hunter", dataPen.value);
-                                  }}
-                                >
-                                  {dataPen.value} - {dataPen.label}
-                                  <Check
-                                    className={cn(
-                                      "ml-auto",
-                                      dataPen.value === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    )}
-                                  />
-                                </CommandItem>
-                              ))}
-                            </CommandGroup>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="terms"
-                  checked={showHunterForm}
-                  onCheckedChange={(value) => {
-                    return value
-                      ? setShowHunterForm(true)
-                      : setShowHunterForm(false);
-                  }}
-                />
-                <Label htmlFor="terms">Produk adalah produk hunting</Label>
-              </div>
-              {showHunterForm ? (
-                <FormField
-                  control={form.control}
-                  name="id_hunter"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Nama Hunter</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-full md:w-[350px] justify-between bg-white",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                <span>
-                                  <span className="text-green-700 font-bold">
-                                    {
-                                      dataHunter.find(
-                                        (dHunter) =>
-                                          dHunter.value === field.value
-                                      )?.value
-                                    }
-                                  </span>{" "}
-                                  -{" "}
-                                  <span className="font-normal">
-                                    {
-                                      dataHunter.find(
-                                        (dHunter) =>
-                                          dHunter.value === field.value
-                                      )?.label
-                                    }
-                                  </span>
-                                </span>
-                              ) : (
-                                "Pilih hunter"
-                              )}
-                              <ChevronsUpDown className="opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-full p-0">
-                          <Command>
-                            <CommandInput
-                              placeholder="Cari data hunter..."
-                              className="h-9"
-                            />
-                            <CommandList>
-                              <CommandEmpty>
-                                Pegawai hunter tidak ditemukan.
-                              </CommandEmpty>
-                              <CommandGroup>
-                                {dataHunter.map((dataPen) => (
-                                  <CommandItem
-                                    value={dataPen.value}
-                                    key={dataPen.value}
-                                    onSelect={() => {
-                                      form.setValue("id_hunter", dataPen.value);
-                                    }}
-                                  >
-                                    {dataPen.value} - {dataPen.label}
-                                    <Check
-                                      className={cn(
-                                        "ml-auto",
-                                        dataPen.value === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ) : null}
             </div>
+            <CardTitle className="text-lg text-start my-12">
+              Tambah Data Barang Titipan
+            </CardTitle>
             <Button type="submit">Submit</Button>
           </form>
         </Form>
