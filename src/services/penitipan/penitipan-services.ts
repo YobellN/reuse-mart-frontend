@@ -1,7 +1,7 @@
 "use server";
 
 import api from "../api";
-import { IResponse } from "../utils";
+import { IResponse, Pegawai } from "../utils";
 import { Penitipan } from "./schema-penitipan";
 import { DetailProdukTitipan } from "./schema-penitipan";
 
@@ -198,4 +198,26 @@ export async function pengambilanProdukTitipan(
       };
     }
   }
+}
+
+export async function getPegawaiQC(): Promise<Pegawai[]> {
+  const res = await api.get("gudang/get-pegawai-qc");
+
+  if (!res.data) {
+    throw new Error("Failed to fetch pegawai");
+  }
+
+  const pegawai: Pegawai[] = res.data.data;
+  return [...pegawai];
+}
+
+export async function getPegawaiHunter(): Promise<Pegawai[]> {
+  const res = await api.get("gudang/get-pegawai-hunter");
+
+  if (!res.data) {
+    throw new Error("Failed to fetch pegawai");
+  }
+
+  const pegawai: Pegawai[] = res.data.data;
+  return [...pegawai];
 }

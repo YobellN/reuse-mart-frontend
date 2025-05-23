@@ -1,7 +1,7 @@
 "use server";
 
 import AlertBox from "@/components/alert-box";
-import ShowDetailPenitipan from "@/components/penitipan/show-detail-penitipan";
+import ShowDetailPenitipan from "@/components/transaksi-penitipan/show-detail-penitipan";
 import { SiteHeader } from "@/components/site-header";
 import { getDetailPenitipanById } from "@/services/penitipan/penitipan-services";
 

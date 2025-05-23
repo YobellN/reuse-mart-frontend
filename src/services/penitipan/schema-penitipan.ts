@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export type ProdukTitipan = {
   id_produk: string;
   nama_produk: string;
@@ -97,4 +99,34 @@ export type DetailProdukTitipan = {
       };
     };
   };
+};
+
+export const PenitipanSchema = z.object({
+  id_penitip: z
+    .string()
+    .trim()
+    .nonempty({ message: "ID penitip tidak boleh kosong" })
+    .startsWith("T", { message: "Format ID Penitip tidak valid" }),
+  id_qc: z
+    .string()
+    .trim()
+    .nonempty({ message: "ID QC tidak boleh kosong" })
+    .startsWith("P", { message: "Format ID QC tidak valid" }),
+  id_hunter: z
+    .string()
+    .trim()
+    .startsWith("P", { message: "Format ID Hunter tidak valid" })
+    .nullable(),
+  tanggal_penitipan: z
+    .date()
+    .min(new Date("1955-01-01"), { message: "Usia Terlalu Tua" })
+    .max(new Date("2008-06-01"), { message: "Usia Terlalu Muda" }),
+});
+
+export type PenitipanFormSchema = z.infer<typeof PenitipanSchema>;
+export type PenitipanPayload = Omit<
+  PenitipanFormSchema,
+  "tanggal_penitipan"
+> & {
+  tanggal_penitipan: string;
 };
