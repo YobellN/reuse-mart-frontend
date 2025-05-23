@@ -66,9 +66,10 @@ export default function HomeNavbar({
 
           <div className="flex h-16 w-30 items-center justify-end">
             <div className="h-10 me-2 w-10 bg-white hover:bg-slate-100 rounded-full py-1 shadow-sm flex items-center justify-center ">
-              <Link href="#">
+              {/* TOMBOL KERANJANG */}
+                <Link href="/keranjang">
                 <ShoppingCart className="text-green-600 me-[1px] stroke-2" />
-              </Link>
+                </Link>
             </div>
 
             {user === undefined ? (

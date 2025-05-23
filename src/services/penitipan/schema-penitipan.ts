@@ -96,5 +96,5 @@ export type DetailProdukTitipan = {
         };
       };
     };
-  };
+  } | null;
 };
