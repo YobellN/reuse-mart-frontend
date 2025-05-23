@@ -98,7 +98,7 @@ export type DetailProdukTitipan = {
         };
       };
     };
-  };
+  } | null;
 };
 
 export const PenitipanSchema = z.object({

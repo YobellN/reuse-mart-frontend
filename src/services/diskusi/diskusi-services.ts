@@ -35,7 +35,7 @@ export async function getDiskusiById(id_produk: string): Promise<IResponse<Disku
       : id_produk;
 
     const res = await api.get(`diskusi/getDiskusiProduk/${actualId}`);
-    return res.data.data;
+    return res.data;
   } catch (err: any) {
     console.error("API Error:", err);
     return null;

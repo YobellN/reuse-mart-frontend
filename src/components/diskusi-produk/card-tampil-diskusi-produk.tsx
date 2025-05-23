@@ -4,9 +4,10 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { getDiskusiById } from "@/services/diskusi/diskusi-services";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Diskusi } from "@/services/diskusi/schema-diskusi";
 
 export default function ProductDiscussionCard({ id_produk }: {id_produk: string}) {
-  const [discussions, setDiscussions] = useState<any[]>([]);
+  const [discussions, setDiscussions] = useState<Diskusi[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
