@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { resetPassword } from "@/services/auth/user-services"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
     password: z.string().trim().nonempty({ message: "Password tidak boleh kosong" }).min(8, { message: "Password minimal 8 karakter" }).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/, {
