@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { format } from "date-fns";
@@ -17,6 +17,7 @@ import {
 import ConfirmDialog from "@/components/confirm-dialog";
 import { pengambilanProdukTitipan } from "@/services/penitipan/penitipan-services";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
+import Link from "next/link";
 
 
 export const columns: ColumnDef<Penjualan>[] = [
@@ -129,6 +130,9 @@ export const columns: ColumnDef<Penjualan>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                        <Link href={`/gudang/pengiriman/new/${row.original.id_penjualan}`} className="hover:bg-accent hover:text-accent-foreground">
+                            <Button variant={"ghost"}><Plus className=" h-4 w-4" />Jadwalkan Pengiriman</Button>
+                        </Link>
                         {/* <ConfirmDialog
                             description="Apakah anda yakin ingin melakukan konfirmasi pengambilan?"
                             onConfirm={() => pengambilanProdukTitipan(id_produk)}

@@ -16,7 +16,7 @@ export type Penjualan = {
       no_telp: string;
       email: string;
     };
-  };
+  } | null;
   detail: {
     produk: {
       nama_produk: string;

@@ -71,7 +71,7 @@ export type Organisasi = {
 }
 
 export type Alamat = {
-  id_alamat : string;
+  id_alamat : number;
   id_pembeli : string;
   label : string;
   kota : string;
