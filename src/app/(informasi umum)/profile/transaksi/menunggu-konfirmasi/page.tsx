@@ -4,7 +4,9 @@ import { getRiwayatPenjualan } from "@/services/penjualan/penjualan-services";
 import TransaksiCard from "@/components/profile/transaction-card";
 
 export default async function Page() {
-    const transaksi = await getRiwayatPenjualan("Diproses");
+    const transaksi = await getRiwayatPenjualan({
+        status: "Diproses"
+    });
     if (transaksi.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center h-full">

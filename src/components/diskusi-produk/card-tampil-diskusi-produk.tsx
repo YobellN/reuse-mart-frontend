@@ -12,8 +12,8 @@ export default function ProductDiscussionCard({ id_produk }: {id_produk: string}
   useEffect(() => {
     getDiskusiById(id_produk)
       .then((result) => {
-        if (result) {
-          setDiscussions(result);
+        if (result && Array.isArray(result.data)) {
+          setDiscussions(result.data);
         }
         setLoading(false);
       })

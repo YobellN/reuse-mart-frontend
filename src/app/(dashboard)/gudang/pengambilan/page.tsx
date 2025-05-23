@@ -8,7 +8,7 @@ import { getRiwayatPenjualan } from "@/services/penjualan/penjualan-services";
 export default async function Page() {
     const data = await getRiwayatPenjualan({
         status: "Disiapkan",
-        metode_pengiriman: "Antar Kurir",
+        metode_pengiriman: "Ambil di gudang",
     });
     return (
         <>

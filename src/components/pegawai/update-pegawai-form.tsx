@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,7 +33,7 @@ import {
 } from "../ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { CalendarDMY } from "@/components/ui/calendar-month-year";
-import { Calendar as CalendarIcon, EyeIcon, EyeOffIcon } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -58,7 +57,6 @@ const UpdatePegawaiSchema = PegawaiSchema.partial();
 type UpdatePegawaiFormSchema = z.infer<typeof UpdatePegawaiSchema>;
 
 export default function UpdatePegawaiForm({ pegawai }: { pegawai: Pegawai }) {
-  const [showPassword, setShowPassword] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [submit, setSubmit] = React.useState(false);
   const router = useRouter();
@@ -202,43 +200,6 @@ export default function UpdatePegawaiForm({ pegawai }: { pegawai: Pegawai }) {
                 </FormItem>
               )}
             />
-
-            {/* <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="********"
-                        {...field}
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                        onClick={() => setShowPassword((prev) => !prev)}
-                      >
-                        {showPassword ? (
-                          <EyeIcon className="h-4 w-4" aria-hidden="true" />
-                        ) : (
-                          <EyeOffIcon className="h-4 w-4" aria-hidden="true" />
-                        )}
-                      </Button>
-                    </div>
-                  </FormControl>
-                  <FormDescription className="text-xs text-green-600">
-                    Password minimal 8 katakter, mengandung huruf besar, kecil,
-                    dan karakter khusus
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
 
             <FormField
               control={form.control}

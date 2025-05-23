@@ -11,15 +11,23 @@ export type Penjualan = {
   status_penjualan: string;
   tenggat_pembayaran?: string;
   pembeli: {
-    nama: string;
-    no_telp: string;
-    email: string;
+    user: {
+      nama: string;
+      no_telp: string;
+      email: string;
+    };
   };
-  produk: {
-    nama_produk: string;
-    foto_produk: string;
-    kategori: string;
-    harga: number;
+  detail: {
+    produk: {
+      nama_produk: string;
+      foto_produk: {
+        path_foto: string;
+      }[];
+      kategori: {
+        nama_kategori: string;
+      };
+      harga_produk: number;
+    };
   }[];
   pembayaran: {
     tanggal_pembayaran: string;
@@ -33,6 +41,6 @@ export type Penjualan = {
     alamat: {
       label: string;
       detail_alamat: string;
-    }
+    };
   } | null;
 };
