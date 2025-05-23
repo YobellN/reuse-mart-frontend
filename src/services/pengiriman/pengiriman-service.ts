@@ -24,7 +24,6 @@ export  async function getAllKurir() : Promise<Pegawai[]> {
 
 export async function handlePenjadwalanPengiriman(formData: FormData, id_pengiriman: string) : Promise<IResponse<Pengiriman>> {
     try {
-        console.log(formData);
         const res = await api.patch(`/gudang/penjadwalan-pengiriman/${id_pengiriman}`, {
             id_kurir: formData.get('id_kurir'),
             jadwal_pengiriman: formData.get('jadwal_pengiriman'),
