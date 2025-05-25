@@ -2,7 +2,7 @@
 
 import api from "../api";
 import { IResponse, Pegawai } from "../utils";
-import { Penitipan } from "./schema-penitipan";
+import { Penitipan, PenitipanPayload } from "./schema-penitipan";
 import { DetailProdukTitipan } from "./schema-penitipan";
 
 export async function getProdukTitipanPenitip(
@@ -220,4 +220,28 @@ export async function getPegawaiHunter(): Promise<Pegawai[]> {
 
   const pegawai: Pegawai[] = res.data.data;
   return [...pegawai];
+}
+
+export async function handleNewPenitipan(
+  formData: FormData
+): Promise<IResponse<PenitipanPayload>> {
+  try {
+    const res = await api.post("/gudang/new-penitipan", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return {
+      message: res.data.message,
+      data: res.data.data,
+    };
+  } catch (err: any) {
+    if (err.response?.data?.errors) {
+      return {
+        message: err.response.data.message,
+        errors: err.response.data.errors,
+      };
+    }
+    return {
+      message: "Terjadi kesalahan",
+    };
+  }
 }
