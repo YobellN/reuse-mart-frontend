@@ -4,13 +4,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-  Calendar as CalendarIcon,
-  ChevronDownIcon,
-  Plus,
-  Save,
-  Trash2,
-} from "lucide-react";
+import { Calendar as CalendarIcon, Save } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -25,12 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 
 import {
   Popover,
@@ -40,6 +29,7 @@ import {
 
 import {
   PenitipanFormSchema,
+  PenitipanPayload,
   PenitipanSchema,
 } from "@/services/penitipan/schema-penitipan";
 import {
@@ -55,27 +45,57 @@ import { Pegawai } from "@/services/utils";
 import {
   getPegawaiQC,
   getPegawaiHunter,
+  handleNewPenitipan,
 } from "@/services/penitipan/penitipan-services";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import { CalendarDMY } from "../ui/calendar-month-year";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { FormSelectPopover } from "../form-select-popover";
-import { Separator } from "../ui/separator";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import UploadBox from "../ui/upload-box";
-import Image from "next/image";
+import { getAllKategoriProduk } from "@/services/produk/kategori-produk-services";
+import { KategoriProduk } from "@/services/produk/schema-kategori-produk";
+import { useRouter } from "next/navigation";
+import { NewProdukAccordionItem } from "./new-product-form";
+import { useFieldArray } from "react-hook-form";
 
 export default function NewPenitipanForm() {
   const [penitipRaw, setPenitipRaw] = React.useState<Penitip[]>([]);
   const [QcRaw, setQcRaw] = React.useState<Pegawai[]>([]);
+  const [kategoriProdukRaw, setKategoriProdukRaw] = React.useState<
+    KategoriProduk[]
+  >([]);
   const [HunterRaw, setHunterRaw] = React.useState<Pegawai[]>([]);
   const [showHunterForm, setShowHunterForm] = React.useState<boolean>(false);
-  const [showGaransiForm, setShowGaransiForm] = React.useState<boolean>(false);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [open, setOpen] = React.useState(false);
+  const [submit, setSubmit] = useState(false);
 
+  const router = useRouter();
+
+  //untuk default nya akordion (supaya otomatis ada 1 accordion yg terbuka)
+  useEffect(() => {
+    if (fields.length === 0) {
+      append({
+        nama_produk: "",
+        deskripsi_produk: "",
+        id_kategori: 0,
+        harga_produk: null,
+        waktu_garansi: null,
+        foto_produk: [],
+      });
+    }
+  }, []);
+
+  //fetch nama penitip
   useEffect(() => {
     async function fetchData() {
       const data = await getAllPenitip();
@@ -89,6 +109,7 @@ export default function NewPenitipanForm() {
     value: penitip.id_penitip,
   }));
 
+  //untuk ngambil pegawai qc
   useEffect(() => {
     async function fetchData() {
       const data = await getPegawaiQC();
@@ -102,6 +123,23 @@ export default function NewPenitipanForm() {
     value: pegawai.id_pegawai,
   }));
 
+  //ambil kategori produk
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getAllKategoriProduk();
+      setKategoriProdukRaw(data);
+    }
+    fetchData();
+  }, []);
+
+  const dataKategori = kategoriProdukRaw
+    .sort((a, b) => a.id_kategori - b.id_kategori)
+    .map((kategori: KategoriProduk) => ({
+      label: kategori.nama_kategori,
+      value: kategori.id_kategori,
+    }));
+
+  //untuk ngambil pegawai hunter
   useEffect(() => {
     async function fetchData() {
       const data = await getPegawaiHunter();
@@ -115,6 +153,7 @@ export default function NewPenitipanForm() {
     value: pegawai.id_pegawai,
   }));
 
+  //form
   const form = useForm<PenitipanFormSchema>({
     resolver: zodResolver(PenitipanSchema),
     defaultValues: {
@@ -122,32 +161,100 @@ export default function NewPenitipanForm() {
       id_qc: "",
       id_hunter: null,
       tanggal_penitipan: new Date(),
+      produk: [],
     },
   });
 
-  type PenitipanPayload = Omit<PenitipanFormSchema, "tanggal_penitipan"> & {
-    tanggal_penitipan: string;
-  };
-
   const finalFormData = React.useRef<PenitipanPayload | null>(null);
 
-  // 2. Define a submit handler.
-  function onSubmit(values: PenitipanFormSchema) {
-    if (showHunterForm && !values.id_hunter) {
-      toast({
-        title: "Validasi gagal",
-        description: "Mohon pilih hunter terlebih dahulu.",
-        variant: "destructive",
-      });
-      return;
-    }
+  async function onSubmit(values: PenitipanFormSchema) {
+    const isValid = await form.trigger();
 
-    if (!showHunterForm) {
-      values.id_hunter = null;
-    }
+    if (isValid) {
+      const tanggal_penitipan = values.tanggal_penitipan
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
 
-    console.log("Data dikirim:", values);
+      finalFormData.current = {
+        ...values,
+        tanggal_penitipan,
+      };
+
+      setOpen(true);
+    } else {
+      alert("Form belum valid");
+    }
   }
+
+  async function handleSubmit(data: PenitipanPayload) {
+    setSubmit(true);
+
+    try {
+      const formData = new FormData();
+
+      formData.append("id_penitip", data.id_penitip);
+      formData.append("id_qc", data.id_qc);
+      if (data.id_hunter) formData.append("id_hunter", data.id_hunter);
+      formData.append("tanggal_penitipan", data.tanggal_penitipan);
+
+      if (data.produk.length) {
+        data.produk.forEach((produk, i) => {
+          formData.append(`produk[${i}][nama_produk]`, produk.nama_produk);
+          formData.append(
+            `produk[${i}][deskripsi_produk]`,
+            produk.deskripsi_produk
+          );
+          formData.append(
+            `produk[${i}][id_kategori]`,
+            String(produk.id_kategori)
+          );
+          formData.append(
+            `produk[${i}][harga_produk]`,
+            String(produk.harga_produk)
+          );
+          if (produk.waktu_garansi instanceof Date) {
+            formData.append(
+              `produk[${i}][waktu_garansi]`,
+              produk.waktu_garansi.toISOString().slice(0, 10)
+            );
+          }
+
+          produk.foto_produk.forEach((file, j) => {
+            formData.append(`produk[${i}][foto_produk][${j}][path_foto]`, file);
+          });
+        });
+      }
+
+      const res = await handleNewPenitipan(formData);
+
+      if (res.message === "Penitipan berhasil ditambahkan") {
+        router.push("/cs/penitipan");
+        toast.success("Penitipan berhasil ditambahkan");
+        form.reset();
+      } else {
+        if (res.errors) {
+          Object.entries(res.errors).forEach(([field, message]) => {
+            form.setError(field as keyof PenitipanFormSchema, {
+              type: "server",
+              message: Array.isArray(message) ? message[0] : String(message),
+            });
+          });
+        }
+        toast.error("Gagal menambahkan penitipan");
+      }
+    } catch (err) {
+      toast.error("Terjadi kesalahan server");
+    } finally {
+      setSubmit(false);
+      setOpen(false);
+    }
+  }
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "produk",
+  });
 
   return (
     <Card className="w-full sm:max-w-6/7 mx-auto mt-10 shadow-md">
@@ -287,250 +394,60 @@ export default function NewPenitipanForm() {
               </CardDescription>
               <Accordion
                 type="multiple"
-                className="my-4 w-full space-y-2 rounded-lg border border-teal-400"
+                defaultValue={["item-1"]}
+                className="my-4 w-full space-y-2 rounded-lg "
               >
-                <AccordionItem
-                  value={`item-${1}`}
-                  className="border-none rounded-lg px-4 bg-white"
-                >
-                  <AccordionTrigger
-                    className="text-lg font-semibold hover:no-underline hover:text-teal-700"
-                    icon={<ChevronDownIcon />}
-                  >
-                    Data Produk 1
-                  </AccordionTrigger>
-
-                  <AccordionContent>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-10 items-start">
-                      <div className="space-y-4">
-                        <Card className="w-full rounded-lg bg-white">
-                          <CardHeader>
-                            <CardTitle className="font-bold">
-                              Nama dan Deskripsi
-                            </CardTitle>
-                            <Separator className="mt-2 mb-0 border-1 border-stone-400" />
-                          </CardHeader>
-                          <CardContent className="space-y-6">
-                            <FormField
-                              control={form.control}
-                              name="nama"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Nama Produk</FormLabel>
-                                  <FormControl>
-                                    <Input
-                                      placeholder="Nama produk"
-                                      {...field}
-                                    />
-                                  </FormControl>
-
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <FormField
-                              control={form.control}
-                              name="nama"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Deskripsi Produk</FormLabel>
-                                  <FormControl>
-                                    <Textarea
-                                      placeholder="Deskripsi produk"
-                                      className="h-31"
-                                    />
-                                  </FormControl>
-
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          </CardContent>
-                        </Card>
-                        <Card className="w-full rounded-lg bg-white">
-                          <CardHeader>
-                            <CardTitle className="font-bold">
-                              Kategori dan Garansi
-                            </CardTitle>
-                            <Separator className="mt-2 mb-0 border-1 border-stone-400" />
-                          </CardHeader>
-                          <CardContent className="space-y-6">
-                            <FormField
-                              control={form.control}
-                              name="nama"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Kategori Produk</FormLabel>
-                                  <FormControl>
-                                    <Input
-                                      placeholder="Nama produk"
-                                      {...field}
-                                    />
-                                  </FormControl>
-
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <div>
-                              {showGaransiForm ? (
-                                <FormField
-                                  control={form.control}
-                                  name="id_hunter"
-                                  render={({ field }) => (
-                                    <FormItem className="flex flex-col">
-                                      <FormLabel>Tanggal Garansi</FormLabel>
-                                      <Popover>
-                                        <PopoverTrigger asChild>
-                                          <Button
-                                            variant={"outline"}
-                                            className={cn(
-                                              "w-full max-w-[400px] justify-start text-left font-semibold bg-white",
-                                              !field.value &&
-                                                "text-muted-foreground"
-                                            )}
-                                          >
-                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {field.value ? (
-                                              format(
-                                                field.value,
-                                                "dd MMMM yyyy",
-                                                {
-                                                  locale: id,
-                                                }
-                                              )
-                                            ) : (
-                                              <span>Pilih tanggal</span>
-                                            )}
-                                          </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0">
-                                          <CalendarDMY
-                                            mode="single"
-                                            selected={field.value ?? new Date()}
-                                            onSelect={field.onChange}
-                                            initialFocus
-                                          />
-                                        </PopoverContent>
-                                      </Popover>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                              ) : null}
-                              <div className="flex items-center space-x-2 mt-4">
-                                <Checkbox
-                                  id="terms"
-                                  checked={showGaransiForm}
-                                  className="bg-white"
-                                  onCheckedChange={(value) => {
-                                    if (!value) {
-                                      form.setValue("id_hunter", null);
-                                    }
-                                    setShowGaransiForm(value === true);
-                                  }}
-                                />
-                                <Label htmlFor="terms">
-                                  Produk memiliki garansi
-                                </Label>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </div>
-                      <div className="space-y-4">
-                        <Card className="w-full  rounded-lg bg-white">
-                          <CardHeader>
-                            <CardTitle className="font-bold">
-                              Harga Produk
-                            </CardTitle>
-                            <Separator className="mt-2 mb-0 border-1 border-stone-400" />
-                          </CardHeader>
-                          <CardContent className="space-y-6">
-                            <FormField
-                              control={form.control}
-                              name="nama"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Harga Produk</FormLabel>
-                                  <FormControl>
-                                    <Input
-                                      placeholder="Harga produk"
-                                      {...field}
-                                    />
-                                  </FormControl>
-
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          </CardContent>
-                        </Card>
-                        <Card className="w-full  rounded-lg bg-white">
-                          <CardHeader>
-                            <CardTitle className="font-bold">
-                              Foto Produk
-                            </CardTitle>
-                            <Separator className="mt-2 mb-0 border-1 border-stone-400" />
-                          </CardHeader>
-                          <CardContent className="space-y-6">
-                            <FormField
-                              control={form.control}
-                              name="nama"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <div className="flex items-center gap-4">
-                                      <UploadBox
-                                        onFileSelect={(file) => {
-                                          const url = URL.createObjectURL(file);
-                                          setPreview(url);
-                                        }}
-                                      />
-
-                                      {preview && (
-                                        <div className="relative aspect-square w-1/2 sm:w-1/3 border-2 border-teal-500 rounded-md overflow-hidden">
-                                          <Image
-                                            src={preview}
-                                            alt="Preview"
-                                            fill
-                                            className="object-cover"
-                                          />
-                                        </div>
-                                      )}
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          </CardContent>
-                        </Card>
-                        <Card className="p-6 bg-white rounded-lg ">
-                          <div>
-                            <CardTitle className="font-bold">Aksi:</CardTitle>
-                          </div>
-                          <div className="flex lg:flex-row lg:items-center lg:justify-between ">
-                            <Button className="bg-rose-600 hover:bg-rose-700">
-                              <Trash2 size="64" strokeWidth={3} /> Hapus Produk
-                              Ini
-                            </Button>
-                            <Button className="bg-teal-600 hover:bg-teal-700">
-                              <Plus size="64" strokeWidth={3} /> Tambah Produk
-                              Lain
-                            </Button>
-                          </div>
-                        </Card>
-                      </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
+                {fields.map((field, index) => (
+                  <NewProdukAccordionItem
+                    key={field.id}
+                    index={index}
+                    form={form}
+                    dataKategori={dataKategori}
+                    append={append}
+                    remove={remove}
+                    length={fields.length}
+                  />
+                ))}
               </Accordion>
             </div>
-            <Button type="submit">
-              <Save strokeWidth={2.5} />
-              Simpan Data Penitipan
-            </Button>
+
+            <div className="pt-4">
+              <AlertDialog open={open} onOpenChange={setOpen}>
+                <Button type="submit" disabled={submit}>
+                  <Save strokeWidth={2.5} />
+                  Simpan Data Penitipan
+                </Button>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Konfirmasi Penitipan Baru
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Apakah data penitipan sudah benar?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel
+                      onClick={() => setOpen(false)}
+                      disabled={submit}
+                    >
+                      Batal
+                    </AlertDialogCancel>
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        if (finalFormData.current) {
+                          handleSubmit(finalFormData.current);
+                        }
+                      }}
+                      disabled={submit}
+                    >
+                      {submit ? "Memproses..." : "Ya, Tambah Penitipan"}
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </form>
         </Form>
       </CardContent>

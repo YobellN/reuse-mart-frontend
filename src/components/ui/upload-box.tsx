@@ -1,13 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { ImagePlus } from "lucide-react";
 
 export default function UploadBox({
   onFileSelect,
 }: {
-  onFileSelect: (file: File) => void;
+  onFileSelect: (files: File[]) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -16,16 +15,16 @@ export default function UploadBox({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      onFileSelect(file);
+    const files = Array.from(e.target.files || []);
+    if (files.length > 0) {
+      onFileSelect(files);
     }
   };
 
   return (
     <div
       onClick={handleClick}
-      className="border-2 border-dashed border-teal-300 bg-teal-50 hover:bg-teal-100 cursor-pointer flex flex-col items-center justify-center aspect-square w-1/2 sm:w-1/3 rounded-md text-teal-600 text-sm transition-all"
+      className="border-2 border-dashed border-teal-300 bg-teal-50 hover:bg-teal-100 cursor-pointer flex flex-col items-center justify-center aspect-square w-24 h-24 sm:w-30 sm:h-30 rounded-md text-teal-600 text-sm transition-all"
     >
       <ImagePlus />
       <span>Pilih Foto Produk</span>
@@ -34,6 +33,7 @@ export default function UploadBox({
         ref={inputRef}
         type="file"
         accept="image/*"
+        multiple
         className="hidden"
         onChange={handleChange}
       />
