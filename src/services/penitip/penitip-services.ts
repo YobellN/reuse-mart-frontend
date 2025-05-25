@@ -13,6 +13,15 @@ export async function getAllPenitip(): Promise<Penitip[]> {
   }
 }
 
+export async function getAllPenitipGudang(): Promise<Penitip[]> {
+  try {
+    const res = await api.get("/penitip");
+    return res.data.data;
+  } catch (error) {
+    return [];
+  }
+}
+
 export async function getPenitipById(
   id_penitip: string
 ): Promise<Penitip | null> {

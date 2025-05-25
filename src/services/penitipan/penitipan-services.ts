@@ -240,8 +240,11 @@ export async function handleNewPenitipan(
         errors: err.response.data.errors,
       };
     }
+
     return {
+      
       message: "Terjadi kesalahan",
     };
   }
 }
+

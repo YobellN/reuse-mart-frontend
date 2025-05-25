@@ -39,7 +39,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { getAllPenitip } from "@/services/penitip/penitip-services";
+import { getAllPenitip, getAllPenitipGudang } from "@/services/penitip/penitip-services";
 import { Penitip } from "@/services/penitip/schema-penitip";
 import { Pegawai } from "@/services/utils";
 import {
@@ -88,7 +88,7 @@ export default function NewPenitipanForm() {
         nama_produk: "",
         deskripsi_produk: "",
         id_kategori: 0,
-        harga_produk: null,
+        harga_produk: 0,
         waktu_garansi: null,
         foto_produk: [],
       });
@@ -98,7 +98,7 @@ export default function NewPenitipanForm() {
   //fetch nama penitip
   useEffect(() => {
     async function fetchData() {
-      const data = await getAllPenitip();
+      const data = await getAllPenitipGudang();
       setPenitipRaw(data);
     }
     fetchData();
