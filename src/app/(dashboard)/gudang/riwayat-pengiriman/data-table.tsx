@@ -36,7 +36,7 @@ export function DataTable<TData, TValue>({
     const [sorting, setSorting] = React.useState<SortingState>([
         {
             id: "status_penjualan",
-            desc: true,
+            desc: false,
         },
         {
             id: "id_penjualan",

@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal, Plus } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { format } from "date-fns";
@@ -14,7 +14,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
-import Link from "next/link";
+import {NotaTransaksiPDF} from "@/components/transaksi/nota-transaksi-kurir";
+
 
 export const columns: ColumnDef<Penjualan>[] = [
     {
@@ -132,9 +133,7 @@ export const columns: ColumnDef<Penjualan>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        <Link href={`/gudang/pengiriman/new/${row.original.id_penjualan}`} className="hover:bg-accent hover:text-accent-foreground">
-                            <Button variant={"ghost"}><Plus className=" h-4 w-4" />Jadwalkan Pengiriman</Button>
-                        </Link>
+                        <NotaTransaksiPDF trx={row.original} />
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

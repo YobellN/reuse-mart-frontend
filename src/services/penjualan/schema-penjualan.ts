@@ -1,3 +1,5 @@
+import { DetailProdukTitipan } from "../penitipan/schema-penitipan";
+
 export type Penjualan = {
   id_penjualan: string;
   tanggal_penjualan: string;
@@ -18,16 +20,7 @@ export type Penjualan = {
     };
   } | null;
   detail: {
-    produk: {
-      nama_produk: string;
-      foto_produk: {
-        path_foto: string;
-      }[];
-      kategori: {
-        nama_kategori: string;
-      };
-      harga_produk: number;
-    };
+    produk: DetailProdukTitipan;
   }[];
   pembayaran: {
     tanggal_pembayaran: string;

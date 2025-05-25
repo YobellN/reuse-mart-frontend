@@ -1,6 +1,7 @@
 'use server'
 
 import api from "../api";
+import { Penjualan } from "../penjualan/schema-penjualan";
 import { IResponse, Pegawai } from "../utils";
 import { Pengiriman } from "./schema-pengiriman";
 
@@ -22,7 +23,7 @@ export  async function getAllKurir() : Promise<Pegawai[]> {
     }
 }
 
-export async function handlePenjadwalanPengiriman(formData: FormData, id_pengiriman: string) : Promise<IResponse<Pengiriman>> {
+export async function handlePenjadwalanPengiriman(formData: FormData, id_pengiriman: string) : Promise<IResponse<Penjualan>> {
     try {
         const res = await api.patch(`/gudang/penjadwalan-pengiriman/${id_pengiriman}`, {
             id_kurir: formData.get('id_kurir'),
