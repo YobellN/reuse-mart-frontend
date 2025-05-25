@@ -71,7 +71,7 @@ export const columns: ColumnDef<Penjualan>[] = [
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Status
+                    Metode Pengiriman
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )

@@ -14,7 +14,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
-import {NotaTransaksiPDF} from "@/components/transaksi/nota-transaksi-kurir";
+import { NotaTransaksiPDF } from "@/components/transaksi/nota-transaksi-kurir";
 
 
 export const columns: ColumnDef<Penjualan>[] = [
@@ -72,7 +72,7 @@ export const columns: ColumnDef<Penjualan>[] = [
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Status
+                    Metode Pengiriman
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -115,6 +115,29 @@ export const columns: ColumnDef<Penjualan>[] = [
                     return <Badge variant="outline" className="text-purple-500 dark:text-purple-400 border-purple-500 dark:border-purple-400">{value}</Badge>;
                 default:
                     return <Badge variant="processing">Diproses</Badge>;
+            }
+        },
+    },
+    {
+        id: "status_pengiriman",
+        accessorKey: "pengiriman.status_pengiriman",
+        header: "Status Pengiriman",
+        cell: ({ row }) => {
+            const value = row.original.pengiriman?.status_pengiriman;
+
+            switch (value) {
+                case "Disiapkan":
+                    return <Badge variant="secondary">-</Badge>;
+                case "Menunggu Kurir":
+                    return (<Badge variant="warning">{value}</Badge>);
+                case "Diambil oleh kurir":
+                    return (<Badge variant="processing">{value}</Badge>);
+                case "Selesai":
+                    return <Badge variant="success">{value}</Badge>;
+                case "Batal":
+                    return <Badge variant="destructive">{value}</Badge>;
+                default:
+                    return <Badge variant="secondary">-</Badge>;
             }
         },
     },

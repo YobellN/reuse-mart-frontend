@@ -14,7 +14,6 @@ export type Pengiriman = {
   penjualan: Penjualan;
 };
 
-
 const now = new Date();
 const todayStart = startOfDay(now);
 const cutoffHour = 16;
@@ -26,7 +25,7 @@ export const PengirimanSchema = z.object({
   jadwal_pengiriman: z
     .date()
     .refine((date) => date >= todayStart, {
-      message: "Tanggal pengiriman minimal hari ini",
+      message: "Tanggal pengambilan minimal hari ini",
     })
     .refine(
       (date) => {
@@ -40,4 +39,34 @@ export const PengirimanSchema = z.object({
     ),
 });
 
+export const PengambilanSchema = z.object({
+  id_penjualan: z.string().optional(),
+  jadwal_pengambilan: z
+    .date()
+    .refine((date) => date >= todayStart, {
+      message: "Tanggal pengiriman minimal hari ini",
+    })
+    .refine(
+      (date) => {
+        const isToday = date.toDateString() === now.toDateString();
+        const isAfterCutoff = now.getHours() >= cutoffHour;
+        return !(isToday && isAfterCutoff);
+      },
+      {
+        message: "Sudah lewat jam 4 sore, tidak bisa memilih hari ini",
+      }
+    )
+    .refine(
+      (date) => {
+        const day = date.getDay();
+        return day !== 0 && day !== 6;
+      },
+      {
+        message: "Pengambilan tidak tersedia di hari Sabtu atau Minggu",
+      }
+    ),
+});
+
 export type PengirimanFormSchema = z.infer<typeof PengirimanSchema>;
+
+export type PengambilanFormSchema = z.infer<typeof PengambilanSchema>;

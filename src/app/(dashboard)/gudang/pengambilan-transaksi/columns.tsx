@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { format } from "date-fns";
@@ -13,8 +13,11 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
-import { NotaTransaksiPDF } from "@/components/transaksi/nota-transaksi-kurir";
+import ConfirmDialog from "@/components/confirm-dialog";
+import { handleKonfirmasiPengambilanTransaksi } from "@/services/pengiriman/pengiriman-service";
+import { downloadNotaTransaksi } from "@/components/transaksi/nota-transaksi-kurir";
 
 
 export const columns: ColumnDef<Penjualan>[] = [
@@ -144,7 +147,7 @@ export const columns: ColumnDef<Penjualan>[] = [
         id: "actions",
         header: "Aksi",
         cell: ({ row }) => {
-            // const id_produk: string = row.original.id_produk;
+            const id_penjualan = row.original.id_penjualan;
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -155,7 +158,18 @@ export const columns: ColumnDef<Penjualan>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        <NotaTransaksiPDF trx={row.original} />
+                        <ConfirmDialog
+                            description="Apakah anda yakin ingin melakukan konfirmasi pengambilan?"
+                            onConfirm={async () => {
+                                const res = await handleKonfirmasiPengambilanTransaksi(id_penjualan);
+                                if (res.message.includes("berhasil") && res.data) {
+                                    downloadNotaTransaksi({ trx: res.data });
+                                }
+                                return res;
+                            }}
+                            label="Konfirmasi Pengambilan"
+                            message="Konfirmasi pengambilan berhasil dilakukan"
+                        />
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

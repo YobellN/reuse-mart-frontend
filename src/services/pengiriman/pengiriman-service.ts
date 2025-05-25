@@ -45,3 +45,45 @@ export async function handlePenjadwalanPengiriman(formData: FormData, id_pengiri
         };
     }
 }
+
+export async function handlePenjadwalanPengambilan(formData: FormData, id_pengiriman: string) : Promise<IResponse<Penjualan>> {
+    try {
+        const res = await api.patch(`/gudang/penjadwalan-pengambilan/${id_pengiriman}`, {
+            jadwal_pengambilan: formData.get('jadwal_pengambilan'),
+        });
+        return {
+            message: res.data.message,
+            data: res.data.data,
+        }
+    } catch (error : any) {
+        if(error.response?.data?.errors) {
+            return {
+                message: error.response.data.message,
+                errors: error.response.data.errors,
+            };
+        }
+        return {
+            message: "Terjadi kesalahan",
+        };
+    }
+}
+
+export async function handleKonfirmasiPengambilanTransaksi(id_pengiriman: string) : Promise<IResponse<Penjualan>> {
+    try {
+        const res = await api.patch(`/gudang/konfirmasi-pengambilan-transaksi/${id_pengiriman}`);
+        return {
+            message: res.data.message,
+            data: res.data.data,
+        }
+    } catch (error : any) {
+        if(error.response?.data?.errors) {
+            return {
+                message: error.response.data.message,
+                errors: error.response.data.errors,
+            };
+        }
+        return {
+            message: "Terjadi kesalahan",
+        };
+    }
+}
