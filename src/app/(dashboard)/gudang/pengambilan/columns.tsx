@@ -50,7 +50,7 @@ export const columns: ColumnDef<Penjualan>[] = [
     {
         id: "tanggal_pembayaran",
         accessorKey: "pembayaran.tanggal_pembayaran",
-        header: "Tenggat Pembayaran",
+        header: "Tanggal Pembayaran",
         accessorFn: (row) =>
             row.pembayaran?.tanggal_pembayaran
                 ? format(new Date(row.pembayaran?.tanggal_pembayaran), "dd MMMM yyyy", { locale: id })
@@ -109,6 +109,12 @@ export const columns: ColumnDef<Penjualan>[] = [
             switch (value) {
                 case "Disiapkan":
                     return <Badge variant="outline" className="text-purple-500 dark:text-purple-400 border-purple-500 dark:border-purple-400">{value}</Badge>;
+                case "Selesai":
+                    return <Badge variant="success">{value}</Badge>;
+                case "Hangus":
+                    return <Badge variant="destructive">{value}</Badge>;
+                case "Menunggu Pengambilan":
+                    return <Badge variant="processing">{value}</Badge>;
                 default:
                     return <Badge variant="processing">Diproses</Badge>;
             }

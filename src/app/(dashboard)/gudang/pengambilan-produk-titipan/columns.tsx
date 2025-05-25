@@ -53,7 +53,7 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
         accessorKey: "detail_penitipan.penitipan.tanggal_penitipan",
         header: "Tanggal Penitipan",
         accessorFn: (row) =>
-            row.detail_penitipan.penitipan.tanggal_penitipan
+            row.detail_penitipan?.penitipan.tanggal_penitipan
                 ? format(new Date(row.detail_penitipan.penitipan.tanggal_penitipan), "dd MMMM yyyy", { locale: id })
                 : "",
         cell: ({ row }) => {
@@ -65,7 +65,7 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
         accessorKey: "detail_penitipan.penitipan.tenggat_pengambilan",
         header: "Tenggat Pengambilan",
         accessorFn: (row) =>
-            row.detail_penitipan.penitipan.tenggat_pengambilan
+            row.detail_penitipan?.penitipan.tenggat_pengambilan
                 ? format(new Date(row.detail_penitipan.penitipan.tenggat_pengambilan), "dd MMMM yyyy", { locale: id })
                 : "",
         cell: ({ row }) => {
@@ -77,7 +77,7 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
         accessorKey: "detail_penitipan.tanggal_pengambilan",
         header: "Tanggal Pengambilan",
         accessorFn: (row) =>
-            row.detail_penitipan.tanggal_pengambilan
+            row.detail_penitipan?.tanggal_pengambilan
                 ? format(new Date(row.detail_penitipan.tanggal_pengambilan), "dd MMMM yyyy", { locale: id })
                 : "Belum diambil",
         cell: ({ row }) => {

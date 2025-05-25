@@ -14,6 +14,7 @@ import {
   Truck,
   User2,
   Archive,
+  Check,
 } from "lucide-react";
 
 import { NavUser } from "@/components/nav-user";
@@ -150,21 +151,39 @@ const data = {
       role: "Gudang",
     },
     {
-      title: "Pengambilan Produk Titipan",
+      title: "Konfirmasi Pengambilan Produk",
       url: "/gudang/pengambilan-produk-titipan",
-      icon: HandHelping,
-      role: "Gudang",
-    },
-    {
-      title: "Penjadwalan Pengambilan Transaksi",
-      url: "/gudang/pengambilan",
-      icon: HandHelping,
+      icon: Check,
       role: "Gudang",
     },
     {
       title: "Penjadwalan Pengiriman Transaksi",
       url: "/gudang/pengiriman",
       icon: Truck,
+      role: "Gudang",
+    },
+    {
+      title: "Riwayat Pengiriman Transaksi",
+      url: "/gudang/riwayat-pengiriman",
+      icon: IconReceipt,
+      role: "Gudang",
+    },
+    {
+      title: "Penjadwalan Pengambilan Transaksi",
+      url: "/gudang/pengambilan",
+      icon: Truck,
+      role: "Gudang",
+    },
+    {
+      title: "Konfirmasi Pengambilan Transaksi",
+      url: "/gudang/pengambilan-transaksi",
+      icon: Check,
+      role: "Gudang",
+    },
+    {
+      title: "Riwayat Pengambilan Transaksi",
+      url: "/gudang/riwayat-pengambilan",
+      icon: IconReceipt,
       role: "Gudang",
     },
     {

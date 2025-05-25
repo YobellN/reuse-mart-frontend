@@ -19,6 +19,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
             </DialogTrigger>
 
             <DialogContent
+                id={`nota-${trx.id_penjualan}`}            
                 className={
                     `w-full max-w-sm sm:max-w-xl  max-h-[calc(100vh-4rem)] overflow-y-auto p-3 sm:p-5 bg-gradient-to-b from-green-50 to-green-100`
                 }
@@ -56,15 +57,15 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                     <div className="space-y-3 text-sm">
                         <div className="flex items-center gap-2">
                             <User className="w-5 h-5 text-primary" />
-                            <span className="font-medium">{trx.pembeli.user.nama}</span>
+                            <span className="font-medium">{trx.pembeli?.user.nama}</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <Mail className="w-5 h-5 text-primary" />
-                            <span>{trx.pembeli.user.email}</span>
+                            <span>{trx.pembeli?.user.email}</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <Phone className="w-5 h-5 text-primary" />
-                            <span>{trx.pembeli.user.no_telp}</span>
+                            <span>{trx.pembeli?.user.no_telp}</span>
                         </div>
                     </div>
                 </Card>

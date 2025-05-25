@@ -28,6 +28,7 @@ import { Pengiriman, PengirimanFormSchema, PengirimanSchema } from "@/services/p
 import { Pegawai } from "@/services/utils"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command"
 import { handlePenjadwalanPengiriman } from "@/services/pengiriman/pengiriman-service"
+import { downloadNotaTransaksi } from "../transaksi/nota-transaksi-kurir"
 
 
 export default function NewPengirimanForm({ pengiriman, kurir }: { pengiriman: Pengiriman, kurir: Pegawai[] }) {
@@ -66,8 +67,11 @@ export default function NewPengirimanForm({ pengiriman, kurir }: { pengiriman: P
             const res = await handlePenjadwalanPengiriman(data, pengiriman.id_penjualan);
 
             if (res.message.includes("berhasil")) {
+                if (res.data) {
+                    downloadNotaTransaksi({ trx: res.data });
+                }
                 router.push("/gudang/pengiriman");
-                toast.success("Pengiriman berhasil dijadwalkan");
+                toast.success("Pengiriman berhasil dan nota sedang dicetak...");
                 setOpen(false);
             } else {
                 if (res.errors) {
@@ -118,6 +122,18 @@ export default function NewPengirimanForm({ pengiriman, kurir }: { pengiriman: P
                                     <FormLabel>ID Alamat</FormLabel>
                                     <FormControl>
                                         <Input readOnly {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            name="alamat"
+                            render={() => (
+                                <FormItem>
+                                    <FormLabel>Detail Alamat</FormLabel>
+                                    <FormControl>
+                                        <Input readOnly value={pengiriman.alamat.detail_alamat} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
