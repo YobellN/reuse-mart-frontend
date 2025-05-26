@@ -126,10 +126,14 @@ export const ProdukSchema = z.object({
     .min(1, { message: "Deskripsi produk tidak boleh kosong" }),
   id_kategori: z
     .number({ invalid_type_error: "ID kategori harus berupa angka" })
-    .min(1, { message: "ID kategori tidak boleh kurang dari 1" }),
+    .min(1, { message: "Kategori tidak boleh kosong" }),
   harga_produk: z
-    .number({ invalid_type_error: "Harga harus berupa angka" })
-    .min(1, { message: "Harga tidak boleh kurang dari 1" }),
+    .string()
+    .min(1, { message: "Harga wajib diisi" })
+    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+      message: "Harga harus berupa angka lebih dari 0",
+    }),
+
   waktu_garansi: z
     .date()
     .min(new Date(), { message: "Waktu garansi minimal hari ini" })
@@ -156,18 +160,11 @@ export const PenitipanSchema = z.object({
     .trim()
     .startsWith("P", { message: "Format ID Hunter tidak valid" })
     .nullable(),
-  tanggal_penitipan: z.date().max(new Date(), {
-    message: "Tidak dapat menitipkan barang untuk tanggal yang belum datang",
-  }),
+
   produk: z
     .array(ProdukSchema)
     .min(1, { message: "Minimal 1 produk harus diisi" }),
 });
 
 export type PenitipanFormSchema = z.infer<typeof PenitipanSchema>;
-export type PenitipanPayload = Omit<
-  PenitipanFormSchema,
-  "tanggal_penitipan"
-> & {
-  tanggal_penitipan: string;
-};
+export type PenitipanPayload = PenitipanFormSchema;

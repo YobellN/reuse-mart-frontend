@@ -4,15 +4,13 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Calendar as CalendarIcon, Save } from "lucide-react";
+import { Save } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
@@ -20,12 +18,6 @@ import {
 } from "@/components/ui/form";
 
 import { Accordion } from "@/components/ui/accordion";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 import {
   PenitipanFormSchema,
@@ -39,7 +31,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { getAllPenitip, getAllPenitipGudang } from "@/services/penitip/penitip-services";
+import { getAllPenitipGudang } from "@/services/penitip/penitip-services";
 import { Penitip } from "@/services/penitip/schema-penitip";
 import { Pegawai } from "@/services/utils";
 import {
@@ -58,15 +50,13 @@ import {
 } from "../ui/alert-dialog";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
-import { CalendarDMY } from "../ui/calendar-month-year";
-import { format } from "date-fns";
-import { id } from "date-fns/locale";
 import { FormSelectPopover } from "../form-select-popover";
 import { getAllKategoriProduk } from "@/services/produk/kategori-produk-services";
 import { KategoriProduk } from "@/services/produk/schema-kategori-produk";
 import { useRouter } from "next/navigation";
 import { NewProdukAccordionItem } from "./new-product-form";
 import { useFieldArray } from "react-hook-form";
+import { format } from "date-fns";
 
 export default function NewPenitipanForm() {
   const [penitipRaw, setPenitipRaw] = React.useState<Penitip[]>([]);
@@ -82,16 +72,19 @@ export default function NewPenitipanForm() {
   const router = useRouter();
 
   //untuk default nya akordion (supaya otomatis ada 1 accordion yg terbuka)
+  const didAppendRef = React.useRef(false);
+
   useEffect(() => {
-    if (fields.length === 0) {
+    if (!didAppendRef.current && fields.length === 0) {
       append({
         nama_produk: "",
         deskripsi_produk: "",
         id_kategori: 0,
-        harga_produk: 0,
+        harga_produk: "",
         waktu_garansi: null,
         foto_produk: [],
       });
+      didAppendRef.current = true;
     }
   }, []);
 
@@ -160,7 +153,7 @@ export default function NewPenitipanForm() {
       id_penitip: "",
       id_qc: "",
       id_hunter: null,
-      tanggal_penitipan: new Date(),
+
       produk: [],
     },
   });
@@ -171,14 +164,8 @@ export default function NewPenitipanForm() {
     const isValid = await form.trigger();
 
     if (isValid) {
-      const tanggal_penitipan = values.tanggal_penitipan
-        .toISOString()
-        .slice(0, 19)
-        .replace("T", " ");
-
       finalFormData.current = {
         ...values,
-        tanggal_penitipan,
       };
 
       setOpen(true);
@@ -196,7 +183,6 @@ export default function NewPenitipanForm() {
       formData.append("id_penitip", data.id_penitip);
       formData.append("id_qc", data.id_qc);
       if (data.id_hunter) formData.append("id_hunter", data.id_hunter);
-      formData.append("tanggal_penitipan", data.tanggal_penitipan);
 
       if (data.produk.length) {
         data.produk.forEach((produk, i) => {
@@ -211,12 +197,12 @@ export default function NewPenitipanForm() {
           );
           formData.append(
             `produk[${i}][harga_produk]`,
-            String(produk.harga_produk)
+            String(Number(produk.harga_produk))
           );
           if (produk.waktu_garansi instanceof Date) {
             formData.append(
               `produk[${i}][waktu_garansi]`,
-              produk.waktu_garansi.toISOString().slice(0, 10)
+              format(produk.waktu_garansi, "yyyy-MM-dd")
             );
           }
 
@@ -229,7 +215,7 @@ export default function NewPenitipanForm() {
       const res = await handleNewPenitipan(formData);
 
       if (res.message === "Penitipan berhasil ditambahkan") {
-        router.push("/cs/penitipan");
+        router.push("/gudang/transaksi-penitipan");
         toast.success("Penitipan berhasil ditambahkan");
         form.reset();
       } else {
@@ -266,14 +252,14 @@ export default function NewPenitipanForm() {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="border border-stone-300 p-4 rounded-lg bg-stone-50">
+            <div className="border border-stone-300 p-4 rounded-lg bg-green-50">
               <CardTitle className="text-xl text-center mb-1">
                 Tambah Data Penitipan
               </CardTitle>
               <CardDescription className="text-md text-center mb-10">
                 Masukkan informasi-informasi umum penitipan
               </CardDescription>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 items-start">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 items-start bg-white p-4 rounded-lg border border-teal-400">
                 <FormField
                   control={form.control}
                   name="id_penitip"
@@ -341,48 +327,6 @@ export default function NewPenitipanForm() {
                     <Label htmlFor="terms">Produk adalah produk hunting</Label>
                   </div>
                 </div>
-
-                <FormField
-                  control={form.control}
-                  name="tanggal_penitipan"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tanggal Penitipan</FormLabel>
-                      <FormControl>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-full max-w-[400px] justify-start text-left font-semibold bg-white",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              <CalendarIcon className="mr-2 h-4 w-4" />
-                              {field.value ? (
-                                format(field.value, "dd MMMM yyyy", {
-                                  locale: id,
-                                })
-                              ) : (
-                                <span>Pilih tanggal</span>
-                              )}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0">
-                            <CalendarDMY
-                              mode="single"
-                              selected={field.value ?? new Date()}
-                              onSelect={field.onChange}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </FormControl>
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
             </div>
             <div className="border border-stone-300 p-4 rounded-lg bg-green-50">
@@ -423,6 +367,17 @@ export default function NewPenitipanForm() {
                       Konfirmasi Penitipan Baru
                     </AlertDialogTitle>
                     <AlertDialogDescription>
+                      Berikut adalah produk yang akan ditambahkan:
+                    </AlertDialogDescription>
+
+                    <div className="mt-2 text-sm text-muted-foreground ps-4 space-y-1">
+                      {finalFormData.current?.produk.map((p, i) => (
+                        <p key={i} className="before:content-['•'] before:mr-2">
+                          {p.nama_produk || "(Nama produk belum diisi)"}
+                        </p>
+                      ))}
+                    </div>
+                    <AlertDialogDescription className="font-semibold my-4">
                       Apakah data penitipan sudah benar?
                     </AlertDialogDescription>
                   </AlertDialogHeader>

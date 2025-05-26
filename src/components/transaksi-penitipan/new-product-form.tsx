@@ -208,12 +208,15 @@ export function NewProdukAccordionItem({
                         <FormLabel>Harga Produk</FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
+                            type="text"
                             placeholder="Harga produk"
                             value={field.value ?? ""}
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.value))
-                            }
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              if (/^\d*$/.test(val)) {
+                                field.onChange(val);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
