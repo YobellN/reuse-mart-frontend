@@ -19,7 +19,7 @@ export default function ProductDetail(produk: Produk) {
     rating: produk.rating,
   };
 
-  async function addToCart(id_produk: String) {
+  async function addToCart(id_produk: string) {
     try {
       const res = await addToKeranjang(id_produk);
 

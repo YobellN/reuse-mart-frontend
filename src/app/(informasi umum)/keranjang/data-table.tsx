@@ -22,10 +22,11 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { ShoppingCartIcon } from "lucide-react"
 
 import React, { useState } from "react"
-import { DataTablePagination } from "@/components/data-table-pagination"
 import Link from "next/link"
+import { KeranjangTablePagination } from "@/components/keranjang/keranjang-table-pagination"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -66,9 +67,26 @@ export function DataTable<TData, TValue>({
     onGlobalFilterChange: setGlobalFilter
   })
 
+  // SUM TOTAL HARGA PRODUK
+  const calculateTotal = () => {
+    return data.reduce((sum, item: any) => sum + item.produk.harga_produk, 0)
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="rounded-md border">
+        <div className="flex flex-col items-center justify-center p-8 gap-4">
+          <ShoppingCartIcon className="w-12 h-12 text-muted-foreground" />
+          <p className="text-muted-foreground text-center">
+            Keranjang belanja Anda masih kosong
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div>
+    <div className="space-y-4">
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -112,9 +130,19 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+        <div className="border-t bg-muted/50 p-4">
+          <div className="flex justify-between items-center">
+            <span className="text-muted-foreground">Subtotal ({table.getRowModel().rows.length} produk)</span>
+            <span className="text-lg font-semibold">
+              {new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              }).format(calculateTotal())}
+            </span>
+          </div>
+        </div>
       </div>
-      <br />
-      <DataTablePagination table={table} />
+      <KeranjangTablePagination table={table} />
     </div>
   )
 }

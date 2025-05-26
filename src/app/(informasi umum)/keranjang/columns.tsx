@@ -35,7 +35,7 @@ export const columns: ColumnDef<DetailKeranjang>[] = [
         enableHiding: false,
         header: "Aksi",
         cell: ({ row }) => (
-            <HapusDialog id={row.original.id_produk} onHapus={() => deleteKeranjang(row.original.id_produk)} label="alamat" detail={row.original.produk.nama_produk} />
+            <HapusDialog id={row.original.id_produk} onHapus={() => deleteKeranjang(row.original.id_produk)} label="produk" detail={row.original.produk.nama_produk} />
         ),
     },
 ];

@@ -18,6 +18,18 @@ export type DetailKeranjang = {
     };
 };
 
+
+export type KeranjangResponse = {
+  status: string;
+  poin: number;
+  poin_dipakai: number;
+  diskon: number;
+  ongkir: number;
+  total_harga: number;
+  total_akhir: number;
+};
+
+
 export const DetailKeranjangSchema = z.object({
     id_keranjang: z.number().nonnegative({ message: "ID Keranjang tidak boleh negatif" }),
     id_produk: z.string().nonempty({ message: "ID Produk tidak boleh kosong" }),
