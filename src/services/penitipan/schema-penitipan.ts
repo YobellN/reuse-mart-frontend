@@ -101,6 +101,45 @@ export type DetailProdukTitipan = {
   } | null;
 };
 
+export const FotoProdukSchema = z
+  .instanceof(File, { message: "File tidak valid" })
+  .refine((file) => !!file, {
+    message: "Foto produk tidak boleh kosong",
+  })
+  .refine(
+    (file) =>
+      ["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(
+        file.type
+      ),
+    {
+      message: "Format foto produk tidak valid (hanya jpg, jpeg, png, webp)",
+    }
+  )
+  .refine((file) => file.size <= 2 * 1024 * 1024, {
+    message: "Ukuran foto maksimal 2MB",
+  });
+
+export const ProdukSchema = z.object({
+  nama_produk: z.string().min(3, { message: "Nama produk minimal 3 karakter" }),
+  deskripsi_produk: z
+    .string()
+    .min(1, { message: "Deskripsi produk tidak boleh kosong" }),
+  id_kategori: z
+    .number({ invalid_type_error: "ID kategori harus berupa angka" })
+    .min(1, { message: "ID kategori tidak boleh kurang dari 1" }),
+  harga_produk: z
+    .number({ invalid_type_error: "Harga harus berupa angka" })
+    .min(1, { message: "Harga tidak boleh kurang dari 1" }),
+  waktu_garansi: z
+    .date()
+    .min(new Date(), { message: "Waktu garansi minimal hari ini" })
+    .nullable(),
+  foto_produk: z
+    .array(FotoProdukSchema)
+    .min(2, { message: "Minimal 2 foto produk" })
+    .max(10, { message: "Maksimal 10 foto produk" }),
+});
+
 export const PenitipanSchema = z.object({
   id_penitip: z
     .string()
@@ -120,6 +159,9 @@ export const PenitipanSchema = z.object({
   tanggal_penitipan: z.date().max(new Date(), {
     message: "Tidak dapat menitipkan barang untuk tanggal yang belum datang",
   }),
+  produk: z
+    .array(ProdukSchema)
+    .min(1, { message: "Minimal 1 produk harus diisi" }),
 });
 
 export type PenitipanFormSchema = z.infer<typeof PenitipanSchema>;

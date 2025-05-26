@@ -20,39 +20,34 @@ import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescript
 import { toast } from "sonner"
 import { Input } from "../ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
-import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react"
+import { CalendarIcon } from "lucide-react"
 import { CalendarDMY } from "../ui/calendar-month-year"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
-import { Pengiriman, PengirimanFormSchema, PengirimanSchema } from "@/services/pengiriman/schema-pengiriman"
-import { Pegawai } from "@/services/utils"
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command"
-import { handlePenjadwalanPengiriman } from "@/services/pengiriman/pengiriman-service"
+import {  PengambilanSchema, PengambilanFormSchema } from "@/services/pengiriman/schema-pengiriman"
+import { handlePenjadwalanPengambilan } from "@/services/pengiriman/pengiriman-service"
 import { downloadNotaTransaksi } from "../transaksi/nota-transaksi-kurir"
 
 
-export default function NewPengirimanForm({ pengiriman, kurir }: { pengiriman: Pengiriman, kurir: Pegawai[] }) {
+export default function NewPengambilanForm({ id_penjualan }: { id_penjualan: string }) {
     const router = useRouter();
     const [submit, setSubmit] = useState(false);
     const [open, setOpen] = React.useState(false);
-    const form = useForm<PengirimanFormSchema>({
-        resolver: zodResolver(PengirimanSchema),
+    const form = useForm<PengambilanFormSchema>({
+        resolver: zodResolver(PengambilanSchema),
         defaultValues: {
-            id_alamat: pengiriman.id_alamat,
-            id_kurir: "",
-            id_penjualan: pengiriman.id_penjualan,
-            jadwal_pengiriman: new Date(),
+            id_penjualan: id_penjualan,
+            jadwal_pengambilan: new Date(),
         },
     });
     const finalFormData = React.useRef(new FormData());
 
-    async function onSubmit(values: PengirimanFormSchema) {
+    async function onSubmit(values: PengambilanFormSchema) {
         const isValid = await form.trigger();
 
         if (isValid) {
             const formData = new FormData();
-            formData.append("id_kurir", values.id_kurir);
-            formData.append("jadwal_pengiriman", format(values.jadwal_pengiriman, "yyyy-MM-dd"));
+            formData.append("jadwal_pengambilan", format(values.jadwal_pengambilan, "yyyy-MM-dd"));
             finalFormData.current = formData;
             setOpen(true);
         } else {
@@ -64,26 +59,26 @@ export default function NewPengirimanForm({ pengiriman, kurir }: { pengiriman: P
         setSubmit(true);
 
         try {
-            const res = await handlePenjadwalanPengiriman(data, pengiriman.id_penjualan);
+            const res = await handlePenjadwalanPengambilan(data,id_penjualan);
 
             if (res.message.includes("berhasil")) {
                 if (res.data) {
                     downloadNotaTransaksi({ trx: res.data });
                 }
-                router.push("/gudang/pengiriman");
-                toast.success("Pengiriman berhasil dan nota sedang dicetak...");
+                router.push("/gudang/pengambilan");
+                toast.success("Penjadwalan berhasil dan nota sedang dicetak...");
                 setOpen(false);
             } else {
                 if (res.errors) {
                     Object.entries(res.errors).forEach(([field, message]) => {
-                        form.setError(field as keyof PengirimanFormSchema, {
+                        form.setError(field as keyof PengambilanFormSchema, {
                             type: "server",
                             message: Array.isArray(message) ? message[0] : String(message),
                         });
                     });
                 }
                 setSubmit(false);
-                toast.error("Gagal menambahkan pengiriman " + res.message);
+                toast.error("Gagal menambahkan penjadwalan " + res.message);
             }
         } catch (err) {
             setSubmit(false);
@@ -96,7 +91,7 @@ export default function NewPengirimanForm({ pengiriman, kurir }: { pengiriman: P
     return (
         <Card className="max-w-2xl mx-auto mt-10 shadow-md relative overflow-visible">
             <CardHeader>
-                <CardTitle className="text-2xl text-center">Jadwalkan Pengiriman</CardTitle>
+                <CardTitle className="text-2xl text-center">Jadwalkan Pengambilan</CardTitle>
             </CardHeader>
             <CardContent>
                 <Form {...form}>
@@ -116,97 +111,10 @@ export default function NewPengirimanForm({ pengiriman, kurir }: { pengiriman: P
                         />
                         <FormField
                             control={form.control}
-                            name="id_alamat"
+                            name="jadwal_pengambilan"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>ID Alamat</FormLabel>
-                                    <FormControl>
-                                        <Input readOnly {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            name="alamat"
-                            render={() => (
-                                <FormItem>
-                                    <FormLabel>Detail Alamat</FormLabel>
-                                    <FormControl>
-                                        <Input readOnly value={pengiriman.alamat.detail_alamat} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="id_kurir"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>Kurir</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant="outline"
-                                                    role="combobox"
-                                                    className={cn(
-                                                        "w-[200px] justify-between",
-                                                        !field.value && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {kurir.find((kurir) => kurir.id_pegawai === field.value)?.user.nama ?? "Pilih Kurir"}
-                                                    <ChevronsUpDown className="opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-[200px] p-0">
-                                            <Command>
-                                                <CommandInput
-                                                    placeholder="Cari kurir..."
-                                                    className="h-9"
-                                                />
-                                                <CommandList>
-                                                    <CommandEmpty>Kurir tidak ditemukan.</CommandEmpty>
-                                                    <CommandGroup>
-                                                        {kurir.map((kurir) => (
-                                                            <CommandItem
-                                                                value={kurir.user.nama}
-                                                                key={kurir.id_pegawai}
-                                                                onSelect={() => {
-                                                                    form.setValue(
-                                                                        "id_kurir",
-                                                                        kurir.id_pegawai
-                                                                    )
-                                                                }}
-                                                            >
-                                                                {kurir.user.nama}
-                                                                <Check
-                                                                    className={cn(
-                                                                        "ml-auto",
-                                                                        kurir.id_pegawai === field.value
-                                                                            ? "opacity-100"
-                                                                            : "opacity-0"
-                                                                    )}
-                                                                />
-                                                            </CommandItem>
-                                                        ))}
-                                                    </CommandGroup>
-                                                </CommandList>
-                                            </Command>
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="jadwal_pengiriman"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Tanggal Pengiriman</FormLabel>
+                                    <FormLabel>Tanggal Pengambilan</FormLabel>
                                     <FormControl>
                                         <Popover>
                                             <PopoverTrigger asChild>
@@ -237,7 +145,6 @@ export default function NewPengirimanForm({ pengiriman, kurir }: { pengiriman: P
                                             </PopoverContent>
                                         </Popover>
                                     </FormControl>
-
                                     <FormMessage />
                                 </FormItem>
                             )}

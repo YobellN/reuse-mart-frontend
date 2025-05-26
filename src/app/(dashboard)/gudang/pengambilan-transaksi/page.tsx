@@ -3,14 +3,16 @@ import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { getRiwayatPenjualan } from "@/services/penjualan/penjualan-services";
 
+
+
 export default async function Page() {
     const data = await getRiwayatPenjualan({
-        status: "Disiapkan",
-        metode_pengiriman: "Antar Kurir",
+        status: "Menunggu Pengambilan",
+        metode_pengiriman: "Ambil di gudang",
     });
     return (
         <>
-            <SiteHeader title="Pengiriman Transaksi" />
+            <SiteHeader title="Konfirmasi Pengambilan Transaksi" />
             <DataTable columns={columns} data={data} />
         </>
     )

@@ -78,6 +78,7 @@ export type Alamat = {
   kecamatan : string;
   kode_pos : string;
   alamat_utama : boolean;
+  detail_alamat : string;
 }
 
 export type Penitipan = {

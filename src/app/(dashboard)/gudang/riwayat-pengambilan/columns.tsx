@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal, Plus } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { format } from "date-fns";
@@ -14,7 +14,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
-import Link from "next/link";
+import { NotaTransaksiPDF } from "@/components/transaksi/nota-transaksi-kurir";
+
 
 export const columns: ColumnDef<Penjualan>[] = [
     {
@@ -54,6 +55,28 @@ export const columns: ColumnDef<Penjualan>[] = [
                 : "",
         cell: ({ row }) => {
             return row.getValue("tanggal_pembayaran");
+        },
+    },
+    {
+        id: "jadwal_pengambilan",
+        accessorKey: "jadwal_pengambilan",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Jadwal Pengambilan
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        accessorFn: (row) =>
+            row.jadwal_pengambilan
+                ? format(new Date(row.jadwal_pengambilan), "dd MMMM yyyy", { locale: id })
+                : "",
+        cell: ({ row }) => {
+            return row.getValue("jadwal_pengambilan");
         },
     },
     {
@@ -104,14 +127,14 @@ export const columns: ColumnDef<Penjualan>[] = [
         cell: ({ row }) => {
             const value = row.getValue("status_penjualan");
             switch (value) {
+                case "Disiapkan":
+                    return <Badge variant="outline" className="text-purple-500 dark:text-purple-400 border-purple-500 dark:border-purple-400">{value}</Badge>;
                 case "Selesai":
                     return <Badge variant="success">{value}</Badge>;
                 case "Hangus":
                     return <Badge variant="destructive">{value}</Badge>;
-                case "Dikirim":
+                case "Menunggu Pengambilan":
                     return <Badge variant="processing">{value}</Badge>;
-                case "Disiapkan":
-                    return <Badge variant="outline" className="text-purple-500 dark:text-purple-400 border-purple-500 dark:border-purple-400">{value}</Badge>;
                 default:
                     return <Badge variant="processing">Diproses</Badge>;
             }
@@ -132,9 +155,7 @@ export const columns: ColumnDef<Penjualan>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        <Link href={`/gudang/pengiriman/new/${row.original.id_penjualan}`} className="hover:bg-accent hover:text-accent-foreground">
-                            <Button variant={"ghost"}><Plus className=" h-4 w-4" />Jadwalkan Pengiriman</Button>
-                        </Link>
+                        <NotaTransaksiPDF trx={row.original} />
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

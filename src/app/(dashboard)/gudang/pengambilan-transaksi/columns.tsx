@@ -13,8 +13,12 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Penjualan } from "@/services/penjualan/schema-penjualan";
 import Link from "next/link";
+import { Penjualan } from "@/services/penjualan/schema-penjualan";
+import ConfirmDialog from "@/components/confirm-dialog";
+import { handleKonfirmasiPengambilanTransaksi } from "@/services/pengiriman/pengiriman-service";
+import { downloadNotaTransaksi } from "@/components/transaksi/nota-transaksi-kurir";
+
 
 export const columns: ColumnDef<Penjualan>[] = [
     {
@@ -54,6 +58,28 @@ export const columns: ColumnDef<Penjualan>[] = [
                 : "",
         cell: ({ row }) => {
             return row.getValue("tanggal_pembayaran");
+        },
+    },
+    {
+        id: "jadwal_pengambilan",
+        accessorKey: "jadwal_pengambilan",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Jadwal Pengambilan
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        accessorFn: (row) =>
+            row.jadwal_pengambilan
+                ? format(new Date(row.jadwal_pengambilan), "dd MMMM yyyy", { locale: id })
+                : "",
+        cell: ({ row }) => {
+            return row.getValue("jadwal_pengambilan");
         },
     },
     {
@@ -104,14 +130,14 @@ export const columns: ColumnDef<Penjualan>[] = [
         cell: ({ row }) => {
             const value = row.getValue("status_penjualan");
             switch (value) {
+                case "Disiapkan":
+                    return <Badge variant="outline" className="text-purple-500 dark:text-purple-400 border-purple-500 dark:border-purple-400">{value}</Badge>;
                 case "Selesai":
                     return <Badge variant="success">{value}</Badge>;
                 case "Hangus":
                     return <Badge variant="destructive">{value}</Badge>;
-                case "Dikirim":
+                case "Menunggu Pengambilan":
                     return <Badge variant="processing">{value}</Badge>;
-                case "Disiapkan":
-                    return <Badge variant="outline" className="text-purple-500 dark:text-purple-400 border-purple-500 dark:border-purple-400">{value}</Badge>;
                 default:
                     return <Badge variant="processing">Diproses</Badge>;
             }
@@ -121,7 +147,7 @@ export const columns: ColumnDef<Penjualan>[] = [
         id: "actions",
         header: "Aksi",
         cell: ({ row }) => {
-            // const id_produk: string = row.original.id_produk;
+            const id_penjualan = row.original.id_penjualan;
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -132,9 +158,18 @@ export const columns: ColumnDef<Penjualan>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        <Link href={`/gudang/pengiriman/new/${row.original.id_penjualan}`} className="hover:bg-accent hover:text-accent-foreground">
-                            <Button variant={"ghost"}><Plus className=" h-4 w-4" />Jadwalkan Pengiriman</Button>
-                        </Link>
+                        <ConfirmDialog
+                            description="Apakah anda yakin ingin melakukan konfirmasi pengambilan?"
+                            onConfirm={async () => {
+                                const res = await handleKonfirmasiPengambilanTransaksi(id_penjualan);
+                                if (res.message.includes("berhasil") && res.data) {
+                                    downloadNotaTransaksi({ trx: res.data });
+                                }
+                                return res;
+                            }}
+                            label="Konfirmasi Pengambilan"
+                            message="Konfirmasi pengambilan berhasil dilakukan"
+                        />
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

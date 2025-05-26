@@ -36,7 +36,7 @@ export function FormSelectPopover({
   value,
   onChange,
   placeholder,
-  widthClass = "w-full md:w-[350px]",
+  widthClass = "w-full max-w-[400px]",
 }: FormSelectPopoverProps) {
   const selected = options.find((opt) => opt.value === value);
 
@@ -53,7 +53,7 @@ export function FormSelectPopover({
             )}
           >
             {value ? (
-              <span>
+              <span className="block truncate whitespace-nowrap overflow-hidden max-w-full">
                 <span className="text-green-700 font-bold">
                   {selected?.value}
                 </span>{" "}

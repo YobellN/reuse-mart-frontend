@@ -1,22 +1,20 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale/id";
 import { Badge } from "@/components/ui/badge";
-import ProductImage from "@/components/product/product-image";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ConfirmDialog from "@/components/confirm-dialog";
-import { pengambilanProdukTitipan } from "@/services/penitipan/penitipan-services";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
+import Link from "next/link";
 
 
 export const columns: ColumnDef<Penjualan>[] = [
@@ -50,7 +48,7 @@ export const columns: ColumnDef<Penjualan>[] = [
     {
         id: "tanggal_pembayaran",
         accessorKey: "pembayaran.tanggal_pembayaran",
-        header: "Tenggat Pembayaran",
+        header: "Tanggal Pembayaran",
         accessorFn: (row) =>
             row.pembayaran?.tanggal_pembayaran
                 ? format(new Date(row.pembayaran?.tanggal_pembayaran), "dd MMMM yyyy", { locale: id })
@@ -109,6 +107,12 @@ export const columns: ColumnDef<Penjualan>[] = [
             switch (value) {
                 case "Disiapkan":
                     return <Badge variant="outline" className="text-purple-500 dark:text-purple-400 border-purple-500 dark:border-purple-400">{value}</Badge>;
+                case "Selesai":
+                    return <Badge variant="success">{value}</Badge>;
+                case "Hangus":
+                    return <Badge variant="destructive">{value}</Badge>;
+                case "Menunggu Pengambilan":
+                    return <Badge variant="processing">{value}</Badge>;
                 default:
                     return <Badge variant="processing">Diproses</Badge>;
             }
@@ -129,12 +133,9 @@ export const columns: ColumnDef<Penjualan>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        {/* <ConfirmDialog
-                            description="Apakah anda yakin ingin melakukan konfirmasi pengambilan?"
-                            onConfirm={() => pengambilanProdukTitipan(id_produk)}
-                            label="Konfirmasi Pengambilan"
-                            message="Konfirmasi pengambilan berhasil dilakukan"
-                        /> */}
+                        <Link href={`/gudang/pengambilan/new/${row.original.id_penjualan}`} className="hover:bg-accent hover:text-accent-foreground">
+                            <Button variant={"ghost"}><Plus className=" h-4 w-4" />Jadwalkan Pengambilan</Button>
+                        </Link>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

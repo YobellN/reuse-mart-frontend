@@ -9,7 +9,7 @@ export default async function Page() {
     const data = await getProdukTitipanGudang("Akan Diambil");
     return (
         <>
-            <SiteHeader title="Data Master Produk Titipan" />
+            <SiteHeader title="Pengambilan Produk Titipan" />
             <DataTable columns={columns} data={data} />
         </>
     )

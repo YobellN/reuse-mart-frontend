@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     if (!pengiriman) return <div>Pengiriman tidak ditemukan</div>
     return (
         <>
-            <SiteHeader title="Tambah Pengiriman" />
+            <SiteHeader title="Penjadwalan Pengiriman Transaksi" />
             <br />
             <NewPengirimanForm pengiriman={pengiriman} kurir={kurir} />
         </>
