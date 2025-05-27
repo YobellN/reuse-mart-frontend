@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { DetailProdukTitipan } from "../penitipan/schema-penitipan";
 
 export type DetailKeranjang = {
     id_keranjang: number;
