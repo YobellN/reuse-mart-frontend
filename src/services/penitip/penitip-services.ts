@@ -33,6 +33,18 @@ export async function getPenitipById(
   }
 }
 
+//JANGAN DI UBAH
+export async function getPenitipByIdForGuest(
+  id_penitip: string
+): Promise<Penitip | null> {
+  try {
+    const res = await api.get(`/informasi-penitip/${id_penitip}`);
+    return res.data.data;
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function handleNewPenitip(
   formData: FormData
 ): Promise<IResponse<Penitip>> {
