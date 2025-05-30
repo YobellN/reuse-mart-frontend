@@ -57,6 +57,19 @@ export function RadioKeranjangGroupForm() {
         },
     })
 
+    const [searchQuery, setSearchQuery] = React.useState("");
+
+    const filteredAddresses = addresses.filter((alamat) => {
+        const q = searchQuery.toLowerCase();
+        return (
+            alamat.label.toLowerCase().includes(q) ||
+            alamat.detail_alamat.toLowerCase().includes(q) ||
+            alamat.kecamatan.toLowerCase().includes(q) ||
+            alamat.kabupaten_kota.toLowerCase().includes(q) ||
+            alamat.kode_pos.toString().includes(q)
+        );
+    });
+
     // Fetch addresses and poin when component mounts
     React.useEffect(() => {
         const fetchAddresses = async () => {
@@ -80,7 +93,7 @@ export function RadioKeranjangGroupForm() {
             formData.append("metode_pengambilan", data.metode_pengiriman)
 
             const response = await getTotalHarga(formData)
-            
+
             if (response.data) {
                 const selectedAddress = data.alamat && data.metode_pengiriman === "Antar Kurir"
                     ? addresses.find(a => a.id_alamat.toString() === data.alamat)
@@ -151,7 +164,7 @@ export function RadioKeranjangGroupForm() {
                                 </FormItem>
                             )}
                         />
-                        
+
                         {/* Conditional Address Selection */}
                         {form.watch("metode_pengiriman") === "Antar Kurir" && (
                             <FormField
@@ -177,14 +190,19 @@ export function RadioKeranjangGroupForm() {
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-[400px] p-0">
                                                     <Command>
-                                                        <CommandInput placeholder="Cari alamat..." className="h-9" />
+                                                        <CommandInput
+                                                            placeholder="Cari alamat..."
+                                                            className="h-9"
+                                                            onValueChange={(value) => setSearchQuery(value)}
+                                                        />
+
                                                         <CommandList>
                                                             <CommandEmpty>Alamat tidak ditemukan.</CommandEmpty>
                                                             <CommandGroup>
-                                                                {addresses.map((alamat) => (
+                                                                {filteredAddresses.map((alamat) => (
                                                                     <CommandItem
                                                                         key={alamat.id_alamat}
-                                                                        value={alamat.id_alamat.toString()}
+                                                                        value={`${alamat.label} ${alamat.detail_alamat} ${alamat.kecamatan} ${alamat.kabupaten_kota} ${alamat.kode_pos}`}
                                                                         onSelect={(value) => {
                                                                             addressField.onChange(value)
                                                                             setOpen(false)
@@ -269,7 +287,7 @@ export function RadioKeranjangGroupForm() {
                     </Button>
                 </form>
             </Form>
-            
+
             {checkoutData && (
                 <CheckoutModal
                     open={showCheckout}
