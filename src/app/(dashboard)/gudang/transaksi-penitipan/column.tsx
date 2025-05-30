@@ -18,12 +18,13 @@ import {
   Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Penitipan } from "@/services/utils";
+import { Penitipan } from "@/services/penitipan/schema-penitipan";
 import { format } from "date-fns";
 import { id } from "date-fns/locale/id";
 import Link from "next/link";
 import HapusDialog from "@/components/hapus-dialog";
 import UbahDialog from "@/components/ubah-dialog";
+import { NotaPenitipanPDF } from "@/components/transaksi/nota-penitipan-barang";
 
 export const columns: ColumnDef<Penitipan>[] = [
   {
@@ -158,6 +159,9 @@ export const columns: ColumnDef<Penitipan>[] = [
                 <FileText /> Detail Penitipan
               </Link>
             </DropdownMenuItem>
+            <DropdownMenuItem>
+              <NotaPenitipanPDF trx={row.original} />
+            </DropdownMenuItem>
             {/* <DropdownMenuItem>
               <Link
                 href={`/admin/pegawai/${rowData.id_penitipan}`}
@@ -166,12 +170,7 @@ export const columns: ColumnDef<Penitipan>[] = [
                 <SquarePen /> Edit Data Pegawai
               </Link>
             </DropdownMenuItem> */}
-            {/* <UbahDialog
-              id={row.original.id_penitipan}
-              onUbah={() => {}}
-              label=" Password Pegawai"
-              detail={row.original.nama_penitip}
-            /> */}
+
             <DropdownMenuSeparator />
 
             {/* <HapusDialog

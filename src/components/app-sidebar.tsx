@@ -44,6 +44,7 @@ import {
   IconTag,
   IconTrash,
 } from "@tabler/icons-react";
+import { usePathname } from "next/navigation";
 
 const data = {
   teams: [
@@ -266,6 +267,8 @@ type UserProfile = {
   role: string | undefined;
 };
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
+  const pathname = usePathname();
+
   const userProfile: UserProfile = {
     email: user.data?.email,
     name: user.data?.nama,
@@ -319,7 +322,14 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
                       .map((item) => (
                         <SidebarMenuItem key={item.title}>
                           <SidebarMenuButton asChild>
-                            <Link href={item.url}>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
                               <item.icon />
                               <span>{item.title}</span>
                             </Link>
@@ -350,7 +360,147 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
                       .map((item) => (
                         <SidebarMenuItem key={item.title}>
                           <SidebarMenuButton asChild>
-                            <Link href={item.url}>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </>
+            ) : user?.data?.role === "Gudang" ? (
+              <>
+                <SidebarGroupLabel className="font-bold">
+                  Transaksi Penitipan Barang
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {data.navMain
+                      .filter((item) =>
+                        ["Produk Titipan", "Transaksi Penitipan"].includes(
+                          item.title
+                        )
+                      )
+                      .map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+
+                <hr className="my-2 border-t border-black/10 w-9/10 mx-auto" />
+
+                <SidebarGroupLabel className="font-bold">
+                  Pengambilan Produk Titipan
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {data.navMain
+                      .filter((item) =>
+                        ["Konfirmasi Pengambilan Produk"].includes(item.title)
+                      )
+                      .map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+
+                <hr className="my-2 border-t border-black/10 w-9/10 mx-auto" />
+
+                <SidebarGroupLabel className="font-bold">
+                  Penjadwalan Pengiriman Produk
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {data.navMain
+                      .filter((item) =>
+                        [
+                          "Penjadwalan Pengiriman Transaksi",
+                          "Riwayat Pengiriman Transaksi",
+                        ].includes(item.title)
+                      )
+                      .map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+
+                <hr className="my-2 border-t border-black/10 w-9/10 mx-auto" />
+
+                <SidebarGroupLabel className="font-bold">
+                  Penjadwalan Pengambilan Produk
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {data.navMain
+                      .filter((item) =>
+                        [
+                          "Penjadwalan Pengambilan Transaksi",
+                          "Konfirmasi Pengambilan Transaksi",
+                          "Riwayat Pengambilan Transaksi",
+                        ].includes(item.title)
+                      )
+                      .map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
                               <item.icon />
                               <span>{item.title}</span>
                             </Link>
@@ -361,7 +511,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
                 </SidebarGroupContent>
               </>
             ) : (
-              // default untuk selain Owner
+              // default untuk selain owner
               <>
                 <SidebarGroupContent>
                   <SidebarMenu>
@@ -370,7 +520,14 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
                       .map((item) => (
                         <SidebarMenuItem key={item.title}>
                           <SidebarMenuButton asChild>
-                            <Link href={item.url}>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
                               <item.icon />
                               <span>{item.title}</span>
                             </Link>
