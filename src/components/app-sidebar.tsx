@@ -15,6 +15,7 @@ import {
   User2,
   Archive,
   Check,
+  HistoryIcon,
 } from "lucide-react";
 
 import { NavUser } from "@/components/nav-user";
@@ -89,6 +90,12 @@ const data = {
       title: "Daftar Pembayaran",
       url: "/cs/pembayaran",
       icon: DollarSign,
+      role: "CS",
+    },
+    {
+      title: "Riwayat Pembayaran",
+      url: "/cs/riwayat-pembayaran",
+      icon: HistoryIcon,
       role: "CS",
     },
     {

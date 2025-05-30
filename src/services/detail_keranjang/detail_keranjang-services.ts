@@ -2,7 +2,7 @@
 
 import api from "../api";
 import { IResponse } from "../utils";
-import { DetailKeranjang } from "./schema-detail_keranjang";
+import { DetailKeranjang, KeranjangResponse } from "./schema-detail_keranjang";
 
 // Memasukkan produk ke keranjang
 export async function addToKeranjang(id_produk: string): Promise<IResponse<DetailKeranjang>> {
@@ -46,3 +46,41 @@ export async function deleteKeranjang(id_produk: string): Promise<IResponse<Deta
     };
   }
 }
+
+// mengambil poin pembeli
+export async function getPoinPembeli(): Promise<IResponse<number>> {
+  try {
+    const res = await api.get("/poinPembeli");
+    return {
+      message: res.data.message,
+      data: res.data.data,
+    };
+  } catch (err: any) {
+    console.error("Get Poin Pembeli Error:", err.response);
+    return {
+      message: err?.response?.data?.message || "Unknown error",
+    };
+  }
+}
+
+
+// getTotalHarga
+export async function getTotalHarga(formData: FormData): Promise<IResponse<KeranjangResponse>> {
+  try {
+    const res = await api.post("/getTotalHarga", {
+      poinKepakai: formData.get("poinKepakai"),
+      metode_pengambilan: formData.get("metode_pengambilan"),
+    });
+    return {
+      message: res.data.message,
+      data: res.data.data,
+    };
+  } catch (err: any) {
+    console.error("Get Total Harga Error:", err.response);
+    return {
+      message: err?.response?.data?.message || "Unknown error",
+    };
+  }
+}
+
+

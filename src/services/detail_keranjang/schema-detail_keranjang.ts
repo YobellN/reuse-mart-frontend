@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { DetailProdukTitipan } from "../penitipan/schema-penitipan";
 
 export type DetailKeranjang = {
     id_keranjang: number;
@@ -17,6 +16,18 @@ export type DetailKeranjang = {
         rating: number | null;
     };
 };
+
+
+export type KeranjangResponse = {
+  status: string;
+  poin: number;
+  poin_dipakai: number;
+  diskon: number;
+  ongkir: number;
+  total_harga: number;
+  total_akhir: number;
+};
+
 
 export const DetailKeranjangSchema = z.object({
     id_keranjang: z.number().nonnegative({ message: "ID Keranjang tidak boleh negatif" }),
