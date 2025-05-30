@@ -25,6 +25,28 @@ export async function getRiwayatPenjualan({
   }
 }
 
+export async function getRiwayatPenjualanPembeli({
+  status,
+  metode_pengiriman,
+}: {
+  status?: string;
+  metode_pengiriman?: "Ambil di gudang" | "Antar Kurir";
+} = {}): Promise<Penjualan[]> {
+  try {
+    const res = await api.get("/penjualan", {
+      params: {
+        status_penjualan: status,
+        metode_pengiriman: metode_pengiriman,
+      },
+    });
+
+    return res.data.data;
+  } catch (error) {
+    return [];
+  }
+}
+
+
 // Membuat penjualan baru
 // input:
 // 'metode_pengiriman' => 'required|in:Ambil di gudang,Antar Kurir',
