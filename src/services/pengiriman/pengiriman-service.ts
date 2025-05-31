@@ -87,3 +87,23 @@ export async function handleKonfirmasiPengambilanTransaksi(id_pengiriman: string
         };
     }
 }
+
+export async function tambahPoinSaldo(id_penjualan: string) : Promise<IResponse<[]>> {
+    try {
+        const res = await api.patch(`/gudang/tambah-poin-saldo/${id_penjualan}`);
+        return {
+            message: res.data.message,
+            data: res.data,
+        }
+    } catch (error : any) {
+        if(error.response?.data?.errors) {
+            return {
+                message: error.response.data.message,
+                errors: error.response.data.errors,
+            };
+        }
+        return {
+            message: "Terjadi kesalahan",
+        };
+    }
+}

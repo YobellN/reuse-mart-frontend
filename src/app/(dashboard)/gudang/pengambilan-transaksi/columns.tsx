@@ -16,7 +16,7 @@ import {
 import Link from "next/link";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
 import ConfirmDialog from "@/components/confirm-dialog";
-import { handleKonfirmasiPengambilanTransaksi } from "@/services/pengiriman/pengiriman-service";
+import { handleKonfirmasiPengambilanTransaksi, tambahPoinSaldo } from "@/services/pengiriman/pengiriman-service";
 import { downloadNotaTransaksi } from "@/components/transaksi/nota-transaksi-kurir";
 
 
@@ -164,6 +164,7 @@ export const columns: ColumnDef<Penjualan>[] = [
                                 const res = await handleKonfirmasiPengambilanTransaksi(id_penjualan);
                                 if (res.message.includes("berhasil") && res.data) {
                                     downloadNotaTransaksi({ trx: res.data });
+                                    tambahPoinSaldo(id_penjualan);
                                 }
                                 return res;
                             }}
