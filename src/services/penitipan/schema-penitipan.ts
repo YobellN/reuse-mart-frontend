@@ -45,12 +45,16 @@ export type Penitipan = {
       konfirmasi_donasi: number;
       nama_produk: string;
       kategori: string;
+      id_kategori: number;
       deskripsi_produk: string;
       harga_produk: number;
       status_akhir_produk: string | null;
       waktu_garansi: string | null;
       status_produk_hunting: number;
       rating: number | null;
+      foto_produk: {
+        path_foto: string;
+      }[];
     }
   ];
 };
@@ -168,3 +172,21 @@ export const PenitipanSchema = z.object({
 
 export type PenitipanFormSchema = z.infer<typeof PenitipanSchema>;
 export type PenitipanPayload = PenitipanFormSchema;
+
+export const ProdukUpdateSchema = ProdukSchema.extend({
+  foto_produk: z
+    .array(FotoProdukSchema)
+    .max(10, { message: "Maksimal 10 foto produk" })
+    .refine((arr) => arr.length === 0 || arr.length >= 2, {
+      message: "Minimal 2 foto jika ingin mengganti foto produk",
+    })
+    .optional(),
+});
+
+export const PenitipanUpdateSchema = PenitipanSchema.partial().extend({
+  produk: z.array(ProdukUpdateSchema).min(1, {
+    message: "Minimal 1 produk harus diisi",
+  }),
+});
+
+export type PenitipanUpdateFormSchema = z.infer<typeof PenitipanUpdateSchema>;

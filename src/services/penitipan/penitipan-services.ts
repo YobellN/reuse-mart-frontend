@@ -161,20 +161,25 @@ export async function getDetailPenitipanById(
           konfirmasi_donasi: detail.konfirmasi_donasi,
           nama_produk: detail.produk?.nama_produk,
           kategori: detail.produk?.kategori.nama_kategori,
+          id_kategori: detail.produk?.kategori.id_kategori,
           deskripsi_produk: detail.produk?.deskripsi_produk,
           harga_produk: detail.produk?.harga_produk,
           status_akhir_produk: detail.produk?.status_akhir_produk ?? null,
           waktu_garansi: detail.produk?.waktu_garansi ?? null,
           status_produk_hunting: detail.produk?.status_produk_hunting ? 1 : 0,
           rating: detail.produk?.rating ?? null,
+          foto_produk:
+            detail.produk?.foto_produk?.map((f: any) => ({
+              path_foto: f.path_foto,
+            })) ?? [],
         })) ?? [],
     };
-    console.log(penitipan);
     return penitipan;
   } catch (error) {
     return null;
   }
 }
+
 export async function pengambilanProdukTitipan(
   id_produk: string
 ): Promise<IResponse<any>> {
@@ -242,7 +247,31 @@ export async function handleNewPenitipan(
     }
 
     return {
-      
+      message: "Terjadi kesalahan",
+    };
+  }
+}
+
+export async function handleEditPenitipan(
+  formData: FormData
+): Promise<IResponse<PenitipanPayload>> {
+  try {
+    const res = await api.post("/gudang/edit-penitipan", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return {
+      message: res.data.message,
+      data: res.data.data,
+    };
+  } catch (err: any) {
+    if (err.response?.data?.errors) {
+      return {
+        message: err.response.data.message,
+        errors: err.response.data.errors,
+      };
+    }
+
+    return {
       message: "Terjadi kesalahan",
     };
   }
