@@ -32,6 +32,7 @@ import { id } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useEffect } from "react";
+import ProductImage from "../product/product-image";
 
 export function EditProdukAccordionItem({
   form,
@@ -50,11 +51,22 @@ export function EditProdukAccordionItem({
 }) {
   const [showGaransiForm, setShowGaransiForm] = useState(false);
   const [preview, setPreview] = useState<string[]>([]);
+  const [existingPhotos, setExistingPhotos] = useState<string[]>([]);
 
   useEffect(() => {
     const garansi = form.getValues(`produk.${index}.waktu_garansi`);
     if (garansi) {
       setShowGaransiForm(true);
+    }
+  }, [form, index]);
+
+  useEffect(() => {
+    const existingPhotos = form.getValues(`produk.${index}.foto_produk`);
+    console.log("Existing Photos:", existingPhotos);
+    if (existingPhotos && Array.isArray(existingPhotos)) {
+      const photoUrls = existingPhotos.map((photo: any) => photo.name);
+      setExistingPhotos(photoUrls);
+      console.log("Existing Photo URLs:", photoUrls);
     }
   }, [form, index]);
 
@@ -256,18 +268,52 @@ export function EditProdukAccordionItem({
                                 field.onChange([...field.value, ...files]);
                               }}
                             />
+                            {/* Existing Photos */}
+                            {existingPhotos.length > 0 && (
+                              <div className="flex flex-wrap gap-2">
+                                {existingPhotos.map((src, idx) => (
+                                  <div
+                                    key={`existing-${idx}`}
+                                    className="group relative aspect-square w-24 h-24 sm:w-30 sm:h-30 border-2 border-teal-500 rounded-md overflow-hidden"
+                                  >
+                                    <Button
+                                      type="button"
+                                      onClick={() => {
+                                        const updatedExisting =
+                                          existingPhotos.filter(
+                                            (_, i) => i !== idx
+                                          );
+                                        setExistingPhotos(updatedExisting);
+                                      }}
+                                      className="absolute z-10 hidden group-hover:flex items-center justify-center bg-teal-600/50 hover:bg-teal-600/50 text-white rounded-md w-full h-full cursor-pointer"
+                                    >
+                                      <div className="flex items-center bg-rose-600 p-2 rounded-md">
+                                        <Trash2 className="bg-rose-600 me-1" />
+                                        Hapus Foto
+                                      </div>
+                                    </Button>
+                                    <ProductImage
+                                      key={`existing-${idx}`}
+                                      filename={src}
+                                      className="object-cover"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            {/* New Photos Preview */}
                             {preview.length > 0 && (
                               <div className="flex flex-wrap gap-2">
                                 {preview.map((src, idx) => (
                                   <div
-                                    key={idx}
+                                    key={`preview-${idx}`}
                                     className="group relative aspect-square w-24 h-24 sm:w-30 sm:h-30 border-2 border-teal-500 rounded-md overflow-hidden"
                                   >
                                     <Button
                                       type="button"
                                       onClick={() => {
                                         const updatedPreview = preview.filter(
-                                          (_, i: number) => i !== idx
+                                          (_, i) => i !== idx
                                         );
                                         const updatedFiles = field.value.filter(
                                           (file: File, i: number) => i !== idx

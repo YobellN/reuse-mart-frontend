@@ -253,17 +253,25 @@ export async function handleNewPenitipan(
 }
 
 export async function handleEditPenitipan(
+  id_penitipan: string,
   formData: FormData
 ): Promise<IResponse<PenitipanPayload>> {
   try {
-    const res = await api.post("/gudang/edit-penitipan", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    console.log(formData);
+
+    const res = await api.post(
+      `/gudang/edit-penitipan/${id_penitipan}`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
     return {
       message: res.data.message,
       data: res.data.data,
     };
   } catch (err: any) {
+    console.error(err.response?.data);
     if (err.response?.data?.errors) {
       return {
         message: err.response.data.message,

@@ -174,13 +174,34 @@ export type PenitipanFormSchema = z.infer<typeof PenitipanSchema>;
 export type PenitipanPayload = PenitipanFormSchema;
 
 export const ProdukUpdateSchema = ProdukSchema.extend({
+  id_produk: z
+    .string()
+    .trim()
+    .nonempty({ message: "ID produk tidak boleh kosong" }),
   foto_produk: z
     .array(FotoProdukSchema)
-    .max(10, { message: "Maksimal 10 foto produk" })
-    .refine((arr) => arr.length === 0 || arr.length >= 2, {
-      message: "Minimal 2 foto jika ingin mengganti foto produk",
-    })
-    .optional(),
+    .optional()
+    .superRefine((val, ctx) => {
+      if (!val || val.length === 0) return;
+      if (val.length < 2) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.too_small,
+          minimum: 2,
+          type: "array",
+          inclusive: true,
+          message: "Minimal 2 foto produk",
+        });
+      }
+      if (val.length > 10) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.too_big,
+          maximum: 10,
+          type: "array",
+          inclusive: true,
+          message: "Maksimal 10 foto produk",
+        });
+      }
+    }),
 });
 
 export const PenitipanUpdateSchema = PenitipanSchema.partial().extend({

@@ -21,7 +21,6 @@ import { Accordion } from "@/components/ui/accordion";
 
 import {
   Penitipan,
-  PenitipanPayload,
   PenitipanUpdateSchema,
   PenitipanUpdateFormSchema,
 } from "@/services/penitipan/schema-penitipan";
@@ -131,6 +130,7 @@ export default function EditPenitipanForm({
     ) {
       detailPenitipan?.produk_titipan.forEach((produk) => {
         append({
+          id_produk: produk.id_produk,
           nama_produk: produk.nama_produk,
           deskripsi_produk: produk.deskripsi_produk,
           id_kategori: produk.id_kategori,
@@ -138,7 +138,13 @@ export default function EditPenitipanForm({
           waktu_garansi: produk.waktu_garansi
             ? new Date(produk.waktu_garansi)
             : null,
-          foto_produk: undefined,
+          foto_produk: produk.foto_produk.map((foto) => {
+            return new File([foto.path_foto], foto.path_foto, {
+              type: foto.path_foto.endsWith(".jpg")
+                ? "image/jpeg"
+                : "image/png",
+            });
+          }),
         });
       });
       didAppendRef.current = true;
@@ -178,6 +184,8 @@ export default function EditPenitipanForm({
 
       if (data.produk.length) {
         data.produk.forEach((produk, i) => {
+          console.log("Foto produksss:", produk.foto_produk);
+          formData.append(`produk[${i}][id_produk]`, produk.id_produk);
           formData.append(`produk[${i}][nama_produk]`, produk.nama_produk);
           formData.append(
             `produk[${i}][deskripsi_produk]`,
@@ -209,11 +217,19 @@ export default function EditPenitipanForm({
         });
       }
 
-      const res = await handleEditPenitipan(formData);
+      if (!detailPenitipan?.id_penitipan) {
+        toast.error("ID penitipan tidak ditemukan");
+        return;
+      }
 
-      if (res.message === "Penitipan berhasil ditambahkan") {
+      const res = await handleEditPenitipan(
+        detailPenitipan.id_penitipan,
+        formData
+      );
+
+      if (res.message.includes("berhasil")) {
         router.push("/gudang/transaksi-penitipan");
-        toast.success("Penitipan berhasil ditambahkan");
+        toast.success("Penitipan berhasil diperbarui");
         form.reset();
       } else {
         if (res.errors) {
