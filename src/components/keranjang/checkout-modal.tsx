@@ -31,7 +31,7 @@ export function CheckoutModal({ open, onOpenChange, data }: CheckoutModalProps) 
             const response = await createPenjualan({
                 metode_pengiriman: data.metode_pengiriman as "Ambil di gudang" | "Antar Kurir",
                 poin_potongan: data.response.poin_dipakai,
-                id_alamat: data.metode_pengiriman === "Antar Kurir" ? data.alamat?.id_alamat: undefined,
+                id_alamat: data.metode_pengiriman === "Antar Kurir" ? data.alamat?.id_alamat : undefined,
             });
 
             if (response.data) {
@@ -40,6 +40,10 @@ export function CheckoutModal({ open, onOpenChange, data }: CheckoutModalProps) 
                 router.push(`/keranjang/${response.data.id_penjualan}`); // id penjualan
             } else {
                 toast.error(response.message || "Gagal membuat pesanan");
+                onOpenChange(false)
+                setTimeout(() => {
+                    router.refresh();
+                }, 3000); // 3 detik
             }
         } catch (error) {
             toast.error("Terjadi kesalahan saat membuat pesanan");
