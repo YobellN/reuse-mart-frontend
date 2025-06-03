@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Plus } from "lucide-react";
@@ -8,14 +8,14 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale/id";
 import { Badge } from "@/components/ui/badge";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
 import Link from "next/link";
-import DetailProdukTitipanModal from "@/components/product/product-detail-modal";
+import TransactionDetail from "@/components/profile/transaction-detail";
 
 export const columns: ColumnDef<Penjualan>[] = [
   {
@@ -153,6 +153,7 @@ export const columns: ColumnDef<Penjualan>[] = [
                 Jadwalkan Pengiriman
               </Button>
             </Link>
+            <TransactionDetail trx={row.original} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
