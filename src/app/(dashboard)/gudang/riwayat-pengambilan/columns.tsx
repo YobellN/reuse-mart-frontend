@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
 import { NotaTransaksiPDF } from "@/components/transaksi/nota-transaksi-kurir";
+import TransactionDetail from "@/components/profile/transaction-detail";
 
 
 export const columns: ColumnDef<Penjualan>[] = [
@@ -156,6 +157,7 @@ export const columns: ColumnDef<Penjualan>[] = [
                     <DropdownMenuContent align="end" className="flex flex-col">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                         <NotaTransaksiPDF trx={row.original} />
+                        <TransactionDetail trx={row.original} />
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
