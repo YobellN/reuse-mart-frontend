@@ -31,8 +31,9 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useEffect } from "react";
 
-export function NewProdukAccordionItem({
+export function EditProdukAccordionItem({
   form,
   index,
   dataKategori,
@@ -49,6 +50,13 @@ export function NewProdukAccordionItem({
 }) {
   const [showGaransiForm, setShowGaransiForm] = useState(false);
   const [preview, setPreview] = useState<string[]>([]);
+
+  useEffect(() => {
+    const garansi = form.getValues(`produk.${index}.waktu_garansi`);
+    if (garansi) {
+      setShowGaransiForm(true);
+    }
+  }, [form, index]);
 
   return (
     <div className=" border border-teal-400 rounded-lg">

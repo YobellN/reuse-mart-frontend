@@ -1,6 +1,8 @@
 "use server";
 
 import api from "../api";
+import { DetailProdukTitipan } from "../penitipan/schema-penitipan";
+import { IResponse } from "../utils";
 import { Produk } from "./schema-produk";
 
 type Params = {
@@ -95,17 +97,17 @@ export async function getProdukById(id_produk: string): Promise<Produk | null> {
     };
 
     return produk;
-
   } catch (error) {
     return null;
   }
 }
 
-
-export async function getProdukByPenitip(id_penitip: string) : Promise<Produk[]> {
+export async function getProdukByPenitip(
+  id_penitip: string
+): Promise<Produk[]> {
   try {
     const res = await api.get(`/get-produk-by-penitip/${id_penitip}`);
-    
+
     const data: Produk[] = res.data.data.map((item: any) => ({
       id_produk: item.id_produk,
       nama_produk: item.nama_produk,
@@ -125,7 +127,6 @@ export async function getProdukByPenitip(id_penitip: string) : Promise<Produk[]>
     }));
 
     return data;
-
   } catch (error) {
     return [];
   }
@@ -160,5 +161,31 @@ export async function getProdukAll(): Promise<Produk[]> {
   } catch (error) {
     console.error("getProdukAll error", error);
     return [];
+  }
+}
+
+export async function updateRatingProduk(
+  id_produk: string,
+  rating: number
+): Promise<IResponse<DetailProdukTitipan>> {
+  try {
+    const res = await api.post(`/rate-produk-pembelian/${id_produk}`, {
+      rating,
+    });
+
+    return {
+      message: res.data.message,
+      data: res.data.data,
+    };
+  } catch (err: any) {
+    if (err.response?.data?.errors) {
+      return {
+        message: err.response.data.message,
+        errors: err.response.data.errors,
+      };
+    }
+    return {
+      message: "Terjadi kesalahan",
+    };
   }
 }

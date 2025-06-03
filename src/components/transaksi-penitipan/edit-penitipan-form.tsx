@@ -20,9 +20,10 @@ import {
 import { Accordion } from "@/components/ui/accordion";
 
 import {
-  PenitipanFormSchema,
+  Penitipan,
   PenitipanPayload,
-  PenitipanSchema,
+  PenitipanUpdateSchema,
+  PenitipanUpdateFormSchema,
 } from "@/services/penitipan/schema-penitipan";
 import {
   Card,
@@ -31,14 +32,9 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { getAllPenitipGudang } from "@/services/penitip/penitip-services";
 import { Penitip } from "@/services/penitip/schema-penitip";
 import { Pegawai } from "@/services/utils";
-import {
-  getPegawaiQC,
-  getPegawaiHunter,
-  handleNewPenitipan,
-} from "@/services/penitipan/penitipan-services";
+import { handleEditPenitipan } from "@/services/penitipan/penitipan-services";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -51,81 +47,48 @@ import {
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import { FormSelectPopover } from "../form-select-popover";
-import { getAllKategoriProduk } from "@/services/produk/kategori-produk-services";
 import { KategoriProduk } from "@/services/produk/schema-kategori-produk";
 import { useRouter } from "next/navigation";
-import { NewProdukAccordionItem } from "./new-product-form";
+import { EditProdukAccordionItem } from "./edit-product-form";
 import { useFieldArray } from "react-hook-form";
 import { format } from "date-fns";
 
-export default function NewPenitipanForm() {
-  const [penitipRaw, setPenitipRaw] = React.useState<Penitip[]>([]);
-  const [QcRaw, setQcRaw] = React.useState<Pegawai[]>([]);
-  const [kategoriProdukRaw, setKategoriProdukRaw] = React.useState<
-    KategoriProduk[]
-  >([]);
-  const [HunterRaw, setHunterRaw] = React.useState<Pegawai[]>([]);
+export default function EditPenitipanForm({
+  penitipRaw,
+  QcRaw,
+  kategoriProdukRaw,
+  HunterRaw,
+  detailPenitipan,
+}: {
+  penitipRaw: Penitip[] | null;
+  QcRaw: Pegawai[] | null;
+  kategoriProdukRaw: KategoriProduk[] | null;
+  HunterRaw: Pegawai[] | null;
+  detailPenitipan: Penitipan | null;
+}) {
   const [showHunterForm, setShowHunterForm] = React.useState<boolean>(false);
   const [open, setOpen] = React.useState(false);
   const [submit, setSubmit] = useState(false);
-
   const router = useRouter();
 
   //untuk default nya akordion (supaya otomatis ada 1 accordion yg terbuka)
   const didAppendRef = React.useRef(false);
 
-  useEffect(() => {
-    if (!didAppendRef.current && fields.length === 0) {
-      append({
-        nama_produk: "",
-        deskripsi_produk: "",
-        id_kategori: 0,
-        harga_produk: "",
-        waktu_garansi: null,
-        foto_produk: [],
-      });
-      didAppendRef.current = true;
-    }
-  }, []);
-
-  //fetch nama penitip
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getAllPenitipGudang();
-      setPenitipRaw(data);
-    }
-    fetchData();
-  }, []);
-
-  const dataPenitip = penitipRaw.map((penitip: Penitip) => ({
+  // nama penitip
+  const dataPenitip = penitipRaw?.map((penitip: Penitip) => ({
     label: penitip.user.nama,
     value: penitip.id_penitip,
   }));
 
   //untuk ngambil pegawai qc
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getPegawaiQC();
-      setQcRaw(data);
-    }
-    fetchData();
-  }, []);
 
-  const dataQC = QcRaw.map((pegawai: Pegawai) => ({
+  const dataQC = QcRaw?.map((pegawai: Pegawai) => ({
     label: pegawai.user.nama,
     value: pegawai.id_pegawai,
   }));
 
   //ambil kategori produk
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getAllKategoriProduk();
-      setKategoriProdukRaw(data);
-    }
-    fetchData();
-  }, []);
-
-  const dataKategori = kategoriProdukRaw
+  const dataKategori = (kategoriProdukRaw ?? [])
     .sort((a, b) => a.id_kategori - b.id_kategori)
     .map((kategori: KategoriProduk) => ({
       label: kategori.nama_kategori,
@@ -133,34 +96,58 @@ export default function NewPenitipanForm() {
     }));
 
   //untuk ngambil pegawai hunter
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getPegawaiHunter();
-      setHunterRaw(data);
-    }
-    fetchData();
-  }, []);
-
-  const dataHunter = HunterRaw.map((pegawai: Pegawai) => ({
+  const dataHunter = HunterRaw?.map((pegawai: Pegawai) => ({
     label: pegawai.user.nama,
     value: pegawai.id_pegawai,
   }));
 
-  //form
-  const form = useForm<PenitipanFormSchema>({
-    resolver: zodResolver(PenitipanSchema),
-    defaultValues: {
-      id_penitip: "",
-      id_qc: "",
-      id_hunter: null,
+  useEffect(() => {
+    if (detailPenitipan?.id_hunter) {
+      setShowHunterForm(true);
+    }
+  }, [detailPenitipan?.id_hunter]);
 
+  //form
+  const form = useForm<PenitipanUpdateFormSchema>({
+    resolver: zodResolver(PenitipanUpdateSchema),
+    defaultValues: {
+      id_penitip: detailPenitipan?.id_penitip ?? "",
+      id_qc: detailPenitipan?.id_qc ?? "",
+      id_hunter: detailPenitipan?.id_hunter ?? null,
       produk: [],
     },
   });
 
-  const finalFormData = React.useRef<PenitipanPayload | null>(null);
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "produk",
+  });
 
-  async function onSubmit(values: PenitipanFormSchema) {
+  //init data penitipan
+  useEffect(() => {
+    if (
+      !didAppendRef.current &&
+      (detailPenitipan?.produk_titipan ?? []).length > 0
+    ) {
+      detailPenitipan?.produk_titipan.forEach((produk) => {
+        append({
+          nama_produk: produk.nama_produk,
+          deskripsi_produk: produk.deskripsi_produk,
+          id_kategori: produk.id_kategori,
+          harga_produk: produk.harga_produk.toString(),
+          waktu_garansi: produk.waktu_garansi
+            ? new Date(produk.waktu_garansi)
+            : null,
+          foto_produk: undefined,
+        });
+      });
+      didAppendRef.current = true;
+    }
+  }, [detailPenitipan, append]);
+
+  const finalFormData = React.useRef<PenitipanUpdateFormSchema | null>(null);
+
+  async function onSubmit(values: PenitipanUpdateFormSchema) {
     const isValid = await form.trigger();
 
     if (isValid) {
@@ -174,14 +161,19 @@ export default function NewPenitipanForm() {
     }
   }
 
-  async function handleSubmit(data: PenitipanPayload) {
+  async function handleSubmit(data: PenitipanUpdateFormSchema) {
     setSubmit(true);
 
     try {
       const formData = new FormData();
 
-      formData.append("id_penitip", data.id_penitip);
-      formData.append("id_qc", data.id_qc);
+      if (data.id_penitip) {
+        formData.append("id_penitip", String(data.id_penitip));
+      }
+      if (data.id_qc) {
+        formData.append("id_qc", String(data.id_qc));
+      }
+
       if (data.id_hunter) formData.append("id_hunter", data.id_hunter);
 
       if (data.produk.length) {
@@ -206,13 +198,18 @@ export default function NewPenitipanForm() {
             );
           }
 
-          produk.foto_produk.forEach((file, j) => {
-            formData.append(`produk[${i}][foto_produk][${j}][path_foto]`, file);
+          produk.foto_produk?.forEach((file, j) => {
+            if (file instanceof File) {
+              formData.append(
+                `produk[${i}][foto_produk][${j}][path_foto]`,
+                file
+              );
+            }
           });
         });
       }
 
-      const res = await handleNewPenitipan(formData);
+      const res = await handleEditPenitipan(formData);
 
       if (res.message === "Penitipan berhasil ditambahkan") {
         router.push("/gudang/transaksi-penitipan");
@@ -221,7 +218,7 @@ export default function NewPenitipanForm() {
       } else {
         if (res.errors) {
           Object.entries(res.errors).forEach(([field, message]) => {
-            form.setError(field as keyof PenitipanFormSchema, {
+            form.setError(field as keyof PenitipanUpdateFormSchema, {
               type: "server",
               message: Array.isArray(message) ? message[0] : String(message),
             });
@@ -236,11 +233,6 @@ export default function NewPenitipanForm() {
       setOpen(false);
     }
   }
-
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "produk",
-  });
 
   return (
     <Card className="w-full sm:max-w-6/7 mx-auto mt-10 shadow-md">
@@ -267,8 +259,8 @@ export default function NewPenitipanForm() {
                     <FormItem className="flex flex-col">
                       <FormLabel>Nama Penitip</FormLabel>
                       <FormSelectPopover
-                        options={dataPenitip}
-                        value={field.value}
+                        options={dataPenitip!}
+                        value={field.value ?? ""}
                         onChange={field.onChange}
                         placeholder="Pilih nama penitip"
                       />
@@ -283,8 +275,8 @@ export default function NewPenitipanForm() {
                     <FormItem className="flex flex-col">
                       <FormLabel>Nama Pegawai QC</FormLabel>
                       <FormSelectPopover
-                        options={dataQC}
-                        value={field.value}
+                        options={dataQC!}
+                        value={field.value ?? ""}
                         onChange={field.onChange}
                         placeholder="Pilih pegawai QC"
                       />
@@ -302,8 +294,8 @@ export default function NewPenitipanForm() {
                         <FormItem className="flex flex-col">
                           <FormLabel>Nama Hunter</FormLabel>
                           <FormSelectPopover
-                            options={dataHunter}
-                            value={field.value}
+                            options={dataHunter!}
+                            value={field.value ?? ""}
                             onChange={field.onChange}
                             placeholder="Pilih hunter"
                           />
@@ -342,7 +334,7 @@ export default function NewPenitipanForm() {
                 className="my-4 w-full space-y-2 rounded-lg "
               >
                 {fields.map((field, index) => (
-                  <NewProdukAccordionItem
+                  <EditProdukAccordionItem
                     key={field.id}
                     index={index}
                     form={form}

@@ -4,7 +4,7 @@ import ProductCarousel from "./product-carousel";
 import { ShoppingCart } from "lucide-react";
 import { addToKeranjang } from "@/services/detail_keranjang/detail_keranjang-services";
 import { toast } from "sonner";
-
+import Link from "next/link";
 
 
 export default function ProductDetail(produk: Produk) {
@@ -85,9 +85,11 @@ export default function ProductDetail(produk: Produk) {
           Masukkan Keranjang
         </button>
 
-        <button className="bg-green-600 text-white px-4 py-3 rounded-sm text-md hover:bg-green-700">
+        <Link
+          className="bg-green-600 text-white px-4 py-3 rounded-sm text-md hover:bg-green-700"
+          onClick={() => addToCart(produk.id_produk)} href="/keranjang" >
           Beli Sekarang
-        </button>
+        </Link>
       </div>
     </div>
   );

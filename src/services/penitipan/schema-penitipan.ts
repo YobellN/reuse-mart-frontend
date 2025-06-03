@@ -45,12 +45,16 @@ export type Penitipan = {
       konfirmasi_donasi: number;
       nama_produk: string;
       kategori: string;
+      id_kategori: number;
       deskripsi_produk: string;
       harga_produk: number;
       status_akhir_produk: string | null;
       waktu_garansi: string | null;
       status_produk_hunting: number;
       rating: number | null;
+      foto_produk: {
+        path_foto: string;
+      }[];
     }
   ];
 };
@@ -126,10 +130,14 @@ export const ProdukSchema = z.object({
     .min(1, { message: "Deskripsi produk tidak boleh kosong" }),
   id_kategori: z
     .number({ invalid_type_error: "ID kategori harus berupa angka" })
-    .min(1, { message: "ID kategori tidak boleh kurang dari 1" }),
+    .min(1, { message: "Kategori tidak boleh kosong" }),
   harga_produk: z
-    .number({ invalid_type_error: "Harga harus berupa angka" })
-    .min(1, { message: "Harga tidak boleh kurang dari 1" }),
+    .string()
+    .min(1, { message: "Harga wajib diisi" })
+    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+      message: "Harga harus berupa angka lebih dari 0",
+    }),
+
   waktu_garansi: z
     .date()
     .min(new Date(), { message: "Waktu garansi minimal hari ini" })
@@ -156,18 +164,29 @@ export const PenitipanSchema = z.object({
     .trim()
     .startsWith("P", { message: "Format ID Hunter tidak valid" })
     .nullable(),
-  tanggal_penitipan: z.date().max(new Date(), {
-    message: "Tidak dapat menitipkan barang untuk tanggal yang belum datang",
-  }),
+
   produk: z
     .array(ProdukSchema)
     .min(1, { message: "Minimal 1 produk harus diisi" }),
 });
 
 export type PenitipanFormSchema = z.infer<typeof PenitipanSchema>;
-export type PenitipanPayload = Omit<
-  PenitipanFormSchema,
-  "tanggal_penitipan"
-> & {
-  tanggal_penitipan: string;
-};
+export type PenitipanPayload = PenitipanFormSchema;
+
+export const ProdukUpdateSchema = ProdukSchema.extend({
+  foto_produk: z
+    .array(FotoProdukSchema)
+    .max(10, { message: "Maksimal 10 foto produk" })
+    .refine((arr) => arr.length === 0 || arr.length >= 2, {
+      message: "Minimal 2 foto jika ingin mengganti foto produk",
+    })
+    .optional(),
+});
+
+export const PenitipanUpdateSchema = PenitipanSchema.partial().extend({
+  produk: z.array(ProdukUpdateSchema).min(1, {
+    message: "Minimal 1 produk harus diisi",
+  }),
+});
+
+export type PenitipanUpdateFormSchema = z.infer<typeof PenitipanUpdateSchema>;
