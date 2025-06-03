@@ -193,9 +193,8 @@ export function RadioKeranjangGroupForm() {
                                                         <CommandInput
                                                             placeholder="Cari alamat..."
                                                             className="h-9"
-                                                            onValueChange={(value) => setSearchQuery(value)}
+                                                            onValueChange={setSearchQuery}
                                                         />
-
                                                         <CommandList>
                                                             <CommandEmpty>Alamat tidak ditemukan.</CommandEmpty>
                                                             <CommandGroup>
@@ -203,8 +202,8 @@ export function RadioKeranjangGroupForm() {
                                                                     <CommandItem
                                                                         key={alamat.id_alamat}
                                                                         value={`${alamat.label} ${alamat.detail_alamat} ${alamat.kecamatan} ${alamat.kabupaten_kota} ${alamat.kode_pos}`}
-                                                                        onSelect={(value) => {
-                                                                            addressField.onChange(value)
+                                                                        onSelect={() => {
+                                                                            addressField.onChange(alamat.id_alamat.toString())
                                                                             setOpen(false)
                                                                         }}
                                                                     >
