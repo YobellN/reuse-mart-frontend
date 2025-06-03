@@ -240,7 +240,7 @@ export default function EditPenitipanForm({
             });
           });
         }
-        toast.error("Gagal menambahkan penitipan");
+        toast.error("Gagal mengedit penitipan");
       }
     } catch (err) {
       toast.error("Terjadi kesalahan server");

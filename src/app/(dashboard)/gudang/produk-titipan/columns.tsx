@@ -44,6 +44,11 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
     },
   },
   {
+    id: "id_produk",
+    accessorKey: "id_produk",
+    header: "ID Produk",
+  },
+  {
     id: "tanggal_penitipan",
     accessorKey: "detail_penitipan.penitipan.tanggal_penitipan",
     header: "Tanggal Penitipan",
