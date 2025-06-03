@@ -18,6 +18,7 @@ import { Penjualan } from "@/services/penjualan/schema-penjualan";
 import ConfirmDialog from "@/components/confirm-dialog";
 import { handleKonfirmasiPengambilanTransaksi, tambahPoinSaldo } from "@/services/pengiriman/pengiriman-service";
 import { downloadNotaTransaksi } from "@/components/transaksi/nota-transaksi-kurir";
+import TransactionDetail from "@/components/profile/transaction-detail";
 
 
 export const columns: ColumnDef<Penjualan>[] = [
@@ -171,6 +172,7 @@ export const columns: ColumnDef<Penjualan>[] = [
                             label="Konfirmasi Pengambilan"
                             message="Konfirmasi pengambilan berhasil dilakukan"
                         />
+                        <TransactionDetail trx={row.original} />
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

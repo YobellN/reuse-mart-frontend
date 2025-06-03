@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Penjualan } from "@/services/penjualan/schema-penjualan";
 import Link from "next/link";
+import TransactionDetail from "@/components/profile/transaction-detail";
 
 export const columns: ColumnDef<Penjualan>[] = [
     {
@@ -135,6 +136,7 @@ export const columns: ColumnDef<Penjualan>[] = [
                         <Link href={`/gudang/pengiriman/new/${row.original.id_penjualan}`} className="hover:bg-accent hover:text-accent-foreground">
                             <Button variant={"ghost"}><Plus className=" h-4 w-4" />Jadwalkan Pengiriman</Button>
                         </Link>
+                        <TransactionDetail trx={row.original} />
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
