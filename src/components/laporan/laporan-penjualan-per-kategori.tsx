@@ -157,25 +157,27 @@ const NotaDocument: React.FC<NotaProps> = ({ trx, tahun }) => (
         </Text>
       </View>
       {
-        trx.length > 0 ? (<View>
-          <View style={[styles.headerRow, { backgroundColor: '#D1FAE5', paddingVertical: 4 }]}>
-            <Text style={[ { flex: 2 }]}>Kategori</Text>
-            <Text style={[ { flex: 1, textAlign: 'center' }]}>Jumlah Item Terjual</Text>
-            <Text style={[{ flex: 1, textAlign: 'center' }]}>Jumlah Item Gagal Terjual</Text>
-          </View>
-          {trx.map((item, idx) => (
-            <View key={idx} style={styles.row}>
-              <Text style={{ flex: 2 }}>{item.nama_kategori}</Text>
-              <Text style={{ flex: 1, textAlign: 'center' }}>{item.jumlah_item_terjual}</Text>
-              <Text style={{ flex: 1, textAlign: 'center' }}>{item.jumlah_item_gagal_terjual}</Text>
+        trx.length > 0 ? (
+          <View style={{ marginTop: 8, marginBottom: 8 }}>
+            <View wrap={false} style={{ flexDirection: 'row', backgroundColor: '#D1FAE5' }}>
+              <Text style={{ flex: 2, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>Kategori</Text>
+              <Text style={{ flex: 1, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>Jumlah Item Terjual</Text>
+              <Text style={{ flex: 1, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>Jumlah Item Gagal Terjual</Text>
             </View>
-          ))}
-          <View style={[styles.row, { borderTopWidth: 1, borderTopColor: '#D1FAE5', marginTop: 8, paddingTop: 4 }]}>
-            <Text style={[styles.label, { flex: 2 }]}>Total</Text>
-            <Text style={[styles.label,{ flex: 1, textAlign: 'center' }]}>{trx.reduce((sum, item) => sum + Number(item.jumlah_item_terjual), 0)} Produk</Text>
-            <Text style={[styles.label,{ flex: 1, textAlign: 'center' }]}>{trx.reduce((sum, item) => sum + Number(item.jumlah_item_gagal_terjual), 0)} Produk</Text>
+            {trx.map((item, idx) => (
+              <View key={idx} wrap={false} style={{ flexDirection: 'row', backgroundColor: idx % 2 === 0 ? '#F0FDF4' : '#FFFFFF' }}>
+                <Text style={{ flex: 2, textAlign: 'center', fontSize: 9, borderWidth: 1, borderColor: '#000', padding: 4 }}>{item.nama_kategori}</Text>
+                <Text style={{ flex: 1, textAlign: 'center', fontSize: 9, borderWidth: 1, borderColor: '#000', padding: 4 }}>{item.jumlah_item_terjual}</Text>
+                <Text style={{ flex: 1, textAlign: 'center', fontSize: 9, borderWidth: 1, borderColor: '#000', padding: 4 }}>{item.jumlah_item_gagal_terjual}</Text>
+              </View>
+            ))}
+            <View wrap={false} style={{ flexDirection: 'row', backgroundColor: '#DCFCE7' }}>
+              <Text style={{ flex: 2, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>Total</Text>
+              <Text style={{ flex: 1, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>{trx.reduce((sum, item) => sum + Number(item.jumlah_item_terjual), 0)} Produk</Text>
+              <Text style={{ flex: 1, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>{trx.reduce((sum, item) => sum + Number(item.jumlah_item_gagal_terjual), 0)} Produk</Text>
+            </View>
           </View>
-        </View>) : (
+        ) : (
           <View style={styles.section}>
             <Text style={styles.value}>
               Tidak Ada Data Penjualan

@@ -36,13 +36,40 @@ export const columns: ColumnDef<BarangHangus>[] = [
   {
     accessorKey: "tanggal_penitipan",
     header: "Tanggal Masuk",
+    cell: ({ row }) => (
+      <span>
+        {new Date(row.original.tanggal_penitipan).toLocaleDateString("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        })}
+      </span>
+    )
   },
   {
     accessorKey: "tenggat_penitipan",
     header: "Tenggat Akhir",
+    cell: ({ row }) => (
+      <span>
+        {new Date(row.original.tenggat_penitipan).toLocaleDateString("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        })}
+      </span>
+    )
   },
   {
     accessorKey: "tenggat_pengambilan",
     header: "Batas Ambil",
+    cell: ({ row }) => (
+      <span>
+        {new Date(row.original.tenggat_pengambilan).toLocaleDateString("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        })}
+      </span>
+    )
   },
 ];

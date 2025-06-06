@@ -23,24 +23,28 @@ export default function LaporanBulanSelect({ bulan }: { bulan: string }) {
     const searchParams = useSearchParams()
 
     return (
-        <Select
-            defaultValue={bulan}
-            onValueChange={(val) => {
-                const params = new URLSearchParams(searchParams)
-                params.set("bulan", val)
-                router.push(`?${params.toString()}`)
-            }}
-        >
-            <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Pilih Bulan" />
-            </SelectTrigger>
-            <SelectContent>
-                {bulanList.map((b) => (
-                    <SelectItem key={b.value} value={b.value}>
-                        {b.label}
-                    </SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
+        <div>
+            <h3 className="text-sm font-semibold leading-none tracking-tight mb-2">Pilih Bulan</h3>
+
+            <Select
+                defaultValue={bulan}
+                onValueChange={(val) => {
+                    const params = new URLSearchParams(searchParams)
+                    params.set("bulan", val)
+                    router.push(`?${params.toString()}`)
+                }}
+            >
+                <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Pilih Bulan" />
+                </SelectTrigger>
+                <SelectContent>
+                    {bulanList.map((b) => (
+                        <SelectItem key={b.value} value={b.value}>
+                            {b.label}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+        </div>
     )
 }

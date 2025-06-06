@@ -125,7 +125,7 @@ type NotaProps = { trx: BarangHangus[], tahun: string, bulan: string };
 
 const NotaDocument: React.FC<NotaProps> = ({ trx, tahun, bulan }) => (
   <Document>
-    <Page size="A4" style={styles.page}>
+    <Page size="A4" orientation='landscape' style={styles.page}>
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
@@ -160,34 +160,30 @@ const NotaDocument: React.FC<NotaProps> = ({ trx, tahun, bulan }) => (
         </Text>
       </View>
       {
-        trx.length > 0 ? (<View>
-          <View style={[styles.headerRow, { backgroundColor: '#D1FAE5', paddingVertical: 4 }]}>
-            <Text style={[{ flex: 2, textAlign: 'center' }]}>Kode Produk</Text>
-            <Text style={[{ flex: 3, textAlign: 'center' }]}>Nama Produk</Text>
-            <Text style={[{ flex: 2, textAlign: 'center' }]}>ID Penitip</Text>
-            <Text style={[{ flex: 3, textAlign: 'center' }]}>Nama Penitip</Text>
-            <Text style={[{ flex: 2, textAlign: 'center' }]}>Tanggal Masuk</Text>
-            <Text style={[{ flex: 2, textAlign: 'center' }]}>Tanggal Akhir</Text>
-            <Text style={[{ flex: 2, textAlign: 'center' }]}>Batas Ambil</Text>
-          </View>
-          {trx.map((item, idx) => (
-            <View key={idx} style={styles.row}>
-              <Text style={{ flex: 2, textAlign: 'center', fontSize: 9 }}>{item.id_produk}</Text>
-              <Text style={{ flex: 3, textAlign: 'center', fontSize: 9 }}>{item.nama_produk}</Text>
-              <Text style={{ flex: 2, textAlign: 'center', fontSize: 9 }}>{item.id_penitip}</Text>
-              <Text style={{ flex: 3, textAlign: 'center' , fontSize: 9}}>{item.nama_penitip}</Text>
-              <Text style={{ flex: 2, textAlign: 'center' , fontSize: 9}}>
-                {item.tanggal_penitipan ? format(new Date(item.tanggal_penitipan), 'dd/M/yyyy') : ''}
-              </Text>
-              <Text style={{ flex: 2, textAlign: 'center' , fontSize: 9}}>
-                {item.tenggat_penitipan ? format(new Date(item.tenggat_penitipan), 'dd/M/yyyy') : ''}
-              </Text>
-              <Text style={ { flex: 2, textAlign: 'center', fontSize: 9 }}>
-                {item.tenggat_pengambilan ? format(new Date(item.tenggat_pengambilan), 'dd/M/yyyy') : ''}
-              </Text>
+        trx.length > 0 ? (
+          <View style={{ marginTop: 8, marginBottom: 8 }}>
+            <View wrap={false} style={{ flexDirection: 'row', backgroundColor: '#D1FAE5' }}>
+              <Text style={{ flex: 2, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>Kode Produk</Text>
+              <Text style={{ flex: 3, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>Nama Produk</Text>
+              <Text style={{ flex: 2, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>ID Penitip</Text>
+              <Text style={{ flex: 3, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>Nama Penitip</Text>
+              <Text style={{ flex: 2, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>Tanggal Masuk</Text>
+              <Text style={{ flex: 2, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>Tanggal Akhir</Text>
+              <Text style={{ flex: 2, textAlign: 'center', fontWeight: 'bold', fontSize: 10, borderWidth: 1, borderColor: '#000', padding: 4 }}>Batas Ambil</Text>
             </View>
-          ))}
-        </View>) : (
+            {trx.map((item, idx) => (
+              <View key={idx} wrap={false} style={{ flexDirection: 'row', backgroundColor: idx % 2 === 0 ? '#F0FDF4' : '#FFFFFF' }}>
+                <Text style={{ flex: 2, textAlign: 'center', fontSize: 9, borderWidth: 1, borderColor: '#000', padding: 4 }}>{item.id_produk}</Text>
+                <Text style={{ flex: 3, textAlign: 'center', fontSize: 9, borderWidth: 1, borderColor: '#000', padding: 4 }}>{item.nama_produk}</Text>
+                <Text style={{ flex: 2, textAlign: 'center', fontSize: 9, borderWidth: 1, borderColor: '#000', padding: 4 }}>{item.id_penitip}</Text>
+                <Text style={{ flex: 3, textAlign: 'center', fontSize: 9, borderWidth: 1, borderColor: '#000', padding: 4 }}>{item.nama_penitip}</Text>
+                <Text style={{ flex: 2, textAlign: 'center', fontSize: 9, borderWidth: 1, borderColor: '#000', padding: 4 }}>{item.tanggal_penitipan ? format(new Date(item.tanggal_penitipan), 'dd/M/yyyy') : ''}</Text>
+                <Text style={{ flex: 2, textAlign: 'center', fontSize: 9, borderWidth: 1, borderColor: '#000', padding: 4 }}>{item.tenggat_penitipan ? format(new Date(item.tenggat_penitipan), 'dd/M/yyyy') : ''}</Text>
+                <Text style={{ flex: 2, textAlign: 'center', fontSize: 9, borderWidth: 1, borderColor: '#000', padding: 4 }}>{item.tenggat_pengambilan ? format(new Date(item.tenggat_pengambilan), 'dd/M/yyyy') : ''}</Text>
+              </View>
+            ))}
+          </View>
+        ) : (
           <View style={styles.section}>
             <Text style={styles.value}>
               Tidak Ada Data Untuk Tanggal Ini

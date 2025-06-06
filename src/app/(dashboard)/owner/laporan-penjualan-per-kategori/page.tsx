@@ -12,9 +12,11 @@ export default async function Page({ searchParams }: { searchParams: { tahun?: s
     return (
         <>
             <SiteHeader title="Laporan Penjualan Per Kategori" />
-            <div className="flex items-center py-4 md:py-6 justify-between">
-                <LaporanTahunSelect tahun={tahun} />
-                <div>
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between py-4 md:py-6">
+                <div className="flex flex-col sm:flex-row gap-2">
+                    <LaporanTahunSelect tahun={tahun} />
+                </div>
+                <div className="self-start md:self-auto">
                     <LaporanPenjualanPerKategori trx={data} tahun={tahun} />
                 </div>
             </div>
