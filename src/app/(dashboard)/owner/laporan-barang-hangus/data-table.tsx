@@ -23,19 +23,20 @@ import {
 import React, { useState } from "react"
 import { DataTablePagination } from "@/components/data-table-pagination"
 import { PenjualanPerKategori } from "@/services/laporan/schema-laporan"
+import { Input } from "@/components/ui/input"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
 }
 
-export function DataTable<TData extends PenjualanPerKategori, TValue>({
+export function DataTable<TData, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([
         {
-            id: "nama_kategori",
+            id: "id_produk",
             desc: false,
         },
     ]);
@@ -99,28 +100,11 @@ export function DataTable<TData extends PenjualanPerKategori, TValue>({
                                         ))}
                                     </TableRow>
                                 ))}
-                                <TableRow>
-                                    <TableCell>
-                                        <b>Total</b>
-                                    </TableCell>
-                                    <TableCell>
-                                        {`${table.getRowModel().rows.reduce(
-                                            (acc, curr) => acc + Number(curr.original.jumlah_item_terjual),
-                                            0
-                                        )} Produk`}
-                                    </TableCell>
-                                    <TableCell>
-                                        {`${table.getRowModel().rows.reduce(
-                                            (acc, curr) => acc + Number(curr.original.jumlah_item_gagal_terjual),
-                                            0
-                                        )} Produk`}
-                                    </TableCell>
-                                </TableRow>
                             </>
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    Tidak ada data penjualan
+                                    Tidak ada data produk
                                 </TableCell>
                             </TableRow>
                         )}
