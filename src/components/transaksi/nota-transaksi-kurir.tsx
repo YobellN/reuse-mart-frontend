@@ -209,7 +209,7 @@ const NotaDocument: React.FC<NotaProps> = ({ trx }) => (
         <Text style={styles.sectionTitle}>Pengiriman</Text>
         <Text style={styles.value}>
           {trx.metode_pengiriman === 'Antar Kurir'
-            ? `Antar Kurir: \n${trx.pengiriman?.alamat.label}, ${trx.pengiriman?.alamat.detail_alamat}`
+            ? `Antar Kurir: ${trx.pengiriman?.kurir.user.nama} \n${trx.pengiriman?.alamat.label}, ${trx.pengiriman?.alamat.detail_alamat}`
             : `Ambil di Gudang: \n${format(
               new Date(
                 trx.jadwal_pengambilan ?? trx.tanggal_penjualan

@@ -31,6 +31,11 @@ export type Penjualan = {
   pengiriman: {
     jadwal_pengiriman: string;
     status_pengiriman: string;
+    kurir: {
+        user: {
+          nama: string;
+        }
+    }
     alamat: {
       label: string;
       detail_alamat: string;
