@@ -40,6 +40,8 @@ export async function getRiwayatPenjualanPembeli({
       },
     });
 
+    console.log(res.data.data)
+
     return res.data.data;
   } catch (error) {
     return [];

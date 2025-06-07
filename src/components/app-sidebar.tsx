@@ -244,7 +244,7 @@ const data = {
     },
     {
       title: "Laporan Barang Hangus",
-      url: "/owner/laporan-barang-penitipan-hangus",
+      url: "/owner/laporan-barang-hangus",
       icon: IconTrash,
       role: "Owner",
     },

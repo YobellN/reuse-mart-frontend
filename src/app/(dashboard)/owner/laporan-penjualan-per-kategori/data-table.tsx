@@ -2,7 +2,6 @@
 
 import {
     ColumnDef,
-    ColumnFiltersState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
@@ -20,23 +19,23 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
 
 import React, { useState } from "react"
 import { DataTablePagination } from "@/components/data-table-pagination"
+import { PenjualanPerKategori } from "@/services/laporan/schema-laporan"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends PenjualanPerKategori, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([
         {
-            id: "id_request_donasi",
+            id: "nama_kategori",
             desc: false,
         },
     ]);
@@ -65,14 +64,6 @@ export function DataTable<TData, TValue>({
 
     return (
         <div>
-            <div className="flex items-center py-4 md:py-6 justify-between">
-                <Input
-                    placeholder="Cari request..."
-                    onChange={e => table.setGlobalFilter(String(e.target.value))}
-
-                    className="max-w-sm"
-                />
-            </div>
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -95,22 +86,41 @@ export function DataTable<TData, TValue>({
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    data-state={row.getIsSelected() && "selected"}
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
-                                    ))}
+                            <>
+                                {table.getRowModel().rows.map((row) => (
+                                    <TableRow
+                                        key={row.id}
+                                        data-state={row.getIsSelected() && "selected"}
+                                    >
+                                        {row.getVisibleCells().map((cell) => (
+                                            <TableCell key={cell.id}>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))}
+                                <TableRow>
+                                    <TableCell>
+                                        <b>Total</b>
+                                    </TableCell>
+                                    <TableCell>
+                                        {`${table.getRowModel().rows.reduce(
+                                            (acc, curr) => acc + Number(curr.original.jumlah_item_terjual),
+                                            0
+                                        )} Produk`}
+                                    </TableCell>
+                                    <TableCell>
+                                        {`${table.getRowModel().rows.reduce(
+                                            (acc, curr) => acc + Number(curr.original.jumlah_item_gagal_terjual),
+                                            0
+                                        )} Produk`}
+                                    </TableCell>
                                 </TableRow>
-                            ))
+                            </>
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    Tidak ada data request donasi
+                                    Tidak ada data penjualan
                                 </TableCell>
                             </TableRow>
                         )}
