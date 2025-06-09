@@ -81,6 +81,12 @@ const data = {
       role: "Admin",
     },
     {
+      title: "Cek Top Seller",
+      url: "/admin/top-seller",
+      icon: ToyBrick,
+      role: "Admin",
+    },
+    {
       title: "Data Master Penitip",
       url: "/cs/penitip",
       icon: User2,
