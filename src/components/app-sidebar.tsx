@@ -111,7 +111,13 @@ const data = {
       role: "CS",
     },
     {
-      title: "Daftar Transaksi Merchandise",
+      title: "History Transaksi Merchandise",
+      url: "/cs/riwayat-transaksi-merchandise",
+      icon: ToyBrick,
+      role: "CS",
+    },
+    {
+      title: "Daftar Klaim Merchandise",
       url: "/cs/transaksi-merchandise",
       icon: ToyBrick,
       role: "CS",
