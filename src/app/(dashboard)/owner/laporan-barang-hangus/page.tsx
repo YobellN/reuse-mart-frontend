@@ -13,11 +13,11 @@ export default async function Page({ searchParams }: { searchParams: { tahun?: s
 
     return (
         <>
-            <SiteHeader title="Laporan Penjualan Per Kategori" />
+            <SiteHeader title="Laporan Barang Hangus" />
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between py-4 md:py-6">
                 <div className="flex flex-col sm:flex-row gap-2">
-                    <LaporanTahunSelect tahun={tahun} />
-                    <LaporanBulanSelect bulan={bulan} />
+                    {/* <LaporanTahunSelect tahun={tahun} />
+                    <LaporanBulanSelect bulan={bulan} /> */}
                 </div>
                 <div className="self-start md:self-auto">
                     <LaporanBarangHangus trx={data} tahun={tahun} bulan={bulan} />
