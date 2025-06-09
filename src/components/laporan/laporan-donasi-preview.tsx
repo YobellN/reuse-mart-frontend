@@ -6,6 +6,7 @@ import {
   Text,
   StyleSheet,
   PDFViewer,
+  Image,
 } from '@react-pdf/renderer';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale/id';
@@ -14,6 +15,7 @@ import { getDonasiPerTahun } from '@/services/donasi/donasi-services';
 import { Button } from '../ui/button';
 import { Printer } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import logo from '../../../public/reuse-mart.png';
 
 const styles = StyleSheet.create({
   page: {
@@ -186,8 +188,18 @@ const LaporanDonasi: React.FC<{ data: DonasiLaporanSchema[] }> = ({ data }) => (
   <Document>
     <Page size="A4" orientation="landscape" style={styles.page}>
       {/* Header ReUse Mart */}
-      <Text style={styles.title}>ReUse Mart</Text>
-      <Text style={styles.subtitle}>Jl. Green Eco Park No. 456 Yogyakarta</Text>
+      <View style={styles.headerLeft}>
+        <Image
+          style={styles.logo}
+          src={logo.src}
+        />
+        <View>
+          <Text style={styles.title}>ReUse Mart</Text>
+          <Text style={styles.subtitle}>
+            Jl. Green Eco Park No. 456, Yogyakarta
+          </Text>
+        </View>
+      </View>
 
       <View style={styles.separator} />
 

@@ -29,6 +29,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 8,
   },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   logo: {
     width: 40,
     height: 40,
@@ -134,10 +138,16 @@ const LaporanRequestDonasi: React.FC<{ data: DonasiRequestLaporanSchema[] }> = (
   <Document>
     <Page size="A4" orientation="landscape" style={styles.page}>
       {/* Header ReUse Mart */}
-      <View style={styles.header}>
+      <View style={styles.headerLeft}>
+        <Image
+          style={styles.logo}
+          src={logo.src}
+        />
         <View>
           <Text style={styles.title}>ReUse Mart</Text>
-          <Text style={styles.subtitle}>Jl. Green Eco Park No. 456 Yogyakarta</Text>
+          <Text style={styles.subtitle}>
+            Jl. Green Eco Park No. 456, Yogyakarta
+          </Text>
         </View>
       </View>
 
