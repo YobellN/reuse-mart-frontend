@@ -30,7 +30,7 @@ export const columns: ColumnDef<PenjualanPerKategori>[] = [
   },
   {
     accessorKey: "jumlah_item_gagal_terjual",
-    header: "Jumlah Item Terjual",
+    header: "Jumlah Item Gagal Terjual",
     cell: ({ row }) => {
       return `${row.original.jumlah_item_gagal_terjual} Produk`;
     }
