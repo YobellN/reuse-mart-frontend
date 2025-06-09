@@ -16,6 +16,7 @@ import { Button } from '../ui/button';
 import logo from '../../../public/reuse-mart.png';
 import { DonasiLaporanSchema } from '@/services/donasi/schema-donasi';
 import { getDonasiPerTahun } from '@/services/donasi/donasi-services';
+import { toast } from "sonner";
 
 const styles = StyleSheet.create({
   page: {
@@ -188,8 +189,18 @@ const LaporanDonasi: React.FC<{ data: DonasiLaporanSchema[] }> = ({ data }) => (
   <Document>
     <Page size="A4" orientation="landscape" style={styles.page}>
       {/* Header ReUse Mart */}
-      <Text style={styles.title}>ReUse Mart</Text>
-      <Text style={styles.subtitle}>Jl. Green Eco Park No. 456 Yogyakarta</Text>
+      <View style={styles.headerLeft}>
+        <Image
+          style={styles.logo}
+          src={logo.src}
+        />
+        <View>
+          <Text style={styles.title}>ReUse Mart</Text>
+          <Text style={styles.subtitle}>
+            Jl. Green Eco Park No. 456, Yogyakarta
+          </Text>
+        </View>
+      </View>
 
       <View style={styles.separator} />
 
@@ -217,6 +228,10 @@ export function LaporanDonasiDownloadButton({ tahun }: { tahun: number }) {
     setLoading(true);
     try {
       const data = await getDonasiPerTahun(tahun);
+      if (!data || data.length === 0) {
+        toast.error(`Tidak ada data donasi untuk tahun ${tahun}.`);
+        return;
+      }
       const blob = await pdf(<LaporanDonasi data={data} />).toBlob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
