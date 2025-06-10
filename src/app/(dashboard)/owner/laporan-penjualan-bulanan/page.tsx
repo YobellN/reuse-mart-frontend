@@ -5,6 +5,7 @@ import { getLaporanPenjualanKotorBulanan } from "@/services/laporan/laporan-serv
 import LaporanTahunSelect from "@/components/tahun-select";
 import { LaporanPenjualanKotor } from "@/services/laporan/schema-laporan";
 import { LaporanPenjualanBulananDownloadButton } from "@/components/laporan/laporan-penjualan-bulanan";
+import { ChartPenjualan } from "@/components/chart-penjualan/chart-penjualan";
 
 export default async function Page({
   searchParams,
@@ -15,6 +16,7 @@ export default async function Page({
   const data: LaporanPenjualanKotor[] = await getLaporanPenjualanKotorBulanan({
     tahun,
   });
+  console.log(data);
 
   return (
     <>
@@ -26,6 +28,12 @@ export default async function Page({
         <LaporanPenjualanBulananDownloadButton trx={data} tahun={tahun} />
       </div>
       <DataTable columns={columns} data={data} />
+      <br />
+      <div className=" mt-24 flex justify-center w-full">
+        <div className="w-full">
+          <ChartPenjualan data={data} tahun={tahun} />
+        </div>
+      </div>
     </>
   );
 }
