@@ -13,3 +13,32 @@ export type BarangHangus = {
     tenggat_penitipan: string,
     tenggat_pengambilan: string,
 }
+
+export type LaporanPenjualanKotor = {
+  bulan: string;
+  jumlah_barang_terjual: number;
+  jumlah_penjualan_kotor: string;
+};
+
+export type KomisiProduk = {
+  kodeProduk: string;
+  namaProduk: string;
+  hargaJual: number;
+  tanggalMasuk: string;
+  tanggalLaku: string;
+  komisiHunter: number;
+  komisiReuseMart: number;
+  bonusPenitip: number;
+};
+
+export type StokGudangItem = {
+  kodeProduk: string;
+  namaProduk: string;
+  idPenitip: string;
+  namaPenitip: string;
+  tanggalMasuk: string;
+  perpanjangan: "Ya" | "Tidak";
+  idHunter: string;
+  namaHunter: string;
+  hargaProduk: number;
+};
