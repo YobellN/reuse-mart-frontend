@@ -61,7 +61,7 @@ export default function UpdateAlamatForm({alamat}: {alamat: Alamat }) {
         setSubmit(true);
 
         try {
-            const res = await handleUpdateAlamat(data, alamat.id_alamat);
+            const res = await handleUpdateAlamat(data, String(alamat.id_alamat));
 
             if (res.message === "Alamat berhasil diperbarui") {
                 router.push("/profile/alamat");
