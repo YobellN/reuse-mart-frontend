@@ -127,7 +127,11 @@ export async function handleRegisterOrganisasi(formData: FormData): Promise<IRes
 }
 
 export default async function logout() {
-    (await cookies()).delete("token");
+  const cookieStore = cookies();
+  (await cookieStore).set("token", "", {
+    maxAge: 0,
+    path: "/",
+  });
 }
 
 export async function redirectMenu(role: string): Promise<string> {
