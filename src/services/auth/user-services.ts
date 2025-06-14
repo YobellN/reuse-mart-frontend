@@ -50,7 +50,7 @@ export async function handleLogin(formData: FormData): Promise<IResponse<any>> {
         };
       }
       return {
-        message: "Terjadi kesalahan",
+        message: err,
       };
     }
 }
