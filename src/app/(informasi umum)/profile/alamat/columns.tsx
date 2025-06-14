@@ -82,8 +82,8 @@ export const columns: ColumnDef<Alamat>[] = [
                         <Link href={`/profile/alamat/${row.original.id_alamat}`}>
                             <Button variant="ghost" className="text-warning w-full">Edit Alamat</Button>
                         </Link>
-                        <HapusDialog id={row.original.id_alamat} onHapus={() => handleDeleteAlamat(row.original.id_alamat)} label="alamat" detail={row.original.label} />
-                        <UbahDialog id={row.original.id_alamat} onUbah={() => handleAlamatUtamaById(row.original.id_alamat)} label="alamat utama" detail={row.original.label} />
+                        <HapusDialog id={row.original.id_alamat} onHapus={() => handleDeleteAlamat(String(row.original.id_alamat))} label="alamat" detail={row.original.label} />
+                        <UbahDialog id={row.original.id_alamat} onUbah={() => handleAlamatUtamaById(String(row.original.id_alamat))} label="alamat utama" detail={row.original.label} />
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
