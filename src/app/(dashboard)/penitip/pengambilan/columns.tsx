@@ -10,10 +10,10 @@ import { id } from "date-fns/locale/id";
 import { Badge } from "@/components/ui/badge";
 import ProductImage from "@/components/product/product-image";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import ConfirmDialog from "@/components/confirm-dialog";
 import { konfirmasiPengambilan } from "@/services/penitipan/penitipan-services";
@@ -55,12 +55,8 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
     accessorKey: "detail_penitipan.penitipan.tanggal_penitipan",
     header: "Tanggal Penitipan",
     accessorFn: (row) =>
-      row.detail_penitipan.penitipan.tanggal_penitipan
-        ? format(
-            new Date(row.detail_penitipan.penitipan.tanggal_penitipan),
-            "dd MMMM yyyy",
-            { locale: id }
-          )
+      row.detail_penitipan?.penitipan?.tanggal_penitipan
+        ? format(new Date(row.detail_penitipan.penitipan.tanggal_penitipan), "dd MMMM yyyy", { locale: id })
         : "",
     cell: ({ row }) => {
       return row.getValue("tanggal_penitipan");
@@ -73,10 +69,10 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
     accessorFn: (row) =>
       row.detail_penitipan?.penitipan.tenggat_pengambilan
         ? format(
-            new Date(row.detail_penitipan.penitipan.tenggat_pengambilan),
-            "dd MMMM yyyy",
-            { locale: id }
-          )
+          new Date(row.detail_penitipan.penitipan.tenggat_pengambilan),
+          "dd MMMM yyyy",
+          { locale: id }
+        )
         : "",
     cell: ({ row }) => {
       return row.getValue("tenggat_pengambilan");

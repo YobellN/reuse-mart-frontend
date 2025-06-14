@@ -45,7 +45,7 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
         accessorKey: "detail_penitipan.penitipan.tanggal_penitipan",
         header: "Tanggal Penitipan",
         accessorFn: (row) =>
-            row.detail_penitipan.penitipan.tanggal_penitipan
+            row.detail_penitipan?.penitipan?.tanggal_penitipan
                 ? format(new Date(row.detail_penitipan.penitipan.tanggal_penitipan), "dd MMMM yyyy", { locale: id })
                 : "",
         cell: ({ row }) => {

@@ -52,7 +52,7 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
         accessorKey: "detail_penitipan.penitipan.tanggal_penitipan",
         header: "Tanggal Penitipan",
         accessorFn: (row) =>
-            row.detail_penitipan.penitipan.tanggal_penitipan
+            row.detail_penitipan?.penitipan?.tanggal_penitipan
                 ? format(new Date(row.detail_penitipan.penitipan.tanggal_penitipan), "dd MMMM yyyy", { locale: id })
                 : "",
         cell: ({ row }) => {
@@ -64,7 +64,7 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
         accessorKey: "detail_penitipan.penitipan.tenggat_penitipan",
         header: "Tenggat Penitipan",
         accessorFn: (row) =>
-            row.detail_penitipan.penitipan.tenggat_penitipan
+            row.detail_penitipan?.penitipan.tenggat_penitipan
                 ? format(new Date(row.detail_penitipan.penitipan.tenggat_penitipan), "dd MMMM yyyy", { locale: id })
                 : "",
         cell: ({ row }) => {
@@ -172,7 +172,7 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
         accessorKey: "detail_penitipan.penitipan.status_perpanjangan",
         header: "Status Perpanjangan",
         accessorFn: (row) => {
-            return row.detail_penitipan.penitipan.status_perpanjangan === 1
+            return row.detail_penitipan?.penitipan.status_perpanjangan === 1
                 ? "Sudah diperpanjang"
                 : "Belum perpanjangan";
         },
@@ -191,7 +191,7 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
         id: "actions",
         header: "Aksi",
         cell: ({ row }) => {
-            const id_penitipan: string = row.original.detail_penitipan.penitipan.id_penitipan;
+            const id_penitipan = row.original.detail_penitipan?.penitipan.id_penitipan;
 
             return (
                 <DropdownMenu>
@@ -205,7 +205,7 @@ export const columns: ColumnDef<DetailProdukTitipan>[] = [
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                         <ConfirmDialog
                             description="Apakah anda yakin ingin melakukan perpanjangan penitipan produk?"
-                            onConfirm={() => konfirmasiPerpanjangan(id_penitipan)}
+                            onConfirm={() => konfirmasiPerpanjangan(id_penitipan || "")}
                             label="Konfirmasi Perpanjangan"
                             message="Masa penitipan produk berhasil diperpanjang"
                         />
