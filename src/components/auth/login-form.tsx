@@ -46,6 +46,9 @@ export function LoginForm({
 
     const result = await handleLogin(formData);
 
+    alert(result.message);
+    alert(process.env.NEXT_PUBLIC_API_URL);
+
     if (result.message === "Berhasil login") {
       const menu = await redirectMenu(result.data.user.role);
       if (menu === "error") {
