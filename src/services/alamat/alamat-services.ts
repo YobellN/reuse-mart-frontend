@@ -93,3 +93,13 @@ export async function handleAlamatUtamaById(id_alamat: string): Promise<IRespons
     }
   }
 }
+
+export async function getAlamat(): Promise<Alamat[]> {
+  try {
+    const res = await api.get("/alamat");
+    return res.data.data;
+  } catch (error) {
+    console.error("Get Alamat Error:", error);
+    return [];
+  }
+}

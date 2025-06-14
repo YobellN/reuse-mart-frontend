@@ -1,15 +1,18 @@
 import { SiteHeader } from "@/components/site-header";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
-import { getProdukTitipanPenitip } from "@/services/penitipan/penitipan-services";
+import { getRiwayatPenjualan } from "@/services/penjualan/penjualan-services";
 
 
 
 export default async function Page() {
-    const data = await getProdukTitipanPenitip("Akan Diambil");
+    const data = await getRiwayatPenjualan({
+        status: "Selesai",
+        metode_pengiriman: "Antar Kurir",
+    });
     return (
         <>
-            <SiteHeader title="Data Master Produk Titipan" />
+            <SiteHeader title="Riwayat Pengiriman Transaksi" />
             <DataTable columns={columns} data={data} />
         </>
     )

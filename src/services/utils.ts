@@ -71,11 +71,23 @@ export type Organisasi = {
 }
 
 export type Alamat = {
-  id_alamat : string;
+  id_alamat : number;
   id_pembeli : string;
   label : string;
   kota : string;
   kecamatan : string;
   kode_pos : string;
   alamat_utama : boolean;
+  detail_alamat : string;
 }
+
+export type Penitipan = {
+  id_penitipan: string;
+  tanggal_penitipan: string;
+  tenggat_penitipan: string;
+  tenggat_pengambilan: string;
+  status_perpanjangan: number;
+  nama_penitip: string;
+  nama_qc: string;
+  id_hunter: string | null;
+};

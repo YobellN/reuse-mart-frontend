@@ -1,3 +1,5 @@
+import { DetailProdukTitipan } from "../penitipan/schema-penitipan";
+
 export type Penjualan = {
   id_penjualan: string;
   tanggal_penjualan: string;
@@ -11,15 +13,14 @@ export type Penjualan = {
   status_penjualan: string;
   tenggat_pembayaran?: string;
   pembeli: {
-    nama: string;
-    no_telp: string;
-    email: string;
-  };
-  produk: {
-    nama_produk: string;
-    foto_produk: string;
-    kategori: string;
-    harga: number;
+    user: {
+      nama: string;
+      no_telp: string;
+      email: string;
+    };
+  } | null;
+  detail: {
+    produk: DetailProdukTitipan;
   }[];
   pembayaran: {
     tanggal_pembayaran: string;
@@ -30,9 +31,14 @@ export type Penjualan = {
   pengiriman: {
     jadwal_pengiriman: string;
     status_pengiriman: string;
+    kurir: {
+        user: {
+          nama: string;
+        }
+    }
     alamat: {
       label: string;
       detail_alamat: string;
-    }
+    };
   } | null;
 };

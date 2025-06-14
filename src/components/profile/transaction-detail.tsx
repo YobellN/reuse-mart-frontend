@@ -19,6 +19,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
             </DialogTrigger>
 
             <DialogContent
+                id={`nota-${trx.id_penjualan}`}            
                 className={
                     `w-full max-w-sm sm:max-w-xl  max-h-[calc(100vh-4rem)] overflow-y-auto p-3 sm:p-5 bg-gradient-to-b from-green-50 to-green-100`
                 }
@@ -56,15 +57,15 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                     <div className="space-y-3 text-sm">
                         <div className="flex items-center gap-2">
                             <User className="w-5 h-5 text-primary" />
-                            <span className="font-medium">{trx.pembeli.nama}</span>
+                            <span className="font-medium">{trx.pembeli?.user.nama}</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <Mail className="w-5 h-5 text-primary" />
-                            <span>{trx.pembeli.email}</span>
+                            <span>{trx.pembeli?.user.email}</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <Phone className="w-5 h-5 text-primary" />
-                            <span>{trx.pembeli.no_telp}</span>
+                            <span>{trx.pembeli?.user.no_telp}</span>
                         </div>
                     </div>
                 </Card>
@@ -73,17 +74,17 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
 
                 <h3 className="font-medium  text-sm">Detail Produk</h3>
                 <div className="space-y-2 ">
-                    {trx.produk.map((p, idx) => (
+                    {trx.detail.map((p, idx) => (
                         <Card key={idx} className="relative flex flex-col sm:flex-row items-start gap-2 p-3">
                             <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded overflow-hidden">
-                                <ProductImage filename={p.foto_produk} style={{ objectFit: 'cover' }} />
+                                <ProductImage filename={p.produk.foto_produk[0].path_foto} style={{ objectFit: 'cover' }} />
                             </div>
                             <div className="flex-1">
-                                <p className="font-medium text-sm">{p.nama_produk}</p>
+                                <p className="font-medium text-sm">{p.produk.nama_produk}</p>
                                 <div className="flex items-center gap-1 mt-1 text-xs">
                                     <CreditCard className="w-4 h-4 text-primary" />
                                     <span className="font-sm">
-                                        Rp{p.harga.toLocaleString('id-ID')}
+                                        Rp{p.produk.harga_produk.toLocaleString('id-ID')}
                                     </span>
                                 </div>
                             </div>
@@ -155,7 +156,7 @@ export default function TransactionDetail({ trx }: { trx: Penjualan }) {
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-muted-foreground">Subtotal</span>
-                                <span>Rp{trx.produk.reduce((a, b) => a + b.harga, 0).toLocaleString('id-ID')}</span>
+                                <span>Rp{trx.detail.reduce((a, b) => a + b.produk.harga_produk, 0).toLocaleString('id-ID')}</span>
                             </div>
                             {trx.poin_potongan >= 0 && (
                                 <div className="flex justify-between">

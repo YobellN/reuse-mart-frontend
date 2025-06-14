@@ -1,0 +1,181 @@
+'use client'
+
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from "@/components/ui/form"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useRouter } from "next/navigation"
+import React from "react"
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, } from "../ui/alert-dialog"
+import { toast } from "sonner"
+import { Input } from "../ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { CalendarIcon } from "lucide-react"
+import { CalendarDMY } from "../ui/calendar-month-year"
+import { cn } from "@/lib/utils"
+import { format } from "date-fns"
+import {  PengambilanSchema, PengambilanFormSchema } from "@/services/pengiriman/schema-pengiriman"
+import { handlePenjadwalanPengambilan } from "@/services/pengiriman/pengiriman-service"
+import { downloadNotaTransaksi } from "../transaksi/nota-transaksi-kurir"
+
+
+export default function NewPengambilanForm({ id_penjualan }: { id_penjualan: string }) {
+    const router = useRouter();
+    const [submit, setSubmit] = useState(false);
+    const [open, setOpen] = React.useState(false);
+    const form = useForm<PengambilanFormSchema>({
+        resolver: zodResolver(PengambilanSchema),
+        defaultValues: {
+            id_penjualan: id_penjualan,
+            jadwal_pengambilan: new Date(),
+        },
+    });
+    const finalFormData = React.useRef(new FormData());
+
+    async function onSubmit(values: PengambilanFormSchema) {
+        const isValid = await form.trigger();
+
+        if (isValid) {
+            const formData = new FormData();
+            formData.append("jadwal_pengambilan", format(values.jadwal_pengambilan, "yyyy-MM-dd"));
+            finalFormData.current = formData;
+            setOpen(true);
+        } else {
+            alert("Form belum valid");
+        }
+    }
+
+    async function handleSubmit(data: FormData) {
+        setSubmit(true);
+
+        try {
+            const res = await handlePenjadwalanPengambilan(data,id_penjualan);
+
+            if (res.message.includes("berhasil")) {
+                if (res.data) {
+                    downloadNotaTransaksi({ trx: res.data });
+                }
+                router.push("/gudang/pengambilan");
+                toast.success("Penjadwalan berhasil dan nota sedang dicetak...");
+                setOpen(false);
+            } else {
+                if (res.errors) {
+                    Object.entries(res.errors).forEach(([field, message]) => {
+                        form.setError(field as keyof PengambilanFormSchema, {
+                            type: "server",
+                            message: Array.isArray(message) ? message[0] : String(message),
+                        });
+                    });
+                }
+                setSubmit(false);
+                toast.error("Gagal menambahkan penjadwalan " + res.message);
+            }
+        } catch (err) {
+            setSubmit(false);
+            toast.error("Terjadi kesalahan server");
+        } finally {
+            setOpen(false);
+        }
+    }
+
+    return (
+        <Card className="max-w-2xl mx-auto mt-10 shadow-md relative overflow-visible">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center">Jadwalkan Pengambilan</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <FormField
+                            control={form.control}
+                            name="id_penjualan"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>ID Penjualan</FormLabel>
+                                    <FormControl>
+                                        <Input readOnly {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="jadwal_pengambilan"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Tanggal Pengambilan</FormLabel>
+                                    <FormControl>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        "w-[280px] justify-start text-left font-normal",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                                    {field.value ? (
+                                                        format(field.value, "yyyy-MM-dd")
+                                                    ) : (
+                                                        <span>Pilih tanggal</span>
+                                                    )}
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0">
+                                                <CalendarDMY
+                                                    mode="single"
+                                                    selected={field.value ?? undefined}
+                                                    onSelect={(date) => {
+                                                        if (date) field.onChange(date);
+                                                    }}
+                                                    initialFocus
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <div className="pt-4">
+                            <AlertDialog open={open} onOpenChange={setOpen}>
+                                <Button type="submit" className="w-full" disabled={submit}>{submit ? "Memproses..." : "Jadwalkan"}</Button>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Konfirmasi Penjadwalan</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Apakah data Anda sudah benar?
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel onClick={() => setOpen(false)} disabled={submit}>Batal</AlertDialogCancel>
+                                        <Button
+                                            type="button"
+                                            onClick={() => handleSubmit(finalFormData.current)}
+                                            disabled={submit}
+                                        >
+                                            {submit ? "Memproses..." : "Ya, Saya yakin"}
+                                        </Button>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </div>
+                    </form>
+                </Form>
+            </CardContent>
+        </Card >
+    )
+}

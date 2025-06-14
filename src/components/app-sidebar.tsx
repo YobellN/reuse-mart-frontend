@@ -8,13 +8,17 @@ import {
   GalleryVerticalEnd,
   HandHelping,
   Home,
+  Package,
   TimerReset,
   ToyBrick,
+  Truck,
   User2,
-} from "lucide-react"
+  Archive,
+  Check,
+  HistoryIcon,
+} from "lucide-react";
 
-
-import { NavUser } from "@/components/nav-user"
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -26,11 +30,22 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { TeamSwitcher } from "./team-switcher"
-import Link from "next/link"
-import { IResponse, User } from "@/services/utils"
-import { IconArchive, IconCalendarStats, IconClipboardList, IconGift, IconInbox, IconMoneybag, IconReceipt, IconTag, IconTrash } from "@tabler/icons-react"
+} from "@/components/ui/sidebar";
+import { TeamSwitcher } from "./team-switcher";
+import Link from "next/link";
+import { IResponse, User } from "@/services/utils";
+import {
+  IconArchive,
+  IconCalendarStats,
+  IconClipboardList,
+  IconGift,
+  IconInbox,
+  IconMoneybag,
+  IconReceipt,
+  IconTag,
+  IconTrash,
+} from "@tabler/icons-react";
+import { usePathname } from "next/navigation";
 
 const data = {
   teams: [
@@ -66,6 +81,12 @@ const data = {
       role: "Admin",
     },
     {
+      title: "Cek Top Seller",
+      url: "/admin/top-seller",
+      icon: ToyBrick,
+      role: "Admin",
+    },
+    {
       title: "Data Master Penitip",
       url: "/cs/penitip",
       icon: User2,
@@ -78,13 +99,25 @@ const data = {
       role: "CS",
     },
     {
+      title: "Riwayat Pembayaran",
+      url: "/cs/riwayat-pembayaran",
+      icon: HistoryIcon,
+      role: "CS",
+    },
+    {
       title: "Daftar Produk",
       url: "/cs/produk",
       icon: BookOpen,
       role: "CS",
     },
     {
-      title: "Daftar Transaksi Merchandise",
+      title: "History Transaksi Merchandise",
+      url: "/cs/riwayat-transaksi-merchandise",
+      icon: ToyBrick,
+      role: "CS",
+    },
+    {
+      title: "Daftar Klaim Merchandise",
       url: "/cs/transaksi-merchandise",
       icon: ToyBrick,
       role: "CS",
@@ -126,15 +159,51 @@ const data = {
       role: "Penitip",
     },
     {
-      title: "Transaksi Penitipan",
-      url: "/gudang/transaksi-penitipan",
-      icon: ToyBrick,
+      title: "Produk Titipan",
+      url: "/gudang/produk-titipan",
+      icon: Package,
       role: "Gudang",
     },
     {
-      title: "Pengiriman",
+      title: "Transaksi Penitipan",
+      url: "/gudang/transaksi-penitipan",
+      icon: Archive,
+      role: "Gudang",
+    },
+    {
+      title: "Konfirmasi Pengambilan Produk",
+      url: "/gudang/pengambilan-produk-titipan",
+      icon: Check,
+      role: "Gudang",
+    },
+    {
+      title: "Penjadwalan Pengiriman Transaksi",
       url: "/gudang/pengiriman",
-      icon: ToyBrick,
+      icon: Truck,
+      role: "Gudang",
+    },
+    {
+      title: "Riwayat Pengiriman Transaksi",
+      url: "/gudang/riwayat-pengiriman",
+      icon: IconReceipt,
+      role: "Gudang",
+    },
+    {
+      title: "Penjadwalan Pengambilan Transaksi",
+      url: "/gudang/pengambilan",
+      icon: Truck,
+      role: "Gudang",
+    },
+    {
+      title: "Konfirmasi Pengambilan Transaksi",
+      url: "/gudang/pengambilan-transaksi",
+      icon: Check,
+      role: "Gudang",
+    },
+    {
+      title: "Riwayat Pengambilan Transaksi",
+      url: "/gudang/riwayat-pengambilan",
+      icon: IconReceipt,
       role: "Gudang",
     },
     {
@@ -187,7 +256,7 @@ const data = {
     },
     {
       title: "Laporan Barang Hangus",
-      url: "/owner/laporan-barang-penitipan-hangus",
+      url: "/owner/laporan-barang-hangus",
       icon: IconTrash,
       role: "Owner",
     },
@@ -217,6 +286,8 @@ type UserProfile = {
   role: string | undefined;
 };
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
+  const pathname = usePathname();
+
   const userProfile: UserProfile = {
     email: user.data?.email,
     name: user.data?.nama,
@@ -270,7 +341,14 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
                       .map((item) => (
                         <SidebarMenuItem key={item.title}>
                           <SidebarMenuButton asChild>
-                            <Link href={item.url}>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
                               <item.icon />
                               <span>{item.title}</span>
                             </Link>
@@ -301,7 +379,147 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
                       .map((item) => (
                         <SidebarMenuItem key={item.title}>
                           <SidebarMenuButton asChild>
-                            <Link href={item.url}>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </>
+            ) : user?.data?.role === "Gudang" ? (
+              <>
+                <SidebarGroupLabel className="font-bold">
+                  Transaksi Penitipan Barang
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {data.navMain
+                      .filter((item) =>
+                        ["Produk Titipan", "Transaksi Penitipan"].includes(
+                          item.title
+                        )
+                      )
+                      .map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+
+                <hr className="my-2 border-t border-black/10 w-9/10 mx-auto" />
+
+                <SidebarGroupLabel className="font-bold">
+                  Pengambilan Produk Titipan
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {data.navMain
+                      .filter((item) =>
+                        ["Konfirmasi Pengambilan Produk"].includes(item.title)
+                      )
+                      .map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+
+                <hr className="my-2 border-t border-black/10 w-9/10 mx-auto" />
+
+                <SidebarGroupLabel className="font-bold">
+                  Penjadwalan Pengiriman Produk
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {data.navMain
+                      .filter((item) =>
+                        [
+                          "Penjadwalan Pengiriman Transaksi",
+                          "Riwayat Pengiriman Transaksi",
+                        ].includes(item.title)
+                      )
+                      .map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+
+                <hr className="my-2 border-t border-black/10 w-9/10 mx-auto" />
+
+                <SidebarGroupLabel className="font-bold">
+                  Penjadwalan Pengambilan Produk
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {data.navMain
+                      .filter((item) =>
+                        [
+                          "Penjadwalan Pengambilan Transaksi",
+                          "Konfirmasi Pengambilan Transaksi",
+                          "Riwayat Pengambilan Transaksi",
+                        ].includes(item.title)
+                      )
+                      .map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
                               <item.icon />
                               <span>{item.title}</span>
                             </Link>
@@ -312,7 +530,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
                 </SidebarGroupContent>
               </>
             ) : (
-              // default untuk selain Owner
+              // default untuk selain owner
               <>
                 <SidebarGroupContent>
                   <SidebarMenu>
@@ -321,7 +539,14 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
                       .map((item) => (
                         <SidebarMenuItem key={item.title}>
                           <SidebarMenuButton asChild>
-                            <Link href={item.url}>
+                            <Link
+                              href={item.url}
+                              className={
+                                pathname === item.url
+                                  ? "text-green-600 font-semibold"
+                                  : "text-muted-foreground"
+                              }
+                            >
                               <item.icon />
                               <span>{item.title}</span>
                             </Link>

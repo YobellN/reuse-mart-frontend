@@ -2,10 +2,12 @@
 import { Produk } from "@/services/produk/schema-produk";
 import ProductCarousel from "./product-carousel";
 import { ShoppingCart } from "lucide-react";
+import { addToKeranjang } from "@/services/detail_keranjang/detail_keranjang-services";
+import { toast } from "sonner";
+import Link from "next/link";
 
 
-
-export default function ProductDetail(produk:Produk) {
+export default function ProductDetail(produk: Produk) {
   const mockProduct = {
     name: produk.nama_produk,
     price: produk.harga_produk,
@@ -15,6 +17,20 @@ export default function ProductDetail(produk:Produk) {
     warrantyUntil: produk.waktu_garansi,
     images: produk.foto_produk ?? [],
     rating: produk.rating,
+  };
+
+  async function addToCart(id_produk: string) {
+    try {
+      const res = await addToKeranjang(id_produk);
+
+      if (res.message === "Detail keranjang berhasil ditambahkan") {
+        toast.success("Produk berhasil ditambahkan");
+      } else {
+        toast.error("Gagal menambahkan Produk: " + res.message);
+      }
+    } catch (err) {
+      toast.error("Terjadi kesalahan server " + err);
+    }
   };
 
   return (
@@ -44,8 +60,8 @@ export default function ProductDetail(produk:Produk) {
               {!mockProduct.warrantyUntil
                 ? "Tanpa garansi"
                 : new Date(mockProduct.warrantyUntil) < new Date()
-                ? "Garansi kadaluarsa"
-                : "Produk dengan garansi"}
+                  ? "Garansi kadaluarsa"
+                  : "Produk dengan garansi"}
             </p>
 
             <p className="font-semibold">Garansi hingga</p>
@@ -59,15 +75,21 @@ export default function ProductDetail(produk:Produk) {
           </p>
         </div>
       </div>
+      {/* TRANSAKSI */}
       <div className="flex justify-end gap-4 mt-6">
-        <button className="flex items-center gap-2 border border-green-600 text-green-600 px-4 py-3 rounded-sm text-md hover:bg-green-50">
+        <button
+          className="flex items-center gap-2 border border-green-600 text-green-600 px-4 py-3 rounded-sm text-md hover:bg-green-50"
+          onClick={() => addToCart(produk.id_produk)}
+        >
           <ShoppingCart className="w-5 h-5" />
           Masukkan Keranjang
         </button>
 
-        <button className="bg-green-600 text-white px-4 py-3 rounded-sm text-md hover:bg-green-700">
+        <Link
+          className="bg-green-600 text-white px-4 py-3 rounded-sm text-md hover:bg-green-700"
+          onClick={() => addToCart(produk.id_produk)} href="/keranjang" >
           Beli Sekarang
-        </button>
+        </Link>
       </div>
     </div>
   );

@@ -1,25 +1,34 @@
 'use client'
 
-import { getPenitipById } from "@/services/penitip/penitip-services";
+import { getPenitipByIdForGuest } from "@/services/penitip/penitip-services";
 import { Penitip } from "@/services/penitip/schema-penitip";
 import { Star, MessageSquareText } from "lucide-react";
 import DiskusiModal from "../diskusi-produk/diskusi-modal";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
-import { getDiskusiById } from "@/services/diskusi/diskusi-services";
 
-export default function SellerInfo({ idPenitip, id_produk }: { idPenitip: string, id_produk: string }) {
+export default function SellerInfo({
+  idPenitip,
+  id_produk,
+}: {
+  idPenitip: string;
+  id_produk: string;
+}) {
   const [penitip, setPenitip] = useState<Penitip | null>(null);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    getPenitipById(idPenitip).then((data) => {
+    if (!idPenitip) return;
+    async function fetchData() {
+      const data = await getPenitipByIdForGuest(idPenitip);
       setPenitip(data);
       setLoading(false);
     }
-    );
-  }, []);
+    fetchData();
+  }, [idPenitip]);
+
+  console.log("===============penitip:", penitip);
 
   if (loading) {
     return (
@@ -63,11 +72,17 @@ export default function SellerInfo({ idPenitip, id_produk }: { idPenitip: string
         <div className="flex flex-col">
           <p className="font-semibold text-sm">{penitip?.user.nama}</p>
           <div className="flex items-center text-sm text-gray-600">
-            <Star
-              className="w-4 h-4 text-yellow-500 mr-1"
-              fill="currentColor"
-            />
-            <span>{penitip?.rating} / 5.0</span>
+            {penitip?.rating !== null ? (
+              <>
+                <Star
+                  className="w-4 h-4 text-yellow-500 mr-1"
+                  fill="currentColor"
+                />
+                <span>{penitip.rating} / 5.0</span>
+              </>
+            ) : (
+              <span>Belum ada ulasan</span>
+            )}
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export type Alamat = {
-    id_alamat: string;
+    id_alamat: number;
     id_pembeli: string;
     label: string;
     kabupaten_kota: string;
