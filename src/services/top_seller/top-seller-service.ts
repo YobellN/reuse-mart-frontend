@@ -15,7 +15,6 @@ export async function generateTopSeller(): Promise<{
       message: res.data?.message ?? "Tidak ada pesan",
     };
   } catch (error) {
-    console.log(error);
     return {
       data: null,
       message: "Gagal mengambil data Top Seller.",

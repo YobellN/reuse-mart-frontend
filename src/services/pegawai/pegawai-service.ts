@@ -40,7 +40,6 @@ export async function handleNewPegawai(
       data: res.data.data,
     };
   } catch (err: any) {
-    console.error("AXIOS ERROR:", err.response?.data || err.message);
     if (err.response?.data?.errors) {
       return {
         message: err.response.data.message,

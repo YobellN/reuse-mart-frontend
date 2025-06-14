@@ -15,7 +15,6 @@ export async function getAllKategoriProduk(): Promise<KategoriProduk[]> {
 
     return data;
   } catch (error) {
-    console.error("getAllKategoriProduk error", error);
     return [];
   }
 }

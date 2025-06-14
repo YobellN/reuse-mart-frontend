@@ -18,7 +18,6 @@ export default function ProductImage({
     ? `${process.env.NEXT_PUBLIC_URL}/storage/foto_produk/${filename}`
     : "";
   const [src, setSrc] = useState<string>(backendUrl || "/reuse-mart.png");
-  console.log("ENV:", process.env.NEXT_PUBLIC_URL);
 
   return (
     <Image

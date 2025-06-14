@@ -28,8 +28,6 @@ export default function SellerInfo({
     fetchData();
   }, [idPenitip]);
 
-  console.log("===============penitip:", penitip);
-
   if (loading) {
     return (
       <div className="mt-4 flex flex-col md:flex-row flex-wrap items-start md:items-center justify-start p-4 bg-white">

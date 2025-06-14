@@ -8,12 +8,10 @@ export async function handleNewPembayaran(
     formData: FormData
 ): Promise<IResponse<Pembayaran>> {
     try {
-        console.log("INIRESPON");
         const res = await api.post("/pembayaran", formData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
         
-        console.log("INIRESPON", res.data); // ✅ bukan pakai +
 
         return {
             message: res.data.message,
@@ -26,7 +24,6 @@ export async function handleNewPembayaran(
                 errors: err.response.data.errors,
             };
         }
-        console.error(err);
         return {
             message: "Terjadi kesalahan",
         };

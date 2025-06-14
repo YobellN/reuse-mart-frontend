@@ -99,7 +99,6 @@ export async function getAlamat(): Promise<Alamat[]> {
     const res = await api.get("/alamat");
     return res.data.data;
   } catch (error) {
-    console.error("Get Alamat Error:", error);
     return [];
   }
 }

@@ -184,7 +184,6 @@ export default function EditPenitipanForm({
 
       if (data.produk.length) {
         data.produk.forEach((produk, i) => {
-          console.log("Foto produksss:", produk.foto_produk);
           formData.append(`produk[${i}][id_produk]`, produk.id_produk);
           formData.append(`produk[${i}][nama_produk]`, produk.nama_produk);
           formData.append(
@@ -207,7 +206,9 @@ export default function EditPenitipanForm({
           }
 
           produk.foto_produk?.forEach((file, j) => {
-            formData.append(`produk[${i}][foto_produk][${j}][path_foto]`, file);
+            if (file instanceof File) {
+              formData.append(`produk[${i}][foto_produk][${j}][path_foto]`, file);
+            }
           });
         });
       }

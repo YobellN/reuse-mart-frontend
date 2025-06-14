@@ -13,7 +13,6 @@ export async function addToKeranjang(id_produk: string): Promise<IResponse<Detai
       data: res.data.data,
     };
   } catch (err: any) {
-    console.error("Keranjang Error", err.response);
     return {
       message: err?.response?.data?.message || "Unknown error",
     };
@@ -26,7 +25,6 @@ export async function getKeranjang(): Promise<DetailKeranjang[]> {
     const res = await api.get("/detail-keranjang");
     return res.data.data;
   } catch (error) {
-    console.error("Get Keranjang Error:", error);
     return [];
   }
 }
@@ -40,7 +38,6 @@ export async function deleteKeranjang(id_produk: string): Promise<IResponse<Deta
       data: res.data.data,
     };
   } catch (err: any) {
-    console.error("Delete Keranjang Error:", err.response);
     return {
       message: err?.response?.data?.message || "Unknown error",
     };
@@ -56,7 +53,6 @@ export async function getPoinPembeli(): Promise<IResponse<number>> {
       data: res.data.data,
     };
   } catch (err: any) {
-    console.error("Get Poin Pembeli Error:", err.response);
     return {
       message: err?.response?.data?.message || "Unknown error",
     };
@@ -76,7 +72,6 @@ export async function getTotalHarga(formData: FormData): Promise<IResponse<Keran
       data: res.data.data,
     };
   } catch (err: any) {
-    console.error("Get Total Harga Error:", err.response);
     return {
       message: err?.response?.data?.message || "Unknown error",
     };

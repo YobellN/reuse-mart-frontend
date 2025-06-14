@@ -51,16 +51,7 @@ export default function NewPembayaranForm({ id_penjualan, totalAkhir }: NewPemba
             formData.append("id_penjualan", id_penjualan);
             formData.append("metode_pembayaran", values.metode_pembayaran);
             formData.append("bukti_pembayaran", values.bukti_pembayaran);
-            console.log("values:", values);
-            console.log("FormData yang dikirim:");
-            for (const [key, val] of formData.entries()) {
-                console.log(`${key}:`, val instanceof File ? val.name : val);
-            }
             finalFormData.current = formData;
-            console.log("FormData final yang dikirim:");
-            for (const [key, val] of finalFormData.current.entries()) {
-                console.log(`${key}:`, val instanceof File ? val.name : val);
-            }
 
             setOpen(true);
         } else {
@@ -72,10 +63,6 @@ export default function NewPembayaranForm({ id_penjualan, totalAkhir }: NewPemba
         setSubmit(true);
 
         try {
-            console.log("FormData final 23 yang dikirim:");
-            for (const [key, val] of data.entries()) {
-                console.log(`${key}:`, val instanceof File ? val.name : val);
-            }
             const res = await handleNewPembayaran(data);
             if (res.message === "Pembayaran berhasil dibuat") {
                 router.push("/home");

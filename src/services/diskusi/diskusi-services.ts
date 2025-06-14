@@ -13,7 +13,6 @@ export async function handleNewDiskusi(formData: FormData): Promise<IResponse<Di
       data: res.data.data,
     };
   } catch (err: any) {
-    console.error("Diskusi Error", err);
     if (err.response?.data?.errors) {
       return {
         message: err.response.data.message,
@@ -37,7 +36,6 @@ export async function getDiskusiById(id_produk: string): Promise<IResponse<Disku
     const res = await api.get(`diskusi/getDiskusiProduk/${actualId}`);
     return res.data;
   } catch (err: any) {
-    console.error("API Error:", err);
     return null;
   }
 }

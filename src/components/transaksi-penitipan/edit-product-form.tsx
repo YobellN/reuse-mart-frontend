@@ -62,11 +62,9 @@ export function EditProdukAccordionItem({
 
   useEffect(() => {
     const existingPhotos = form.getValues(`produk.${index}.foto_produk`);
-    console.log("Existing Photos:", existingPhotos);
     if (existingPhotos && Array.isArray(existingPhotos)) {
       const photoUrls = existingPhotos.map((photo: any) => photo.name);
       setExistingPhotos(photoUrls);
-      console.log("Existing Photo URLs:", photoUrls);
     }
   }, [form, index]);
 

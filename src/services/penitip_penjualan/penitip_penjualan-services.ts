@@ -24,7 +24,6 @@ export async function getRiwayatPenjualanByPenitip(
         }));
         return penjualans;
     } catch (error) {
-        console.error("Error fetching penjualan:", error);
         return [];
     }
 }
@@ -43,7 +42,6 @@ export async function getRiwayatPenjualanByPenitip(
             });
             return res.data.data;
         } catch (error) {
-            console.error("Error fetching laporan penitip:", error);
             return {
                 id_penitip: "",
                 nama_penitip: "",
@@ -60,7 +58,6 @@ export async function getRiwayatPenjualanByPenitip(
             const res = await api.get("/getIdPenitipTerakhir");
             return res.data.data;
         } catch (error) {
-            console.error("Error fetching daftar penitip transaksi:", error);
             return 'T0001'; // Kembalikan ID default jika gagal
         }
     }

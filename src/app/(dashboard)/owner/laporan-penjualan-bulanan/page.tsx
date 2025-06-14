@@ -16,7 +16,6 @@ export default async function Page({
   const data: LaporanPenjualanKotor[] = await getLaporanPenjualanKotorBulanan({
     tahun,
   });
-  console.log(data);
 
   return (
     <>

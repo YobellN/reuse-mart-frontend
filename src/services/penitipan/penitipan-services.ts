@@ -256,7 +256,6 @@ export async function handleEditPenitipan(
   formData: FormData
 ): Promise<IResponse<PenitipanPayload>> {
   try {
-    console.log(formData);
 
     const res = await api.post(
       `/gudang/edit-penitipan/${id_penitipan}`,
@@ -270,7 +269,6 @@ export async function handleEditPenitipan(
       data: res.data.data,
     };
   } catch (err: any) {
-    console.error(err.response?.data);
     if (err.response?.data?.errors) {
       return {
         message: err.response.data.message,

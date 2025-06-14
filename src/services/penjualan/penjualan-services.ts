@@ -40,7 +40,6 @@ export async function getRiwayatPenjualanPembeli({
       },
     });
 
-    console.log(res.data.data)
 
     return res.data.data;
   } catch (error) {
@@ -78,7 +77,6 @@ export async function createPenjualan({
       data: res.data.data,
     };
   } catch (err: any) {
-    console.error("Get Total Harga Error:", err.response);
     return {
       message: err?.response?.data?.message || "Unknown error",
     };

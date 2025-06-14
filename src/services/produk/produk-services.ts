@@ -66,7 +66,6 @@ export async function getProduk({
 
     return { data, meta };
   } catch (error) {
-    console.error("getProduk error", error);
     return {
       data: [],
       meta: { current_page: 1, last_page: 1, per_page: limit ?? 0, total: 0 },
@@ -159,7 +158,6 @@ export async function getProdukAll(): Promise<Produk[]> {
 
     return data;
   } catch (error) {
-    console.error("getProdukAll error", error);
     return [];
   }
 }

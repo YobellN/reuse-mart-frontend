@@ -36,7 +36,6 @@ const requestScheme = z.object({
 
 export function submitEmailRequest(data: FormData) {
   const email = data.get("email");
-  console.log(email);
 }
 
 type FormScheme = z.infer<typeof requestScheme>;

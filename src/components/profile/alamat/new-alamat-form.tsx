@@ -41,9 +41,7 @@ export default function NewAlamatForm() {
     const finalFormData = React.useRef(new FormData());
 
     async function onSubmit(values: AlamatFormSchema) {
-        console.log("value1231313");
         const isValid = await form.trigger();
-        console.log("isValid", isValid);
         if (isValid) {
             const formData = new FormData();
             formData.append("label", values.label);
@@ -62,7 +60,6 @@ export default function NewAlamatForm() {
         setSubmit(true);
 
         try {
-            console.log("Data yang dikirim:", data);
             const res = await handleNewAlamat(data);
 
             if (res.message === "Alamat berhasil ditambahkan") {

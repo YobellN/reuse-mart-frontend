@@ -162,23 +162,15 @@ export async function redirectMenu(role: string): Promise<string> {
 export async function sendEmailLink(formData: FormData): Promise<IResponse<any>> {
   try {
     const email = formData.get("email");
-    console.log("Sending reset password request for email:", email);
 
     const res = await api.post("/password/reset-link", {
       email: email
     });
 
-    console.log("Response received:", res.data);
     return { 
       message: res.data.message,
     };
   } catch (err: any) {
-    console.log("Error details:", {
-      status: err.response?.status,
-      statusText: err.response?.statusText,
-      data: err.response?.data,
-      headers: err.response?.headers
-    });
     
     // Handle specific error cases
     if (err.response?.data?.exception === 'InvalidArgumentException') {
@@ -230,7 +222,6 @@ export async function changePassword(formData: FormData): Promise<IResponse<any>
       password: password,
       confirm_password: confirm_password,
     });
-    console.log("Response received:", res.data);
     return { 
       message: res.data.message,
     };
@@ -277,11 +268,6 @@ export async function resetPassword(email: string | { email: string }, password:
     // Handle email whether it's a string or object
     const emailValue = typeof email === 'object' ? email.email : email;
     
-    console.log("Attempting password reset with data:", {
-      email: emailValue,
-      password,
-      confirm_password: confirmPassword
-    });
 
     const res = await api.post("/password/reset", {
       email: emailValue,
@@ -289,7 +275,6 @@ export async function resetPassword(email: string | { email: string }, password:
       confirm_password: confirmPassword
     });
     
-    console.log("Password reset response:", res.data);
     
     return {
       message: res.data.message
@@ -301,12 +286,6 @@ export async function resetPassword(email: string | { email: string }, password:
         errors: err.response.data.errors
       };
     }
-    console.log("Error details:", {
-      status: err.response?.status,
-      statusText: err.response?.statusText,
-      data: err.response?.data,
-      headers: err.response?.headers
-    });
     return {
       message: "Terjadi kesalahan"
     };
