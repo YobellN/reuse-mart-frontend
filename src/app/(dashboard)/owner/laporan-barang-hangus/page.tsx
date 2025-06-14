@@ -6,9 +6,9 @@ import LaporanTahunSelect from "@/components/tahun-select"
 import LaporanBulanSelect from "@/components/bulan-select"
 import { LaporanBarangHangus } from "@/components/laporan/laporan-barang-hangus"
 
-export default async function Page({ searchParams }: { searchParams: { tahun?: string, bulan?: string } }) {
-    const tahun = searchParams.tahun || new Date().getFullYear().toString()
-    const bulan = searchParams.bulan || (new Date().getMonth() + 1).toString()
+export default async function Page({ searchParams }: { searchParams: Promise<{ tahun?: string, bulan?: string }> }) {
+    const tahun = (await searchParams).tahun || new Date().getFullYear().toString()
+    const bulan = (await searchParams).bulan || (new Date().getMonth() + 1).toString()
     const data = await getLaporanBarangHangus({ tahun: tahun, bulan: bulan });
 
     return (

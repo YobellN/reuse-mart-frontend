@@ -5,8 +5,8 @@ import { getLaporanPenjualanPerKategori } from "@/services/laporan/laporan-servi
 import LaporanTahunSelect from "@/components/tahun-select"
 import { LaporanPenjualanPerKategori } from "@/components/laporan/laporan-penjualan-per-kategori"
 
-export default async function Page({ searchParams }: { searchParams: { tahun?: string } }) {
-    const tahun = searchParams.tahun || new Date().getFullYear().toString()
+export default async function Page({ searchParams }: { searchParams: Promise<{ tahun?: string }> }) {
+    const tahun = (await searchParams).tahun || new Date().getFullYear().toString()
     const data = await getLaporanPenjualanPerKategori({ tahun: tahun })
 
     return (

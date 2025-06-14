@@ -41,7 +41,7 @@ export async function getRiwayatPenjualanByPenitip(
                     id_penitip
                 },
             });
-            return res.data;
+            return res.data.data;
         } catch (error) {
             console.error("Error fetching laporan penitip:", error);
             return {

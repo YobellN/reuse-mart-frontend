@@ -10,10 +10,10 @@ import { DownloadKomisiProdukButton } from "@/components/laporan/laporan-komisi-
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { tahun?: string; bulan?: string };
+  searchParams: Promise<{ tahun?: string; bulan?: string }>;
 }) {
-  const tahun = searchParams.tahun || new Date().getFullYear().toString();
-  const bulan = searchParams.bulan || (new Date().getMonth() + 1).toString();
+  const tahun = (await searchParams).tahun || new Date().getFullYear().toString();
+  const bulan = (await searchParams).bulan || (new Date().getMonth() + 1).toString();
   const data = await getLaporanKomisiProduk({ tahun, bulan });
 
   return (

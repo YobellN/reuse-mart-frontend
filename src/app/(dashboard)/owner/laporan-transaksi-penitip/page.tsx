@@ -8,10 +8,10 @@ import { LaporanTransaksiPenitipDownloadButton } from "@/components/laporan/lapo
 import { getIdPenitipTerakhir, getLaporanPenitip } from "@/services/penitip_penjualan/penitip_penjualan-services";
 import { LaporanTransaksiPenitipPreviewButton } from "@/components/laporan/laporan-transaksi-penitip-preview";
 
-export default async function Page({ searchParams }: { searchParams: { tahun?: string, bulan?: string, id_penitip?: string } }) {
-  const tahun = searchParams.tahun || new Date().getFullYear().toString()
-  const bulan = searchParams.bulan || (new Date().getMonth() + 1).toString()
-  const id_penitip = searchParams.id_penitip || "T0001"
+export default async function Page({ searchParams }: { searchParams: Promise<{ tahun?: string, bulan?: string, id_penitip?: string }> }) {
+  const tahun = (await searchParams).tahun || new Date().getFullYear().toString()
+  const bulan = (await searchParams).bulan || (new Date().getMonth() + 1).toString()
+  const id_penitip = (await searchParams).id_penitip || "T0001"
   const data = await getLaporanPenitip({ tahun: tahun, bulan: bulan, id_penitip: id_penitip });
   const idTerakhir = await getIdPenitipTerakhir();
   return (
@@ -24,11 +24,11 @@ export default async function Page({ searchParams }: { searchParams: { tahun?: s
           <PenitipSelect endId={idTerakhir} />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <LaporanTransaksiPenitipPreviewButton data={data.data} />
-          <LaporanTransaksiPenitipDownloadButton data={data.data} />
+          <LaporanTransaksiPenitipPreviewButton data={data} />
+          <LaporanTransaksiPenitipDownloadButton data={data} />
         </div>
       </div>
-      <DataTable columns={columns} data={data.data.data} />
+      <DataTable columns={columns} data={data.data} />
     </>
   );
 }

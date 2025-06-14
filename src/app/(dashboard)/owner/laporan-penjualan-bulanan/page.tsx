@@ -10,9 +10,9 @@ import { ChartPenjualan } from "@/components/chart-penjualan/chart-penjualan";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { tahun?: string };
+  searchParams: Promise<{ tahun?: string }>;
 }) {
-  const tahun = searchParams.tahun || new Date().getFullYear().toString();
+  const tahun = (await searchParams).tahun || new Date().getFullYear().toString();
   const data: LaporanPenjualanKotor[] = await getLaporanPenjualanKotorBulanan({
     tahun,
   });
