@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import logout from "@/actions/auth/logout"
+import logout from "@/services/auth/user-services"
 
 export function NavUser({
   user,
