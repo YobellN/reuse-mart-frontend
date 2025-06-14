@@ -46,8 +46,6 @@ export function LoginForm({
 
     const result = await handleLogin(formData);
 
-    alert(result.message);
-
     if (result.message === "Berhasil login") {
       const menu = await redirectMenu(result.data.user.role);
       if (menu === "error") {
