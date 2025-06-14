@@ -46,12 +46,15 @@ export function NavUser({
   const router = useRouter();
 
   async function handleLogout() {
-    await logout().then(() => {
+    try {
+      await logout();
       toast.success("Berhasil logout");
-      router.replace("/login");
-    }).catch((err) => {
-      toast.error("Terjadi kesalahan" + err.message);
-    })
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 500);
+    } catch (err: any) {
+      toast.error("Terjadi kesalahan: " + err.message);
+    }
   }
 
   const handleNavigateToProfile = () => {
