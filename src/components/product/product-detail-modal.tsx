@@ -44,8 +44,12 @@ export default function DetailProdukTitipanModal({
     waktu_garansi,
     rating,
     foto_produk,
-    detail_penitipan: { penitipan, tanggal_pengambilan, konfirmasi_donasi },
+    detail_penitipan,
   } = detail;
+
+  const penitipan = detail_penitipan?.penitipan;
+  const tanggal_pengambilan = detail_penitipan?.tanggal_pengambilan;
+  const konfirmasi_donasi = detail_penitipan?.konfirmasi_donasi;
 
   return (
     <Dialog>
@@ -149,38 +153,42 @@ export default function DetailProdukTitipanModal({
             <div className="flex items-center min-w-0">
               <Users className="w-4 h-4 flex-shrink-0 text-teal-500" />
               <span className="ml-2 truncate">No. Penitipan</span>
-              <span className="ml-auto font-medium truncate">{penitipan.id_penitipan}</span>
+              <span className="ml-auto font-medium truncate">{penitipan?.id_penitipan}</span>
             </div>
-            <div className="flex items-center">
-              <Calendar className="w-4 h-4 flex-shrink-0 text-purple-500" />
-              <span className="ml-2">Tgl. Titip</span>
-              <span className="ml-auto">
-                {format(new Date(penitipan.tanggal_penitipan), "dd MMM yyyy", { locale: id })}
-              </span>
-            </div>
-            <div className="flex items-center">
-              <CalendarCheck className="w-4 h-4 flex-shrink-0 text-green-500" />
-              <span className="ml-2">Tenggat Titip</span>
-              <span className="ml-auto">
-                {format(new Date(penitipan.tenggat_penitipan), "dd MMM yyyy", { locale: id })}
-              </span>
-            </div>
-            <div className="flex items-center">
-              <CalendarX className="w-4 h-4 flex-shrink-0 text-orange-500" />
-              <span className="ml-2">Tenggat Ambil</span>
-              <span className="ml-auto">
-                {format(new Date(penitipan.tenggat_pengambilan), "dd MMM yyyy", { locale: id })}
-              </span>
-            </div>
-            <div className="flex items-center">
-              <RefreshCw className="w-4 h-4 flex-shrink-0 text-yellow-500" />
-              <span className="ml-2">Perpanjangan</span>
-              <span className="ml-auto">
-                {penitipan.status_perpanjangan > 0
-                  ? `${penitipan.status_perpanjangan}× (30 hari)`
-                  : "Belum"}
-              </span>
-            </div>
+            {penitipan && (
+              <>
+                <div className="flex items-center">
+                  <Calendar className="w-4 h-4 flex-shrink-0 text-purple-500" />
+                  <span className="ml-2">Tgl. Titip</span>
+                  <span className="ml-auto">
+                    {format(new Date(penitipan.tanggal_penitipan), "dd MMM yyyy", { locale: id })}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <CalendarCheck className="w-4 h-4 flex-shrink-0 text-green-500" />
+                  <span className="ml-2">Tenggat Titip</span>
+                  <span className="ml-auto">
+                    {format(new Date(penitipan.tenggat_penitipan), "dd MMM yyyy", { locale: id })}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <CalendarX className="w-4 h-4 flex-shrink-0 text-orange-500" />
+                  <span className="ml-2">Tenggat Ambil</span>
+                  <span className="ml-auto">
+                    {format(new Date(penitipan.tenggat_pengambilan), "dd MMM yyyy", { locale: id })}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <RefreshCw className="w-4 h-4 flex-shrink-0 text-yellow-500" />
+                  <span className="ml-2">Perpanjangan</span>
+                  <span className="ml-auto">
+                    {penitipan.status_perpanjangan > 0
+                      ? `${penitipan.status_perpanjangan}× (30 hari)`
+                      : "Belum"}
+                  </span>
+                </div>
+              </>
+            )}
             {tanggal_pengambilan && (
               <div className="flex items-center">
                 <CalendarPlus className="w-4 h-4 flex-shrink-0 text-blue-300" />
@@ -209,7 +217,7 @@ export default function DetailProdukTitipanModal({
         </h3>
         <Card className="p-3 text-sm">
           <div className="space-y-3">
-            {detail.detail_penitipan.penitipan.hunter && (
+            {detail.detail_penitipan?.penitipan.hunter && (
               <div className="flex items-center min-w-0">
                 <User className="w-4 h-4 flex-shrink-0 text-indigo-500" />
                 <span className="ml-2 truncate">Hunter</span>
@@ -222,14 +230,14 @@ export default function DetailProdukTitipanModal({
               <Users className="w-4 h-4 flex-shrink-0 text-teal-500" />
               <span className="ml-2 truncate">Penitip</span>
               <span className="ml-auto font-medium truncate">
-                {detail.detail_penitipan.penitipan.penitip.user.nama}
+                {detail.detail_penitipan?.penitipan.penitip.user.nama}
               </span>
             </div>
             <div className="flex items-center min-w-0">
               <ShieldCheck className="w-4 h-4 flex-shrink-0 text-indigo-600" />
               <span className="ml-2 truncate">QC</span>
               <span className="ml-auto font-medium truncate">
-                {detail.detail_penitipan.penitipan.qc.user.nama}
+                {detail.detail_penitipan?.penitipan.qc.user.nama}
               </span>
             </div>
           </div>
