@@ -245,9 +245,8 @@ export async function handleNewPenitipan(
         errors: err.response.data.errors,
       };
     }
-
     return {
-      message: "Terjadi kesalahan",
+      message: "Terjadi kesalahan" + err.response?.data,
     };
   }
 }
