@@ -279,7 +279,7 @@ export async function handleEditPenitipan(
     }
 
     return {
-      message: "Terjadi kesalahan",
+      message: "Terjadi kesalahan" + err.response?.data,
     };
   }
 }

@@ -207,12 +207,7 @@ export default function EditPenitipanForm({
           }
 
           produk.foto_produk?.forEach((file, j) => {
-            if (file instanceof File) {
-              formData.append(
-                `produk[${i}][foto_produk][${j}][path_foto]`,
-                file
-              );
-            }
+            formData.append(`produk[${i}][foto_produk][${j}][path_foto]`, file);
           });
         });
       }

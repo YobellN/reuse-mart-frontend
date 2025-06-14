@@ -279,11 +279,12 @@ export function EditProdukAccordionItem({
                                     <Button
                                       type="button"
                                       onClick={() => {
-                                        const updatedExisting =
-                                          existingPhotos.filter(
-                                            (_, i) => i !== idx
-                                          );
+                                        const updatedExisting = existingPhotos.filter((_, i) => i !== idx);
                                         setExistingPhotos(updatedExisting);
+
+                                        const currentFiles: File[] = form.getValues(`produk.${index}.foto_produk`) || [];
+                                        const updatedFormFiles = currentFiles.filter((_, i) => i !== idx);
+                                        form.setValue(`produk.${index}.foto_produk`, updatedFormFiles);
                                       }}
                                       className="absolute z-10 hidden group-hover:flex items-center justify-center bg-teal-600/50 hover:bg-teal-600/50 text-white rounded-md w-full h-full cursor-pointer"
                                     >
