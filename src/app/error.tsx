@@ -21,7 +21,7 @@ export default function Error({
     <div className="min-h-screen flex items-center justify-center bg-muted">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader>
-          <CardTitle className="text-center text-destructive">Terjadi Kesalahan</CardTitle>
+          <CardTitle className="text-center text-destructive">Terjadi Kesalahan !</CardTitle>
         </CardHeader>
         <CardContent>
           <Alert variant="destructive" className="mb-4">
