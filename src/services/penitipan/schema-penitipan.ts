@@ -143,9 +143,24 @@ export const ProdukSchema = z.object({
     .min(new Date(), { message: "Waktu garansi minimal hari ini" })
     .nullable(),
   foto_produk: z
-    .array(FotoProdukSchema)
-    .min(2, { message: "Minimal 2 foto produk" })
-    .max(10, { message: "Maksimal 10 foto produk" }),
+  .array(z.any())
+  .refine((arr) => arr.length >= 2, {
+    message: "Minimal 2 foto produk",
+  })
+  .refine((arr) =>
+    arr.every((file) => file instanceof File),
+    { message: "Semua foto harus berupa file" }
+  )
+  .refine((arr) =>
+    arr.every((file) =>
+      ["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(file.type)
+    ),
+    { message: "Format foto tidak valid (hanya jpg, jpeg, png, webp)" }
+  )
+  .refine((arr) =>
+    arr.every((file) => file.size <= 2 * 1024 * 1024),
+    { message: "Ukuran foto maksimal 2MB" }
+  )
 });
 
 export const PenitipanSchema = z.object({
@@ -178,8 +193,9 @@ export const ProdukUpdateSchema = ProdukSchema.extend({
     .string()
     .trim()
     .nonempty({ message: "ID produk tidak boleh kosong" }),
+
   foto_produk: z
-    .array(FotoProdukSchema)
+    .array(z.any())
     .optional()
     .superRefine((val, ctx) => {
       if (!val || val.length === 0) return;
@@ -201,6 +217,32 @@ export const ProdukUpdateSchema = ProdukSchema.extend({
           message: "Maksimal 10 foto produk",
         });
       }
+
+      val.forEach((file, i) => {
+        if (!(file instanceof File)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: [i],
+            message: "File tidak valid",
+          });
+        } else {
+          const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+          if (!validTypes.includes(file.type)) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: [i],
+              message: "Format foto tidak valid (hanya jpg, jpeg, png, webp)",
+            });
+          }
+          if (file.size > 2 * 1024 * 1024) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: [i],
+              message: "Ukuran foto maksimal 2MB",
+            });
+          }
+        }
+      });
     }),
 });
 

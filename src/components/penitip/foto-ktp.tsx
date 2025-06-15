@@ -10,7 +10,7 @@ interface FotoKTPProps {
 
 export default function FotoKTP({ filename, style }: FotoKTPProps) {
     const backendUrl = filename
-    ? `${process.env.NEXT_PUBLIC_STORAGE}/foto_ktp/${filename}`
+    ? `${process.env.NEXT_PUBLIC_STORAGE}/${filename}`
     : "";
     const [src, setSrc] = useState<string>(backendUrl || '/reuse-mart.png');
 
