@@ -112,7 +112,7 @@ export default function MainFooter() {
 
         <div className="flex flex-col items-center md:items-end">
           <Image
-            src="/Reuse-mart.png"
+            src="/reuse-mart.png"
             alt="ReuseMart Logo"
             className="w-60 h-auto"
             width={100}
