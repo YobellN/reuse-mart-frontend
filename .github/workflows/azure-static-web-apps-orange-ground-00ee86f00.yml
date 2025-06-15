@@ -21,7 +21,7 @@ jobs:
     env:
     #   API_URL: ${{ secrets.API_URL }}
       NEXT_PUBLIC_URL: ${{ secrets.NEXT_PUBLIC_URL }}
-      NEXT_PUBLIC_STORAGE_URL: ${{ secrets.NEXT_PUBLIC_STORAGE_URL }}
+      NEXT_PUBLIC_STORAGE: ${{ secrets.NEXT_PUBLIC_STORAGE }}
     steps:
       - uses: actions/checkout@v3
         with:
