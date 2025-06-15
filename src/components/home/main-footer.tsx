@@ -10,22 +10,22 @@ export default function MainFooter() {
           <h3 className="font-bold mb-3">ReUseMart</h3>
           <ul className="space-y-2">
             <li>
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 Tentang Kami
               </Link>
             </li>
             <li>
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 Blog
               </Link>
             </li>
             <li>
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 Kebijakan Donasi
               </Link>
             </li>
             <li>
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 Visi & Misi
               </Link>
             </li>
@@ -37,19 +37,19 @@ export default function MainFooter() {
           <ul className="space-y-2">
             <li>
               {" "}
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/home"} className="hover:text-green-600">
                 Cari Produk
               </Link>
             </li>
             <li>
               {" "}
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 Cara Checkout
               </Link>
             </li>
             <li>
               {" "}
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 Poin & Merchandise
               </Link>
             </li>
@@ -58,12 +58,12 @@ export default function MainFooter() {
           <h3 className="font-bold mt-5 mb-3">Jual</h3>
           <ul className="space-y-2">
             <li>
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 Cara Checkout
               </Link>
             </li>
             <li>
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 FAQ Penitipan
               </Link>
             </li>
@@ -75,19 +75,19 @@ export default function MainFooter() {
           <ul className="space-y-2">
             <li>
               {" "}
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 Pusat Bantuan
               </Link>
             </li>
             <li>
               {" "}
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 Syarat & Ketentuan
               </Link>
             </li>
             <li>
               {" "}
-              <Link href={"#"} className="hover:text-green-600">
+              <Link href={"/about"} className="hover:text-green-600">
                 Kebijakan Privasi
               </Link>
             </li>
