@@ -15,7 +15,7 @@ export default function ProductImage({
   className,
 }: ProductImageProps) {
   const backendUrl = filename
-    ? `${process.env.NEXT_PUBLIC_URL}/storage/foto_produk/${filename}`
+    ? `${process.env.NEXT_PUBLIC_STORAGE}/foto_produk/${filename}`
     : "";
   const [src, setSrc] = useState<string>(backendUrl || "/reuse-mart.png");
 
