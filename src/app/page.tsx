@@ -7,6 +7,6 @@ export default async function Page() {
     redirect(await redirectMenu(user.data.role));
   }
   return (
-    redirect("/home")
+    redirect("/about")
   );
 }

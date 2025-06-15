@@ -7,7 +7,7 @@ import MainHero from "@/components/landing-page/hero/main-hero";
 
 export default function AboutPage() {
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <MainHero />
       <FeaturesPage />
       <ChallengesPage />
