@@ -63,7 +63,7 @@ export function NewPasswordForm(email: any) {
                 })
             } else {
                 alert(response.message)
-                router.push("/auth/login")
+                router.push("/login")
             }
         } catch (error) {
             alert(error)
