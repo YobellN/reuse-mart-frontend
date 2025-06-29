@@ -16,9 +16,11 @@ export const columns: ColumnDef<Produk>[] = [
         accessorKey: "foto_produk",
         header: "Foto Produk",
         cell: ({ row }) => {
+            const fotoArr = row.original.foto_produk as { path_foto: string }[] | undefined;
+            const foto = fotoArr && fotoArr.length > 0 ? fotoArr[0].path_foto : undefined;
             return (
                 <div className="w-16 h-16 overflow-hidden rounded border relative">
-                    <ProductImage filename={(row.getValue("foto_produk") as string[])[0]} style={{ objectFit: "cover" }} />
+                    <ProductImage filename={foto} style={{ objectFit: "cover" }} />
                 </div>
             );
         },
