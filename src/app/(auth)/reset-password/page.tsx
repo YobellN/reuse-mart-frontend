@@ -5,6 +5,7 @@ import { NewPasswordForm } from "@/components/auth/new-password-form"
 import SearchBar from "./search-bar"
 import Image from "next/image"
 import Link from "next/link"
+import { useState } from "react"
 
 export default function ResetPasswordPage() {
   const [validEmail, setValidEmail] = useState<string | null>(null)
