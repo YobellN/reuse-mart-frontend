@@ -23,13 +23,15 @@ import { toast } from "sonner"
 import { PembayaranFormSchema, PembayaranSchema } from "@/services/pembayaran/schema-pembayaran"
 import { handleNewPembayaran } from "@/services/pembayaran/pembayaran-services"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import Countdown from "@/components/pembayaran/count-down";
 
 type NewPembayaranFormProps = {
     id_penjualan: string;
     totalAkhir: number;
+    tenggatPembayaran: string | Date;
 };
 
-export default function NewPembayaranForm({ id_penjualan, totalAkhir }: NewPembayaranFormProps) {
+export default function NewPembayaranForm({ id_penjualan, totalAkhir, tenggatPembayaran }: NewPembayaranFormProps) {
     const router = useRouter();
     const [showPassword, setShowPassword] = React.useState(false);
     const [submit, setSubmit] = useState(false);
@@ -89,10 +91,26 @@ export default function NewPembayaranForm({ id_penjualan, totalAkhir }: NewPemba
         }
     }
 
+    const handleTimeUp = () => {
+        toast.error("Waktu pembayaran telah habis");
+        router.push("/home");
+    };
+
     return (
         <Card className="max-w-2xl mx-auto mt-10 shadow-md">
             <CardHeader>
-                <CardTitle className="text-2xl text-center">Tagihan : {totalAkhir}</CardTitle>
+                <CardTitle className="text-2xl text-center">
+                    Tagihan : {totalAkhir}
+                </CardTitle>
+                <div className="mt-4">
+                    <p className="text-center text-sm text-muted-foreground mb-2">
+                        Sisa waktu pembayaran:
+                    </p>
+                    <Countdown 
+                        targetDate={new Date(tenggatPembayaran)} 
+                        onTimeUp={handleTimeUp}
+                    />
+                </div>
             </CardHeader>
             <CardContent>
                 <Form {...form}>

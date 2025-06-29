@@ -171,6 +171,13 @@ export async function sendEmailLink(formData: FormData): Promise<IResponse<any>>
       message: res.data.message,
     };
   } catch (err: any) {
+    console.log("Error details:", {
+      err: err,
+      status: err.response?.status,
+      statusText: err.response?.statusText,
+      data: err.response?.data,
+      headers: err.response?.headers
+    });
     
     // Handle specific error cases
     if (err.response?.data?.exception === 'InvalidArgumentException') {
