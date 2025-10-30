@@ -130,3 +130,40 @@ export async function tolakPembayaran(id_penjualan: string) {
         };
     }
 }
+export async function batalkanPenjualan(id_penjualan: string) {
+    try {
+        const res = await api.post(`/batalkanPenjualan/${id_penjualan}`);
+        return {
+            message: res.data.message,
+            data: res.data.data,
+        };
+    } catch (err: any) {
+        if (err.response?.data?.errors) {
+            return {
+                message: err.response.data.message,
+                errors: err.response.data.errors,
+            };
+        }
+        return {
+            message: "Terjadi kesalahan",
+        };
+    }
+}
+
+
+export async function getPenjualanDisiapkan() {
+    try {
+        const res = await api.get("/getPenjualanDisiapkan");
+        return res.data.data;
+    } catch (err: any) {
+        if (err.response?.data?.errors) {
+            return {
+                message: err.response.data.message,
+                errors: err.response.data.errors,
+            };
+        }
+        return {
+            message: "Terjadi kesalahan",
+        };
+    }
+}

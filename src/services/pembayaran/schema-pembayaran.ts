@@ -10,6 +10,13 @@ export type Pembayaran = {
     penjualan : Penjualan;
 };
 
+export type getPenjualanDisiapkan = {
+    id_penjualan: string;
+    tanggal_penjualan: string;
+    total_harga: number;
+    status_penjualan: string;
+};
+
 export type PembayaranResponse = {
     status: "success";
     message: string;
