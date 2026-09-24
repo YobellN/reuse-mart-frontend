@@ -29,16 +29,16 @@ const nextConfig: NextConfig = {
         hostname: "plus.unsplash.com",
         pathname: "/**",
       },
-      {
-        protocol: "https",
-        hostname: "reuse-mart-backend-production.up.railway.app",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "https://reuse-mart-backend.thankfulgrass-c713c300.southeastasia.azurecontainerapps.io",
-        pathname: "/**",
-      },
+      // {
+      //   protocol: "https",
+      //   hostname: "reuse-mart-backend-production.up.railway.app",
+      //   pathname: "/**",
+      // },
+      // {
+      //   protocol: "https",
+      //   hostname: "https://reuse-mart-backend.thankfulgrass-c713c300.southeastasia.azurecontainerapps.io",
+      //   pathname: "/**",
+      // },
     ],
   },
   eslint: {
